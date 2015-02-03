@@ -3,17 +3,18 @@
     <!-- Default application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="actionBarStyle">@style/ActionBarStyle</item>
-
-        <item name="colorPrimary">@color/main_color_500</item>
-        <item name="colorPrimaryDark">@color/main_color_700</item>
+        <item name="colorAccent">@color/secondary_blue</item>
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryDark">@color/secondary_blue</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="actionBarStyle">@style/ActionBarStyle</item>
         <item name="windowActionBar">false</item>
 
-        <item name="colorPrimary">@color/main_color_500</item>
-        <item name="colorPrimaryDark">@color/main_color_700</item>
+        <item name="colorAccent">@color/secondary_blue</item>
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryDark">@color/secondary_blue</item>
     </style>
     <style name="AppTheme.Title" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -79,7 +80,7 @@
     <!-- Ripple related styles -->
     <style name="RippleStyle">
         <item name="rippleOverlay">true</item>
-        <item name="rippleColor">@color/main_color_500</item>
+        <item name="rippleColor">@color/primary_blue</item>
         <item name="rippleAlpha">0.7</item>
         <item name="rippleDimension">45dp</item>
         <item name="rippleHover">true</item>

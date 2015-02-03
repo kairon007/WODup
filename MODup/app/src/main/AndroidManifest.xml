@@ -29,10 +29,6 @@
                 android:theme="@style/AppTheme.NoActionBar"
                 android:label="@string/title_activity_left_menus">
         </activity>
-        <activity
-                android:name="com.modup.app.NavigationActivity"
-                android:label="@string/title_activity_navigation">
-        </activity>
     </application>
 
 </manifest>
