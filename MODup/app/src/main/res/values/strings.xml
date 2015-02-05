@@ -13,8 +13,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
-
-
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
@@ -30,6 +28,7 @@
 
     <!-- <string name="drawer_icon_audio_player">&#xe807;</string> -->
 
+
     <!-- <string name="drawer_icon_video_player">&#xe808;</string> -->
     <string name="drawer_icon_image_gallery"></string>
     <string name="drawer_icon_check_and_radio_buttons"></string>
@@ -44,6 +43,7 @@
     <string name="drawer_icon_blog"></string>
     <string name="drawer_icon_git_hub"></string>
     <string name="drawer_icon_instagram"></string>
+ <!--   <string name="drawer_icon_user">0xe81b</string>-->
 
     <!-- Navigation Drawer icon titles -->
     <string name="drawer_title_splash_screens">Splash Screens</string>
@@ -72,6 +72,9 @@
     <string name="drawer_title_blog">Blog</string>
     <string name="drawer_title_git_hub">GitHub</string>
     <string name="drawer_title_instagram">Instagram</string>
+    <string name="drawer_title_feed">Share</string>
+    <string name="drawer_title_user">Profile</string>
+    <string name="drawer_title_settings">Settings</string>
 
     <!-- Fontello icons -->
     <string name="fontello_logo"></string>
@@ -97,19 +100,12 @@
     <string name="typography3">Typography III</string>
     <string name="material_design">Material design</string>
     <string name="material_design_variation">Material design variation</string>
-
-    <string name="all_set_by_google_instructions_of_material_design">All set by Google instructions of Material Design
-    </string>
-
+    <string name="all_set_by_google_instructions_of_material_design">All set by Google instructions of Material Design</string>
     <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-        nisi ut aliquip ex ea commodo consequat.
-    </string>
-
+        nisi ut aliquip ex ea commodo consequat.</string>
     <string name="lorem_ipsum_short">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur.
-    </string>
-
+        fugiat nulla pariatur.</string>
     <string name="thiner_and_lighter_version">Thiner and lighter version of Material design</string>
     <string name="thicker_and_darker_version">Thicker and darker version of Material design</string>
     <string name="number_of_images">%d image(s)</string>
@@ -125,5 +121,6 @@
     <string name="skip">SKIP</string>
     <string name="raised">RAISED</string>
     <string name="flat">FLAT</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

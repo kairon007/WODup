@@ -32,7 +32,7 @@
 	<style name="TextViewAppearance.Title1" parent="@style/TextViewAppearance">
         <item name="typeface">robotoMedium</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/main_color_grey_400</item>
+        <item name="android:textColor">@color/main_color_grey_600</item>
     </style>
     
 	<style name="TextViewAppearance.Body1" parent="@style/TextViewAppearance">
