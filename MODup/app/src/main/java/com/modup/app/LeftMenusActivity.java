@@ -17,9 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.modup.adapter.DrawerAdapter;
-import com.modup.fragment.FeedFragment;
-import com.modup.fragment.SettingsFragment;
-import com.modup.fragment.UserFragment;
+import com.modup.fragment.*;
 import com.modup.model.DrawerItem;
 import com.modup.utils.ImageUtil;
 
@@ -27,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeftMenusActivity extends ActionBarActivity implements FeedFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener, CreateFragment.OnFragmentInteractionListener, TimersFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener {
 
     public static final String LEFT_MENU_OPTION = "com.modup.app.LeftMenusActivity";
     public static final String LEFT_MENU_OPTION_1 = "Left Menu Option 1";
@@ -77,7 +75,11 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            mDrawerLayout.openDrawer(mDrawerList);
+            mDrawerLayout.closeDrawer(mDrawerList);
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment mFragment = new FeedFragment();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
+
         }
     }
 
@@ -110,7 +112,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
 
     private View prepareHeaderView(int layoutRes, String url, String email) {
         View headerView = getLayoutInflater().inflate(layoutRes, mDrawerList, false);
-        ImageView iv = (ImageView) headerView.findViewById(R.id.image);
+        ImageView iv = (ImageView) headerView.findViewById(R.id.imageCards);
         TextView tv = (TextView) headerView.findViewById(R.id.email);
 
         ImageUtil.displayRoundImage(iv, url, null);
@@ -133,9 +135,15 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
                         DrawerItem.DRAWER_ITEM_TAG_USER));
         mDrawerItems.add(
                 new DrawerItem(
-                        R.drawable.settings,
-                        R.string.drawer_title_settings,
-                        DrawerItem.DRAWER_ITEM_TAG_SETTINGS));
+                        R.drawable.stopwatch,
+                        R.string.drawer_title_timers,
+                        DrawerItem.DRAWER_ITEM_TAG_TIMERS));
+        mDrawerItems.add(
+                new DrawerItem(
+                        R.drawable.calendar,
+                        R.string.drawer_title_calendar,
+                        DrawerItem.DRAWER_ITEM_TAG_CALENDAR));
+
 
     }
 
@@ -191,7 +199,11 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
                 fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
                 break;
             case 3:
-                mFragment = new SettingsFragment();
+                mFragment = new TimersFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
+                break;
+            case 4:
+                mFragment = new CalendarFragment();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
                 break;
         }

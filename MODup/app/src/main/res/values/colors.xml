@@ -12,6 +12,23 @@
     <color name="tertiary_green">#6F8B18</color>
     <color name="secondary_blue">#1669ad</color>
     <color name="primary_blue">#2a81c2</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="custom_header_text">#85B100</color>
+    <color name="custom_selected">#2a81c2</color>
+    <color name="custom_background">#F0F8DB</color>
+    <color name="custom_background_today">#FF9105</color>
+    <color name="custom_background_disabled">#F0F8DB</color>
+    <color name="custom_text_selected">#FFFFFFFF</color>
+    <color name="custom_text_inactive">#7f778088</color>
+
+
+
+
+
+
+
+
 
 
     <color name="white_15_percent">#26ffffff</color>

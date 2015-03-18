@@ -14,7 +14,8 @@
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp">
+            card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" android:layout_marginTop="2dp" android:layout_marginBottom="2dp">
         <LinearLayout
                 android:orientation="vertical"
 
@@ -26,155 +27,176 @@
                     android:layout_height="fill_parent">
 
                 <ImageView
-                        android:id="@+id/image"
-                        android:layout_weight="1"
+                        android:id="@+id/imageCards"
                         android:layout_width="64dp"
                         android:src="@drawable/user"
                         android:layout_height="64dp"
                         android:layout_margin="16dp"/>
 
                 <com.modup.font.RobotoTextView
-                        android:id="@+id/title"
-                        android:layout_weight="1"
+                        android:id="@+id/editTextUsername"
                         style="@style/TextViewAppearance.Title1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:paddingBottom="14dp"
                         android:paddingLeft="18dp"
-                        android:text="Placeholder"
+                        android:text="Some Random Title about Fitness and other Goodness"
                         android:textSize="20sp"
-                        app:typeface="robotoBold" android:layout_gravity="center"/>
+                        app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                        android:gravity="center"/>
 
 
             </LinearLayout>
 
             <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
+                    android:background="@color/material_grey_200" android:layout_margin="10dp"
+                    android:id="@+id/cardDivider" android:focusableInTouchMode="true">
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayoutStats"
-                    android:layout_below="@+id/divider1" android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" android:layout_marginTop="10dp">
-
+                    android:layout_height="fill_parent">
                 <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/linearLayoutBurned"
-                        android:layout_below="@+id/image" android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" android:gravity="center">
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" android:layout_marginBottom="5dp">
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/linearLayoutStats"
+                            android:layout_below="@+id/divider1" android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_weight="1">
 
-                    <ImageView
-                            android:id="@+id/imageViewBurned"
-                            android:layout_width="50dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/flame"
-                            android:layout_height="50dp"
-                            android:layout_alignTop="@+id/linearLayout" android:layout_toLeftOf="@+id/title"
-                            android:layout_toStartOf="@+id/title"/>
-                    <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewBurned"
-                            style="@style/TextViewAppearance.Title1"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="14dp"
-                            android:paddingLeft="18dp"
-                            android:text="1256"
-                            android:textSize="20sp"
-                            app:typeface="robotoBold"
-                            android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/title"
-                            android:layout_toEndOf="@+id/title"/>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_weight="1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/linearLayoutBurned"
+                                android:layout_below="@+id/imageCards" android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" android:gravity="left"
+                                >
 
+                            <ImageView
+                                    android:id="@+id/imageViewDifficulty"
+                                    android:layout_width="30dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/skull"
+                                    android:layout_height="30dp"
+                                    android:layout_alignTop="@+id/divider2" android:layout_toLeftOf="@+id/editTextUsername"
+                                    android:layout_toStartOf="@+id/editTextUsername"/>
+                            <com.modup.font.RobotoTextView
+                                    android:id="@+id/textViewDifficulty"
+                                    style="@style/TextViewAppearance.Title1"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:text="Hard"
+                                    android:textSize="13sp"
+                                    app:typeface="robotoBold"
+                                    android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/editTextUsername"
+                                    android:layout_toEndOf="@+id/editTextUsername"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/linearLayoutSneakPeek"
+                                android:focusable="true"
+                                android:layout_below="@+id/linearLayoutStats" android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" android:gravity="right"
+                                >
+
+                            <ImageView
+                                    android:id="@+id/imageViewPeek1"
+                                    android:layout_width="30dp"
+                                    android:src="@drawable/clock"
+                                    android:layout_gravity="center"
+                                    android:layout_height="30dp"
+                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
+                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_weight="1"/>
+
+                            <ImageView
+                                    android:id="@+id/imageViewPeek2"
+                                    android:layout_width="30dp"
+                                    android:src="@drawable/clock"
+                                    android:layout_gravity="center"
+                                    android:layout_height="30dp"
+                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
+                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_weight="1"/>
+
+                            <ImageView
+                                    android:id="@+id/imageViewPeek3"
+                                    android:layout_width="30dp"
+                                    android:src="@drawable/clock"
+                                    android:layout_height="30dp"
+                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
+                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_weight="1" android:adjustViewBounds="false"/>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
-                        android:layout_weight="1"
                         android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/linearLayoutTime"
-                        android:layout_below="@+id/image" android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" android:focusable="true" android:gravity="center">
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" android:layout_marginBottom="5dp">
+
+                    <LinearLayout
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/linearLayoutTime"
+                            android:layout_below="@+id/imageCards" android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" android:focusable="true">
 
 
-                    <ImageView
-                            android:id="@+id/imageViewTime"
-                            android:layout_width="50dp"
-                            android:src="@drawable/clock"
-                            android:layout_gravity="center"
-                            android:layout_height="50dp"
-                            android:layout_below="@+id/image" android:layout_toRightOf="@+id/title"
-                            android:layout_toEndOf="@+id/title" android:focusableInTouchMode="false"/>
+                        <ImageView
+                                android:id="@+id/imageViewTime"
+                                android:layout_width="29dp"
+                                android:src="@drawable/clock"
+                                android:layout_gravity="center"
+                                android:layout_height="29dp"
+                                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
+                                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
 
 
+                        <com.modup.font.RobotoTextView
+                                android:id="@+id/textViewTime"
+                                style="@style/TextViewAppearance.Title1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1H 30M"
+                                android:textSize="13sp"
+                                app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
+                                android:layout_alignRight="@+id/divider2"
+                                android:layout_alignEnd="@+id/divider2" android:ellipsize="none" android:lines="1"/>
+                    </LinearLayout>
                     <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewTime"
-                            android:layout_gravity="center"
+                            android:id="@+id/textViewMoreInfo"
                             style="@style/TextViewAppearance.Title1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="14dp"
-                            android:paddingLeft="18dp"
-                            android:text="60 Minutes"
-                            android:textSize="20sp"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textColor="@color/primary_blue"
+                            android:text="MORE"
+                            android:textSize="13sp"
                             app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
-                            android:layout_alignRight="@+id/linearLayout" android:layout_alignEnd="@+id/linearLayout"/>
+                            android:orientation="horizontal"
+                            android:gravity="center" android:layout_weight="1"/>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayoutSneakPeek"
-                    android:focusable="true" android:gravity="center"
-                    android:layout_below="@+id/linearLayoutStats" android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" android:layout_marginTop="27dp">
-
-                <ImageView
-                        android:id="@+id/imageViewPeek1"
-                        android:layout_width="25dp"
-                        android:src="@drawable/clock"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:layout_height="25dp"
-                        android:layout_below="@+id/image" android:layout_toRightOf="@+id/title"
-                        android:layout_toEndOf="@+id/title" android:focusableInTouchMode="false"/>
-
-                <ImageView
-                        android:id="@+id/imageViewPeek2"
-                        android:layout_width="25dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/clock"
-                        android:layout_gravity="center"
-                        android:layout_height="25dp"
-                        android:layout_below="@+id/image" android:layout_toRightOf="@+id/title"
-                        android:layout_toEndOf="@+id/title" android:focusableInTouchMode="false"/>
-
-                <ImageView
-                        android:id="@+id/imageViewPeek3"
-                        android:layout_width="25dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/clock"
-                        android:layout_gravity="center"
-                        android:layout_height="25dp"
-                        android:layout_below="@+id/image" android:layout_toRightOf="@+id/title"
-                        android:layout_toEndOf="@+id/title" android:focusableInTouchMode="false"/>
-
-                <ImageView
-                        android:id="@+id/imageViewPeek4"
-                        android:layout_width="25dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/clock"
-                        android:layout_gravity="center"
-                        android:layout_height="25dp"
-                        android:layout_below="@+id/image" android:layout_toRightOf="@+id/title"
-                        android:layout_toEndOf="@+id/title" android:focusableInTouchMode="false"/>
-
-
             </LinearLayout>
 
 

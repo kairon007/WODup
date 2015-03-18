@@ -4,7 +4,9 @@ public class DrawerItem {
 
 	public static final int DRAWER_ITEM_TAG_FEED = 10;
 	public static final int DRAWER_ITEM_TAG_USER = 11;
-	public static final int DRAWER_ITEM_TAG_SETTINGS = 12;
+	/*public static final int DRAWER_ITEM_TAG_SETTINGS = 12;*/
+	public static final int DRAWER_ITEM_TAG_TIMERS = 12;
+	public static final int DRAWER_ITEM_TAG_CALENDAR = 13;
 
 	
 	public DrawerItem(int icon, int title, int tag) {

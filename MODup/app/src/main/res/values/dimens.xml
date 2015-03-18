@@ -10,4 +10,7 @@
     <dimen name="ken_burns_header">250dp</dimen>
     <dimen name="cpb_stroke_width">4dp</dimen>
 
+    <dimen name="dimen_margin_circle">4dp</dimen>
+    <dimen name="dimen_margin_circle.negative">-4dp</dimen>
+
 </resources>

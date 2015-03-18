@@ -1,0 +1,52 @@
+package com.modup.model;
+
+/**
+ * Created by Sean on 3/17/2015.
+ */
+public class SingleWorkoutItem {
+    String _workoutName, _muscleGroup, _sets, _reps;
+    int _id;
+
+    public SingleWorkoutItem() {
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
+    }
+
+    public String get_workoutName() {
+        return _workoutName;
+    }
+
+    public void set_workoutName(String _workoutName) {
+        this._workoutName = _workoutName;
+    }
+
+    public String get_muscleGroup() {
+        return _muscleGroup;
+    }
+
+    public void set_muscleGroup(String _muscleGroup) {
+        this._muscleGroup = _muscleGroup;
+    }
+
+    public String get_sets() {
+        return _sets;
+    }
+
+    public void set_sets(String _sets) {
+        this._sets = _sets;
+    }
+
+    public String get_reps() {
+        return _reps;
+    }
+
+    public void set_reps(String _reps) {
+        this._reps = _reps;
+    }
+}

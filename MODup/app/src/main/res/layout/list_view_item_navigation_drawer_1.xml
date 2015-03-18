@@ -22,7 +22,7 @@
                 android:id="@+id/imageViewIcon"/>
 
         <com.modup.font.RobotoTextView
-                android:id="@+id/title"
+                android:id="@+id/editTextUsername"
                 android:textSize="20sp"
                 style="@style/TextViewAppearance.Body1"
                 android:layout_width="match_parent"

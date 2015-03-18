@@ -26,6 +26,7 @@
         </activity>
         <activity
                 android:name="com.modup.app.LeftMenusActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:label="@string/title_activity_left_menus">
         </activity>

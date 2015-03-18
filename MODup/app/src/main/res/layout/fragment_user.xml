@@ -14,87 +14,108 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-            <ImageView
-                    android:id="@+id/image"
-                    android:layout_weight="1"
-                    android:layout_width="128dp"
-                    android:src="@drawable/user"
-                    android:layout_height="128dp"
-                    android:layout_marginTop="25dp" android:layout_gravity="center"/>
-
-            <com.modup.font.RobotoTextView
-                    android:id="@+id/title"
-                    android:layout_weight="1"
-                    style="@style/TextViewAppearance.Title1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Placeholder"
-                    android:textSize="20sp"
-                    app:typeface="robotoBold" android:layout_gravity="center"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                android:background="@color/material_grey_500"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" android:layout_gravity="center_horizontal">
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
-
+                android:layout_height="wrap_content" android:background="@drawable/white_background_shadow">
             <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content">
 
                 <ImageView
-
-                        android:src="@drawable/friends"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:id="@+id/imageViewFriends" android:layout_weight="1"/>
+                        android:id="@+id/imageCards"
+                        android:layout_weight="1"
+                        android:layout_width="128dp"
+                        android:src="@drawable/user"
+                        android:layout_height="128dp"
+                        android:layout_marginTop="25dp" android:layout_gravity="center"/>
 
                 <com.modup.font.RobotoTextView
-                        android:id="@+id/textViewFriends"
+                        android:id="@+id/editTextUsername"
                         android:layout_weight="1"
                         style="@style/TextViewAppearance.Title1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="256"
+                        android:text="Placeholder"
                         android:textSize="20sp"
                         app:typeface="robotoBold" android:layout_gravity="center"/>
+
 
             </LinearLayout>
-
             <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_weight="1"
+                    android:background="@color/material_grey_500"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" android:layout_gravity="center_horizontal">
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <ImageView
-                        android:layout_width="35dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/followers"
-                        android:layout_height="35dp"
-                        android:id="@+id/imageViewFollowers"/>
+                    android:layout_height="wrap_content">
 
-                <com.modup.font.RobotoTextView
-                        android:id="@+id/textViewFollowers"
+                <LinearLayout
+                        android:orientation="vertical"
                         android:layout_weight="1"
-                        style="@style/TextViewAppearance.Title1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="500"
-                        android:textSize="20sp"
-                        app:typeface="robotoBold" android:layout_gravity="center"/>
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content">
+
+                    <com.modup.font.RobotoTextView
+                            android:textColor="@color/primary_blue"
+                            android:id="@+id/textViewFriendsNumber"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textSize="20sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:editable="false" android:gravity="center"/>
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewFriends"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Friends"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:background="@color/material_grey_500"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|center|center_horizontal" android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp">
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="50dp"
+                        android:layout_height="fill_parent">
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewFollowersNumber"
+                            android:textColor="@color/primary_blue"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="256"
+                            android:textSize="20sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:gravity="center"/>
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewFollowers"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Followers"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold" android:layout_weight="1"
+                            android:layout_gravity="center" android:gravity="center"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

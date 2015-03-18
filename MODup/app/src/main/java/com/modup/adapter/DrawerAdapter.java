@@ -51,7 +51,7 @@ public class DrawerAdapter extends BaseAdapter {
 			}*/
 			holder = new ViewHolder();
 			holder.icon = (ImageView) convertView.findViewById(R.id.imageViewIcon); // holder.icon object is null if mIsFirstType is set to false
-			holder.title = (TextView) convertView.findViewById(R.id.title);
+			holder.title = (TextView) convertView.findViewById(R.id.editTextUsername);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
