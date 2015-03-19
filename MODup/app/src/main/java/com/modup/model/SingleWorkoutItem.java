@@ -1,11 +1,14 @@
 package com.modup.model;
 
+import java.util.HashSet;
+
 /**
  * Created by Sean on 3/17/2015.
  */
 public class SingleWorkoutItem {
     String _workoutName, _muscleGroup, _sets, _reps;
     int _id;
+
 
     public SingleWorkoutItem() {
     }
@@ -49,4 +52,5 @@ public class SingleWorkoutItem {
     public void set_reps(String _reps) {
         this._reps = _reps;
     }
+
 }

@@ -271,15 +271,26 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 String time = spinnerTime.getSelectedItem().toString();
 
                 HashSet<SingleWorkoutItem> mHashset = new HashSet<SingleWorkoutItem>();
+                HashSet<String> mMGHashset = new HashSet<String>();
 
-                Log.e(TAG, "" + mArrayList.size());
                 //loop through listview and pull out info from views
                 for(WorkoutView wv : mArrayList){
                     SingleWorkoutItem mSingleWorkoutItem = new SingleWorkoutItem();
                     mSingleWorkoutItem.set_muscleGroup(wv.getMuscleGroup());
-                    mSingleWorkoutItem.set_workoutName(wv.getMuscleGroup());
+                    mSingleWorkoutItem.set_workoutName(wv.getWorkoutName());
                     mSingleWorkoutItem.set_sets(wv.getSets());
                     mSingleWorkoutItem.set_reps(wv.getReps());
+                    String mg = wv.getMuscleGroup();
+                    // check the name of the workout groups chosen, store the muscle group to later decide what icons to show on the main screen
+                    if(mg.equals("Traps") || mg.equals("Shoulders") || mg.equals("Neck")){
+                        mMGHashset.add("Upperbody");
+                    } else if(mg.equals("Abdominal") || mg.equals("Lats") || mg.equals("Back") || mg.equals("Chest") || mg.equals("Glutes")) {
+                        mMGHashset.add("Chest");
+                    } else if (mg.equals("Biceps") || mg.equals("Triceps") || mg.equals("Arms") || mg.equals("Forearms")){
+                        mMGHashset.add("Arms");
+                    } else if (mg.equals("Quadriceps") || mg.equals("Legs") || mg.equals("Calves")){
+                        mMGHashset.add("Legs");
+                    }
                     mHashset.add(mSingleWorkoutItem);
                 }
                 //create the single workout object
@@ -288,9 +299,9 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 mSingleWorkout.set_difficulty(difficulty);
                 mSingleWorkout.set_time(time);
                 mSingleWorkout.set_workoutHashSet(mHashset);
+                mSingleWorkout.set_muscleGroupIcons(mMGHashset);
 
                 //save the object in DB, and go back to feed fragment
-
                 break;
         }
     }

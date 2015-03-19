@@ -1,5 +1,6 @@
 package com.modup.model;
 
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -12,6 +13,7 @@ import java.util.HashSet;
 public class SingleWorkout extends ParseObject {
     String _title, _difficulty, _time;
     HashSet<SingleWorkoutItem> _workoutHashSet;
+    HashSet<String> _muscleGroupIcons;
 
     public SingleWorkout() {
     }
@@ -46,5 +48,13 @@ public class SingleWorkout extends ParseObject {
 
     public void set_workoutHashSet(HashSet<SingleWorkoutItem> _workoutHashSet) {
         this._workoutHashSet = _workoutHashSet;
+    }
+
+    public HashSet<String> get_muscleGroupIcons() {
+        return _muscleGroupIcons;
+    }
+
+    public void set_muscleGroupIcons(HashSet<String> _muscleGroupIcons) {
+        this._muscleGroupIcons = _muscleGroupIcons;
     }
 }

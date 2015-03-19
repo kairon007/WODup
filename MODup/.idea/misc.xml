@@ -46,7 +46,7 @@
   </component>
   <component name="IdProvider" IDEtalkID="034C56D4EFBA01F9B278F685B2C3E657" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
+    <output url="file://$PROJECT_DIR$/../WODup/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
