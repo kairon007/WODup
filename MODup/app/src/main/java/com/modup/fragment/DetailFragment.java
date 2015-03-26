@@ -1,14 +1,30 @@
 package com.modup.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import com.google.gson.Gson;
+import com.modup.adapter.WorkoutCardsAdapter2;
 import com.modup.app.R;
+import com.modup.model.SingleWorkout;
+import com.modup.model.SingleWorkoutItem;
+import com.modup.view.WorkoutView;
+import com.parse.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +34,7 @@ import com.modup.app.R;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,8 +43,30 @@ public class DetailFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String TAG = DetailFragment.class.getCanonicalName();
 
     private OnFragmentInteractionListener mListener;
+    private ImageView ivLike, ivFavorite, ivChat;
+    private TextView tvTitle, tvDifficulty, tvTime, tvLike, tvFavorite, tvComment;
+    private View view;
+    private Boolean isLikeChecked = false;
+    private Boolean isFavoriteChecked = false;
+    private ListView mListView;
+    private WorkoutCardsAdapter2 mWorkoutCardsAdapter;
+    private ArrayList<WorkoutView> mArrayList = new ArrayList<WorkoutView>();
+    private static SingleWorkout currentSingleWorkout;
+    private Gson gson;
+    private ParseRelation<ParseUser> likeRelation, favoriteRelation;
+    private ParseRelation<SingleWorkout> favoriteUserRelation, likeUserRelation;
+    private ParseUser currentUser;
+    private Boolean isStillLiked = false;
+    private Boolean isOriginalLiked = false;
+    private Boolean isStillFavorited = false;
+    private Boolean isOriginalFavorited = false;
+    private ParseQuery query;
+    private ParseRelation relation;
+
+    private int likeCount, favoriteCount;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,8 +103,72 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_detail, container, false);
+        init();
+        return view;
     }
+
+    public void init() {
+        currentUser = ParseUser.getCurrentUser();
+        currentSingleWorkout = (SingleWorkout) getArguments().getSerializable("SINGLEWORKOUT");
+
+
+        ivFavorite = (ImageView) view.findViewById(R.id.imageViewFavorite);
+        ivFavorite.setOnClickListener(this);
+        ivLike = (ImageView) view.findViewById(R.id.imageViewLike);
+        ivLike.setOnClickListener(this);
+        ivChat = (ImageView) view.findViewById(R.id.imageViewComments);
+        ivChat.setOnClickListener(this);
+
+        tvTitle = (TextView) view.findViewById(R.id.textViewTitle);
+        tvTime = (TextView) view.findViewById(R.id.textViewTime);
+        tvDifficulty = (TextView) view.findViewById(R.id.textViewDifficulty);
+        tvLike = (TextView) view.findViewById(R.id.textViewLikeCount);
+        tvFavorite = (TextView) view.findViewById(R.id.textViewFavoriteCount);
+        tvComment = (TextView) view.findViewById(R.id.textViewCommentCount);
+
+
+        //set the fields from the currentSingleWorkout
+        tvTitle.setText(currentSingleWorkout.get_title());
+        tvTime.setText(currentSingleWorkout.get_time());
+        tvDifficulty.setText(currentSingleWorkout.get_difficulty());
+
+        //query the like/favorite count
+        queryLikeCount();
+        queryFavoriteCount();
+/*        queryLikeRelation();
+        queryFavoriteRelation();*/
+        //TODO: QUERY COMMENT COUNT
+
+
+        try {
+            JSONArray mJsonArray = new JSONArray(currentSingleWorkout.get_singleWorkoutItemArrayJSON());
+            for (int i = 0; i <= mJsonArray.length(); i++) {
+
+                JSONObject mObj = new JSONObject(mJsonArray.get(i).toString());
+                String muscleGroup = mObj.getString("_muscleGroup");
+                String reps = mObj.getString("_reps");
+                String sets = mObj.getString("_sets");
+                String workoutName = mObj.getString("_workoutName");
+
+                WorkoutView mWorkoutView = new WorkoutView(getActivity());
+                mWorkoutView.setMuscleGroup(muscleGroup);
+                mWorkoutView.setReps(reps);
+                mWorkoutView.setSets(sets);
+                mWorkoutView.setWorkoutName(workoutName);
+                mArrayList.add(mWorkoutView);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        mWorkoutCardsAdapter = new WorkoutCardsAdapter2(getActivity(), mArrayList);
+        mListView = (ListView) view.findViewById(R.id.listViewWorkoutDetails);
+        mListView.setAdapter(mWorkoutCardsAdapter);
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -90,7 +192,214 @@ public class DetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+
+        //TODO: HANDLE STATE OF LIKES/FAVORITES
+/*        if (!(isStillLiked)) {
+            unlikeWorkout();
+        } // need to check if current like state matches original
+
+        if (!(isStillFavorited)) {
+            unfavoriteWorkout();
+        } // need to check if current favorite state matches original*/
+
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageViewFavorite:
+                if (isFavoriteChecked) {
+                    ivFavorite.setImageResource(R.drawable.favorite_blank_content_selector);
+                    isFavoriteChecked = false;
+                    decreaseFavoriteCount();
+                    //unfavorite
+                    unfavoriteWorkout();
+                    isStillFavorited = false;
+
+                } else {
+                    ivFavorite.setImageResource(R.drawable.favorite_content_selector);
+                    isFavoriteChecked = true;
+                    increaseFavoriteCount();
+                    //favorite
+                    favoriteWorkout();
+                    isStillFavorited = true;
+                }
+                break;
+            case R.id.imageViewLike:
+                if (isLikeChecked) {
+                    ivLike.setImageResource(R.drawable.like_blank_content_selector);
+                    isLikeChecked = false;
+                    decreaseLikeCount();
+                    //unlike
+                    unlikeWorkout();
+                    isStillLiked = false;
+                } else {
+                    ivLike.setImageResource(R.drawable.like_content_selector);
+                    isLikeChecked = true;
+                    increaseLikeCount();
+                    //like
+                    likeWorkout();
+                    isStillLiked = true;
+                }
+                break;
+
+            case R.id.imageViewComments:
+                //go to a comment section
+                break;
+        }
+
+    }
+
+    private void likeWorkout() {
+        likeRelation = currentSingleWorkout.getRelation("likes");
+        likeRelation.add(currentUser);
+        currentSingleWorkout.saveEventually();
+
+        likeUserRelation = currentUser.getRelation("user_likes");
+        likeUserRelation.add(currentSingleWorkout);
+        currentUser.saveEventually();
+    }
+
+    private void unlikeWorkout() {
+        likeRelation = currentSingleWorkout.getRelation("likes");
+        likeRelation.remove(currentUser);
+        currentSingleWorkout.saveEventually();
+
+        likeUserRelation = currentUser.getRelation("user_likes");
+        likeUserRelation.remove(currentSingleWorkout);
+        currentUser.saveEventually();
+    }
+
+    private void favoriteWorkout() {
+        favoriteRelation = currentSingleWorkout.getRelation("favorites");
+        favoriteRelation.add(currentUser);
+        currentSingleWorkout.saveEventually();
+
+        favoriteUserRelation = currentUser.getRelation("user_favorites");
+        favoriteUserRelation.add(currentSingleWorkout);
+        currentUser.saveEventually();
+
+    }
+
+    private void unfavoriteWorkout() {
+        favoriteRelation = currentSingleWorkout.getRelation("favorites");
+        favoriteRelation.remove(currentUser);
+        currentSingleWorkout.saveEventually();
+
+        favoriteUserRelation = currentUser.getRelation("user_favorites");
+        favoriteUserRelation.remove(currentSingleWorkout);
+        currentUser.saveEventually();
+    }
+
+    private void queryLikeCount() {
+        relation = currentSingleWorkout.getRelation("likes");
+        query = relation.getQuery();
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if (e == null) {
+                    tvLike.setText(String.valueOf(i));
+                } else {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void queryFavoriteCount() {
+        relation = currentSingleWorkout.getRelation("favorites");
+        query = relation.getQuery();
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if (e == null) {
+                    tvFavorite.setText(String.valueOf(i));
+                } else {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void queryCommentCount() {
+        //TODO: NEED TO IMPLEMENT COMMENTS
+    }
+
+    //TODO: NEED TO FIX THESE METHODS
+
+    private void queryLikeRelation() {
+        relation = currentUser.getRelation("user_likes");
+        query = relation.getQuery();
+        query.whereExists(currentSingleWorkout.getObjectId());
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                Log.e(TAG, i + "LIKE OBJECTS");
+                if (i == -1){
+                    isStillLiked = true;
+                    ivLike.setImageResource(R.drawable.like_content_selector);
+                    isLikeChecked = true;
+                } else {
+                    isStillLiked = false;
+                    ivLike.setImageResource(R.drawable.like_blank_content_selector);
+                    isLikeChecked = false;
+                }
+            }
+        });
+
+    }
+
+    private void queryFavoriteRelation() {
+        relation = currentUser.getRelation("user_favorites");
+        query = relation.getQuery();
+        query.whereExists(currentSingleWorkout.getObjectId());
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                Log.e(TAG, i + "FAVORITE OBJECTS");
+                if (i == -1){
+                    isStillFavorited = true;
+                    ivFavorite.setImageResource(R.drawable.favorite_content_selector);
+                    isFavoriteChecked = true;
+                } else {
+                    isStillFavorited = false;
+                    ivFavorite.setImageResource(R.drawable.favorite_blank_content_selector);
+                    isFavoriteChecked = false;
+                }
+            }
+        });
+
+    }
+
+    private void increaseLikeCount() {
+        likeCount = Integer.valueOf(tvLike.getText().toString().trim());
+        likeCount++;
+        tvLike.setText("" + likeCount);
+    }
+
+    private void decreaseLikeCount() {
+        likeCount = Integer.valueOf(tvLike.getText().toString().trim());
+        if (!(likeCount == 0)) {
+            likeCount--;
+        }
+        tvLike.setText("" + likeCount);
+    }
+
+    private void increaseFavoriteCount() {
+        favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
+        favoriteCount++;
+        tvFavorite.setText("" + favoriteCount);
+    }
+
+    private void decreaseFavoriteCount() {
+        favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
+        if (!(favoriteCount == 0)) {
+            favoriteCount--;
+        }
+        tvFavorite.setText("" + favoriteCount);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

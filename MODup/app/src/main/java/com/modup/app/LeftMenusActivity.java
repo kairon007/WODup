@@ -19,13 +19,15 @@ import android.widget.*;
 import com.modup.adapter.DrawerAdapter;
 import com.modup.fragment.*;
 import com.modup.model.DrawerItem;
+import com.modup.model.SingleWorkout;
 import com.modup.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LeftMenusActivity extends ActionBarActivity implements FeedFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener, CreateFragment.OnFragmentInteractionListener, TimersFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener, CreateFragment.OnFragmentInteractionListener, TimersFragment.OnFragmentInteractionListener,
+        CalendarFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener {
 
     public static final String LEFT_MENU_OPTION = "com.modup.app.LeftMenusActivity";
     public static final String LEFT_MENU_OPTION_1 = "Left Menu Option 1";
@@ -38,6 +40,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private SingleWorkout currentSingleWorkoutObject;
 
 
     @Override
@@ -237,4 +240,5 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
 }

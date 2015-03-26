@@ -156,6 +156,7 @@
         <item>Back</item>
         <item>Biceps</item>
         <item>Calves</item>
+        <item>Cardio</item>
         <item>Chest</item>
         <item>Forearms</item>
         <item>Glutes</item>
@@ -230,6 +231,49 @@
         <item>45</item>
         <item>59</item>
     </string-array>
+
+    <string-array
+            name="string_array_dialog_add">
+        <item>Share existing WOD</item>
+        <item>Share new WOD</item>
+    </string-array>
+
+    <string-array
+            name="string_array_distance">
+        <item>60 m</item>
+        <item>100 m</item>
+        <item>200 m</item>
+        <item>400 m</item>
+        <item>1 mi</item>
+        <item>2 mi</item>
+        <item>3 mi</item>
+        <item>4 mi</item>
+        <item>5 mi</item>
+    </string-array>
+
+    <string-array
+            name="string_array_workout_type">
+        <item>Strength</item>
+        <item>Endurance</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <string-array
+            name="string_array_workout_category_strength">
+        <item>Weightlifting</item>
+        <item>Isometric</item>
+        <item>Circuit</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array
+            name="string_array_workout_category_endurance">
+        <item>Running</item>
+        <item>Other</item>
+    </string-array>
+
+
 
 
 </resources>

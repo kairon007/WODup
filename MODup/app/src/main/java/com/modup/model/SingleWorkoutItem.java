@@ -7,18 +7,9 @@ import java.util.HashSet;
  */
 public class SingleWorkoutItem {
     String _workoutName, _muscleGroup, _sets, _reps;
-    int _id;
 
 
     public SingleWorkoutItem() {
-    }
-
-    public int get_id() {
-        return _id;
-    }
-
-    public void set_id(int _id) {
-        this._id = _id;
     }
 
     public String get_workoutName() {

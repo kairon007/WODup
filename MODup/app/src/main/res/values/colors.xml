@@ -13,6 +13,8 @@
     <color name="secondary_blue">#1669ad</color>
     <color name="primary_blue">#2a81c2</color>
     <color name="transparent">#00000000</color>
+    <color name="facebook">#3B5998</color>
+
 
     <color name="custom_header_text">#85B100</color>
     <color name="custom_selected">#2a81c2</color>

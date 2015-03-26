@@ -1,88 +1,132 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/primary_blue"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="com.modup.app.SignUpActivity">
 
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:orientation="vertical">
 
         <ImageView
                 android:id="@+id/ivTitleBanner"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/register_banner"/>
 
-        <LinearLayout
-                android:layout_width="match_parent"
+        <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@color/white_purple"
-                android:orientation="vertical"
-                android:padding="10dp">
+                card_view:cardCornerRadius="4dp"
+                android:layout_marginTop="90dp" android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" android:layout_marginBottom="10dp">
 
-            <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ems="10"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"/>
-
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Username"
-                    android:ems="10"
-                    android:id="@+id/etUsername"/>
-            <EditText
-                    android:id="@+id/etPassword1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ems="10"
-                    android:hint="Password"
-                    android:inputType="textPassword"/>
-
-            <EditText
-                    android:id="@+id/etPassword2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ems="10"
-                    android:hint="Re-Enter Password"
-                    android:inputType="textPassword"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <Button
-                    android:id="@+id/btnSignUp"
-                    android:layout_weight="1"
-                    android:background="@color/white_purple"
+            <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="SIGN UP"/>
+                    android:orientation="vertical"
+                    >
 
-        </LinearLayout>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:layout_marginLeft="10dp" android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp">
+
+                    <EditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:textColor="@color/main_color_grey_600"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:ems="10"
+                            android:hint="Email"
+                            android:inputType="textEmailAddress" android:layout_margin="5dp"/>
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/main_color_grey_600"
+                            android:inputType="textPersonName"
+                            android:hint="Username"
+                            android:ems="10"
+                            android:id="@+id/etUsername" android:layout_margin="5dp"/>
+                    <EditText
+                            android:id="@+id/etPassword1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/main_color_grey_600"
+                            android:layout_gravity="center_horizontal"
+                            android:ems="10"
+                            android:hint="Password"
+                            android:inputType="textPassword" android:layout_margin="5dp"/>
+
+                    <EditText
+                            android:id="@+id/etPassword2"
+                            android:layout_width="fill_parent"
+                            android:textColor="@color/main_color_grey_600"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:ems="10"
+                            android:hint="Re-Enter Password"
+                            android:inputType="textPassword" android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp" android:layout_marginRight="5dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginBottom="10dp">
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewBack"
+                            style="@style/TextViewAppearance.Title1"
+                            android:clickable="true"
+                            android:textColor="@drawable/signinsignout_selector"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BACK"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:ellipsize="none" android:lines="1"
+                            android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewSignUp"
+                            android:clickable="true"
+                            android:textColor="@drawable/signinsignout_selector"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SIGN UP"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold" android:ellipsize="none" android:lines="1"
+                            android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewFacebook"
+                            android:clickable="true"
+                            android:textColor="@drawable/facebook_selector"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FACEBOOK"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold" android:ellipsize="none" android:lines="1"
+                            android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

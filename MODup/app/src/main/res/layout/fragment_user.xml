@@ -29,7 +29,7 @@
                         android:layout_marginTop="25dp" android:layout_gravity="center"/>
 
                 <com.modup.font.RobotoTextView
-                        android:id="@+id/editTextUsername"
+                        android:id="@+id/textViewTitle"
                         android:layout_weight="1"
                         style="@style/TextViewAppearance.Title1"
                         android:layout_width="wrap_content"

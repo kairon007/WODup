@@ -15,7 +15,7 @@
         android:paddingTop="4dp" >
 
         <com.modup.font.RobotoTextView
-            android:id="@+id/editTextUsername"
+            android:id="@+id/textViewTitle"
             style="@style/TextViewAppearance.Title1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

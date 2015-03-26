@@ -47,12 +47,13 @@
                             android:layout_width="fill_parent"
                             android:maxLength="75"
                             android:maxLines="3"
+                            android:textColor="@color/main_color_grey_600"
                             android:layout_gravity="center"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"
                             android:ems="10"
                             android:hint="Title"
-                            android:id="@+id/editTextTitle"/>
+                            android:id="@+id/textViewTitle"/>
                 </com.wrapp.floatlabelededittext.FloatLabeledEditText>
             </LinearLayout>
 

@@ -1,23 +1,22 @@
 package com.modup.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.modup.adapter.CardsAdapter;
+import com.modup.adapter.ParseWorkoutAdapter;
 import com.modup.app.R;
-import com.modup.utils.DummyContent;
+import com.modup.model.SingleWorkout;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,11 +26,12 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismis
  * Use the {@link FeedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FeedFragment extends Fragment implements View.OnClickListener {
+public class FeedFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String TAG = FeedFragment.class.getCanonicalName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -40,7 +40,11 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private static final int INITIAL_DELAY_MILLIS = 300;
     private CardsAdapter mGoogleCardsAdapter;
-    View view;
+    private View view;
+    private MaterialDialog mDialog;
+
+    //parse queries
+    private ParseWorkoutAdapter mParseWorkoutAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -108,40 +112,57 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
 
     public void initValues() {
         Button btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
+        Button btnAddFavorite = (Button) view.findViewById(R.id.buttonAddFavorite);
         btnAddContent.setOnClickListener(this);
+        btnAddFavorite.setOnClickListener(this);
 
         ListView listView = (ListView) view.findViewById(R.id.listViewFeed);
+        listView.setOnItemClickListener(this);
 
-        mGoogleCardsAdapter = new CardsAdapter(getActivity(),
-                DummyContent.getDummyModelList());
+        mParseWorkoutAdapter = new ParseWorkoutAdapter(getActivity());
+
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
-                mGoogleCardsAdapter);
+                mParseWorkoutAdapter);
         swingBottomInAnimationAdapter.setAbsListView(listView);
-//
+
         assert swingBottomInAnimationAdapter.getViewAnimator() != null;
         swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(
-               INITIAL_DELAY_MILLIS);
+                INITIAL_DELAY_MILLIS);
         listView.setDivider(null);
 
         listView.setFadingEdgeLength(0);
         listView.setFitsSystemWindows(true);
         listView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
         listView.setAdapter(swingBottomInAnimationAdapter);
-
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.buttonAdd:
                 FragmentManager fragmentManager = getFragmentManager();
                 Fragment mFragment = new CreateFragment();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEFRAGMENT").commit();
+                break;
+            case R.id.buttonAddFavorite:
+                //create a dialog which shows all the favorited workouts
                 break;
         }
 
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        SingleWorkout currentSingleWorkout = mParseWorkoutAdapter.getItem(position);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SINGLEWORKOUT", currentSingleWorkout);
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment mFragment = new DetailFragment();
+        mFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

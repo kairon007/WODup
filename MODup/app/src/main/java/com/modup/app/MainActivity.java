@@ -4,16 +4,26 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
-    Button btnSignUp, btnSignIn;
-
-
+    TextView tvSignIn, tvSignUp, tvFacebook;
+    EditText etUsername, etPassword1;
+    String username, password1;
+    MaterialDialog mDialog;
+    String TAG = MainActivity.class.getCanonicalName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +57,100 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
-    public void init(){
-        btnSignUp = (Button) findViewById(R.id.btnSignUp);
-        btnSignUp.setOnClickListener(this);
-        btnSignIn = (Button) findViewById(R.id.btnSignIn);
-        btnSignIn.setOnClickListener(this);
 
+    public void init() {
+        if (!(ParseUser.getCurrentUser() == null)) {
+            goToNavigationActivity();
+        } else {
+            tvSignUp = (TextView) findViewById(R.id.textViewSignUp);
+            tvSignUp.setOnClickListener(this);
+            tvSignIn = (TextView) findViewById(R.id.textViewSignIn);
+            tvSignIn.setOnClickListener(this);
+            tvFacebook = (TextView) findViewById(R.id.textViewFacebook);
+            tvFacebook.setOnClickListener(this);
+            etUsername = (EditText) findViewById(R.id.etUsername);
+            etPassword1 = (EditText) findViewById(R.id.etPassword1);
+        }
     }
 
-    public void goToRegisterActivity(){
+    public void goToRegisterActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
-    public void goToNavigationActivity(){
+
+    public void goToNavigationActivity() {
         Intent intent = new Intent(this, LeftMenusActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.btnSignUp:
+        switch (v.getId()) {
+            case R.id.textViewSignUp:
                 goToRegisterActivity();
                 break;
-            case R.id.btnSignIn:
-                goToNavigationActivity();
+            case R.id.textViewSignIn:
+                if (checkFields()) {
+                    Log.e(TAG, "Check Fields Passed");
+                    mDialog = new MaterialDialog.Builder(this)
+                            .content("Maximizing Gains..")
+                            .progress(true, 0)
+                            .show();
+
+                    ParseUser.logInInBackground(username, password1, new LogInCallback() {
+                        @Override
+                        public void done(ParseUser parseUser, ParseException e) {
+                            if (!(parseUser == null)) {
+                                mDialog.dismiss();
+                                goToNavigationActivity();
+                            } else {
+                                mDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+                break;
+            case R.id.textViewFacebook:
                 break;
         }
 
     }
+
+    public Boolean checkFields() {
+        username = etUsername.getText().toString().trim();
+        password1 = etPassword1.getText().toString().trim();
+        if (!(isAnyEmpty(username, password1))) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean isAnyEmpty(String username, String password1) {
+        if (username.equals("") || username.isEmpty()) {
+            setEmptyError(etUsername, "username");
+            return true;
+        }
+        if (password1.equals("") || password1.isEmpty()) {
+            setEmptyError(etPassword1, "password1");
+            return true;
+        }
+        return false;
+    }
+
+    public void setEmptyError(EditText et, String etName) {
+        if (etName.equals("username")) {
+            et.getText().clear();
+            et.setHintTextColor(getResources().getColor(R.color.material_red_300));
+            et.setHint("Enter Username");
+        } else if (etName.equals("password1")) {
+            et.getText().clear();
+            et.setHintTextColor(getResources().getColor(R.color.material_red_300));
+            et.setHint("Enter Password");
+        }
+    }
+
+
 }

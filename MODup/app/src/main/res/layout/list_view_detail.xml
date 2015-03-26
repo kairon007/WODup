@@ -13,7 +13,7 @@
             android:layout_margin="16dp"/>
 
     <com.modup.font.RobotoTextView
-            android:id="@+id/editTextUsername"
+            android:id="@+id/textViewTitle"
             style="@style/TextViewAppearance.Title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,8 +53,8 @@
                     android:layout_gravity="center"
                     android:src="@drawable/flame"
                     android:layout_height="50dp"
-                    android:layout_alignTop="@+id/divider2" android:layout_toLeftOf="@+id/editTextUsername"
-                    android:layout_toStartOf="@+id/editTextUsername"/>
+                    android:layout_alignTop="@+id/divider2" android:layout_toLeftOf="@+id/textViewTitle"
+                    android:layout_toStartOf="@+id/textViewTitle"/>
             <com.modup.font.RobotoTextView
                     android:id="@+id/textViewBurned"
                     style="@style/TextViewAppearance.Title1"
@@ -66,8 +66,8 @@
                     android:text="1256"
                     android:textSize="20sp"
                     app:typeface="robotoBold"
-                    android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/editTextUsername"
-                    android:layout_toEndOf="@+id/editTextUsername"/>
+                    android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/textViewTitle"
+                    android:layout_toEndOf="@+id/textViewTitle"/>
 
         </LinearLayout>
 
@@ -87,8 +87,8 @@
                     android:src="@drawable/clock"
                     android:layout_gravity="center"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                    android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
 
             <com.modup.font.RobotoTextView
@@ -135,8 +135,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
                 android:id="@+id/imageViewPeek2"
@@ -145,8 +145,8 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
                 android:id="@+id/imageViewPeek3"
@@ -154,8 +154,8 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
                 android:id="@+id/imageViewPeek4"
@@ -163,8 +163,8 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
 
     </LinearLayout>

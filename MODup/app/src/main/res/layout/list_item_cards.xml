@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_height="wrap_content"
-              android:layout_width="match_parent"
+              android:layout_width="fill_parent"
               android:layout_margin="5dp"
               xmlns:card_view="http://schemas.android.com/apk/res-auto">
     <!-- A CardView that contains a TextView -->
@@ -12,7 +12,7 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp" android:layout_marginTop="2dp" android:layout_marginBottom="2dp">
@@ -34,7 +34,7 @@
                         android:layout_margin="16dp"/>
 
                 <com.modup.font.RobotoTextView
-                        android:id="@+id/editTextUsername"
+                        android:id="@+id/textViewTitle"
                         style="@style/TextViewAppearance.Title1"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -52,13 +52,14 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="1dp" android:layout_gravity="center_horizontal"
-                    android:background="@color/material_grey_200" android:layout_margin="10dp"
-                    android:id="@+id/cardDivider" android:focusableInTouchMode="true">
+                    android:background="@color/material_grey_200"
+                    android:id="@+id/cardDivider" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp">
             </LinearLayout>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:layout_marginBottom="5dp">
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="fill_parent"
@@ -89,18 +90,20 @@
                                     android:layout_gravity="center"
                                     android:src="@drawable/skull"
                                     android:layout_height="30dp"
-                                    android:layout_alignTop="@+id/divider2" android:layout_toLeftOf="@+id/editTextUsername"
-                                    android:layout_toStartOf="@+id/editTextUsername"/>
+                                    android:layout_alignTop="@+id/divider2"
+                                    android:layout_toLeftOf="@+id/textViewTitle"
+                                    android:layout_toStartOf="@+id/textViewTitle"/>
                             <com.modup.font.RobotoTextView
                                     android:id="@+id/textViewDifficulty"
                                     style="@style/TextViewAppearance.Title1"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="fill_parent"
+                                    android:layout_height="wrap_content"
                                     android:text="Hard"
                                     android:textSize="13sp"
                                     app:typeface="robotoBold"
-                                    android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/editTextUsername"
-                                    android:layout_toEndOf="@+id/editTextUsername"/>
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_toRightOf="@+id/textViewTitle"
+                                    android:layout_toEndOf="@+id/textViewTitle"/>
 
                         </LinearLayout>
 
@@ -110,7 +113,6 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:id="@+id/linearLayoutSneakPeek"
-                                android:focusable="true"
                                 android:layout_below="@+id/linearLayoutStats" android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true" android:gravity="right"
                                 >
@@ -118,30 +120,30 @@
                             <ImageView
                                     android:id="@+id/imageViewPeek1"
                                     android:layout_width="30dp"
-                                    android:src="@drawable/arm"
                                     android:layout_gravity="center"
                                     android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_below="@+id/imageCards"
+                                    android:layout_toRightOf="@+id/textViewTitle"
+                                    android:layout_toEndOf="@+id/textViewTitle"
                                     android:layout_weight="1"/>
 
                             <ImageView
                                     android:id="@+id/imageViewPeek2"
                                     android:layout_width="30dp"
-                                    android:src="@drawable/legs"
                                     android:layout_gravity="center"
                                     android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_below="@+id/imageCards"
+                                    android:layout_toRightOf="@+id/textViewTitle"
+                                    android:layout_toEndOf="@+id/textViewTitle"
                                     android:layout_weight="1"/>
 
                             <ImageView
                                     android:id="@+id/imageViewPeek3"
                                     android:layout_width="30dp"
-                                    android:src="@drawable/upperbody"
                                     android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                                    android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"
+                                    android:layout_below="@+id/imageCards"
+                                    android:layout_toRightOf="@+id/textViewTitle"
+                                    android:layout_toEndOf="@+id/textViewTitle"
                                     android:layout_weight="1" android:adjustViewBounds="false"/>
 
 
@@ -161,7 +163,7 @@
                             android:layout_height="fill_parent"
                             android:id="@+id/linearLayoutTime"
                             android:layout_below="@+id/imageCards" android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" android:focusable="true">
+                            android:layout_alignParentEnd="true">
 
 
                         <ImageView
@@ -170,8 +172,8 @@
                                 android:src="@drawable/clock"
                                 android:layout_gravity="center"
                                 android:layout_height="29dp"
-                                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/editTextUsername"
-                                android:layout_toEndOf="@+id/editTextUsername" android:focusableInTouchMode="false"/>
+                                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                                android:layout_toEndOf="@+id/textViewTitle"/>
 
 
                         <com.modup.font.RobotoTextView
@@ -185,17 +187,29 @@
                                 android:layout_alignRight="@+id/divider2"
                                 android:layout_alignEnd="@+id/divider2" android:ellipsize="none" android:lines="1"/>
                     </LinearLayout>
-                    <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewMoreInfo"
-                            style="@style/TextViewAppearance.Title1"
+
+                    <LinearLayout
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:textColor="@color/primary_blue"
-                            android:text="MORE"
-                            android:textSize="13sp"
-                            app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
-                            android:orientation="horizontal"
-                            android:gravity="center" android:layout_weight="1"/>
+                            android:id="@+id/linearLayoutSocial"
+                            >
+
+                        <com.modup.font.RobotoTextView
+                                android:id="@+id/textViewMoreInfo"
+                                style="@style/TextViewAppearance.Title1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary_blue"
+                                android:text="MORE"
+                                android:textSize="13sp"
+                                app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
+                                android:orientation="horizontal"
+                                android:gravity="center" android:layout_weight="1"/>
+
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
