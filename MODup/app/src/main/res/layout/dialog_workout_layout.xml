@@ -49,6 +49,9 @@
                     android:id="@+id/etWorkoutName" android:layout_margin="5dp" android:layout_weight="1"/>
         </LinearLayout>
 
+        <LinearLayout android:orientation="vertical" android:background="@color/material_grey_200"
+                      android:layout_width="fill_parent" android:layout_height="1dp"
+                      android:id="@+id/linearLayoutTopDivider"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
@@ -272,12 +275,227 @@
 
 
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:id="@+id/linearLayoutCrossfit">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutCrossfitType"
+                    android:layout_margin="5dp">
+
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewCrossfitType"
+                        style="@style/TextViewAppearance.Title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_blue"
+                        android:text="Category:"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:orientation="horizontal"
+                        android:gravity="center" android:padding="5dp"/>
+                <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerCrossfitType" android:textAlignment="center"
+                        android:layout_weight="1"/>
+
+            </LinearLayout>
             <LinearLayout
                     android:orientation="vertical"
-                    android:background="@color/material_grey_200"
                     android:layout_width="fill_parent"
-                    android:layout_height="1dp">
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutForRepsTime"
+                    android:layout_margin="5dp">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewCrossfitReps"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_blue"
+                            android:text="Reps:"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:orientation="horizontal"
+                            android:gravity="center" android:padding="5dp"/>
+                    <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerCrossfitReps" android:textAlignment="center" android:layout_weight="1"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewCrossfitTime"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_blue"
+                            android:text="Time:"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:orientation="horizontal"
+                            android:gravity="center" android:padding="5dp"/>
+                    <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerCrossfitTime" android:textAlignment="center" android:layout_weight="1"/>
+                </LinearLayout>
+
+
+
+
+
             </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutForReps"
+                    android:layout_margin="5dp">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewForRounds"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_blue"
+                            android:text="Sets:"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:orientation="horizontal"
+                            android:gravity="center" android:padding="5dp"/>
+                    <Spinner
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerForRounds" android:textAlignment="center" android:layout_weight="1"/>
+                </LinearLayout>
+
+
+                <LinearLayout android:orientation="horizontal" android:layout_width="1dp"
+                              android:layout_marginLeft="5dp" android:layout_marginRight="5dp"
+                              android:background="@color/material_grey_200" android:layout_height="fill_parent"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewForReps"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_blue"
+                            android:text="Reps:"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:orientation="horizontal"
+                            android:gravity="center" android:padding="5dp"/>
+                    <Spinner
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerForReps" android:textAlignment="center" android:layout_weight="1"/>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutForTime"
+                    android:layout_margin="5dp">
+
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewCrossfitForTime"
+                        style="@style/TextViewAppearance.Title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_blue"
+                        android:text="Time:"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:orientation="horizontal"
+                        android:gravity="center" android:padding="5dp"/>
+                <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerCrossfitForTime" android:textAlignment="center" android:layout_weight="1"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutForWeight"
+                    android:layout_margin="5dp">
+
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewForWeight"
+                        style="@style/TextViewAppearance.Title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_blue"
+                        android:text="Weight:"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:orientation="horizontal"
+                        android:gravity="center" android:padding="5dp"/>
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:id="@+id/editTextForWeight" android:gravity="center" android:hint="000 Lbs"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:id="@+id/linearLayoutCrossfitOther"
+                    android:layout_margin="5dp">
+
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewCrossfitDesc"
+                        style="@style/TextViewAppearance.Title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_blue"
+                        android:text="Desc:"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:orientation="horizontal"
+                        android:gravity="center" android:padding="5dp"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/editTextCrossfitDesc" android:hint="Enter Description"
+                        android:inputType="textMultiLine"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:background="@color/material_grey_200"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp" android:id="@+id/linearLayoutBottomDivider">
         </LinearLayout>
 
 

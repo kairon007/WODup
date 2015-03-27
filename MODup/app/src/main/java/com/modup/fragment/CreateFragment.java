@@ -68,8 +68,15 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     private MaterialDialog mDialog;
     private WorkoutView workoutView;
     private LinearLayout linearLayoutDistance, linearLayoutSetsReps, linearLayoutExerciseCategoryStrength, linearLayoutExerciseCategoryEndurance,
-            linearLayoutExerciseType, linearLayoutWeightlifting, linearLayoutOther, linearLayoutTraditional;
-    private Spinner spinnerDistance;
+            linearLayoutExerciseType, linearLayoutWeightlifting, linearLayoutOther, linearLayoutTraditional, linearLayoutCrossfit;
+    private Spinner spinnerDistance, spinnerCrossfitType, spinnerForRepsReps, spinnerForRepsTime, spinnerForReps, spinnerForRepsRounds, spinnerForTime;
+    private RadioButton rbtnTraditional, rbtnCrossFit;
+
+    //crossfit stuff
+    private LinearLayout linearLayoutForReps, linearLayoutForRepsTime, linearLayoutForTime, linearLayoutForWeight, linearLayoutCrossfitOther;
+
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -241,6 +248,9 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
                 View dialogView = mDialog.getCustomView();
                 etWorkoutName = (EditText) dialogView.findViewById(R.id.etWorkoutName);
+                rbtnTraditional = (RadioButton) dialogView.findViewById(R.id.radioButtonTraditional);
+                rbtnCrossFit = (RadioButton) dialogView.findViewById(R.id.radioButtonCrossFit);
+
                 linearLayoutDistance = (LinearLayout) dialogView.findViewById(R.id.linearLayoutDistance);
                 linearLayoutWeightlifting = (LinearLayout) dialogView.findViewById(R.id.linearLayoutWeightlifting);
                 linearLayoutExerciseType = (LinearLayout) dialogView.findViewById(R.id.linearLayoutExerciseType);
@@ -248,12 +258,52 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 linearLayoutExerciseCategoryEndurance = (LinearLayout) dialogView.findViewById(R.id.linearLayoutExerciseCategoryEndurance);
                 linearLayoutOther = (LinearLayout) dialogView.findViewById(R.id.linearLayoutOther);
                 linearLayoutTraditional = (LinearLayout) dialogView.findViewById(R.id.linearLayoutTraditional);
-                //TODO: ADD MORE CROSSFIT LAYOUT SPECIFIC ITEMS
+
+
+                //crossfit layouts
+                linearLayoutCrossfit = (LinearLayout) dialogView.findViewById(R.id.linearLayoutCrossfit);
+                linearLayoutForRepsTime = (LinearLayout) dialogView.findViewById(R.id.linearLayoutForRepsTime);
+                linearLayoutForReps = (LinearLayout) dialogView.findViewById(R.id.linearLayoutForReps);
+                linearLayoutForTime = (LinearLayout) dialogView.findViewById(R.id.linearLayoutForTime);
+                linearLayoutForWeight = (LinearLayout) dialogView.findViewById(R.id.linearLayoutForWeight);
+                linearLayoutCrossfitOther = (LinearLayout) dialogView.findViewById(R.id.linearLayoutCrossfitOther);
 
 
                 //set starting visibilities
                 linearLayoutOther.setVisibility(View.GONE);
                 linearLayoutDistance.setVisibility(View.GONE);
+                linearLayoutCrossfit.setVisibility(View.GONE);
+                linearLayoutForReps.setVisibility(View.GONE);
+                linearLayoutForTime.setVisibility(View.GONE);
+                linearLayoutForWeight.setVisibility(View.GONE);
+
+                //TODO: ADD MORE CROSSFIT LAYOUT SPECIFIC ITEMS
+
+                rbtnTraditional.setChecked(true);
+
+                rbtnTraditional.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked){
+                            //TODO: show the traditonal layout, hide the crossfit
+                            linearLayoutTraditional.setVisibility(View.VISIBLE);
+                            linearLayoutCrossfit.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+
+                rbtnCrossFit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            //TODO: show the crossfit layout, hide the traditional
+                            linearLayoutCrossfit.setVisibility(View.VISIBLE);
+                            linearLayoutTraditional.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
 
 
                 spinnerExerciseType = (Spinner) dialogView.findViewById(R.id.spinnerExerciseType);
@@ -278,6 +328,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                         } else if (spinnerSelectionStr.equals("Endurance")) {
                             linearLayoutExerciseCategoryEndurance.setVisibility(View.VISIBLE);
                             spinnerExerciseCategoryEndurance.setSelection(0);
+                            linearLayoutDistance.setVisibility(View.VISIBLE);
                             linearLayoutExerciseCategoryStrength.setVisibility(View.GONE);
                             linearLayoutWeightlifting.setVisibility(View.GONE);
                             linearLayoutOther.setVisibility(View.GONE);
@@ -366,7 +417,117 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 });
 
 
+                spinnerCrossfitType = (Spinner) dialogView.findViewById(R.id.spinnerCrossfitType);
+                array = getActivity().getResources().getStringArray(R.array.string_array_workout_crossfit_type);
+                TextSpinnerAdapter ctAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                ctAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerCrossfitType.setAdapter(ctAdapter);
+                spinnerCrossfitType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String spinnerSelectionStr = String.valueOf(parent.getSelectedItem());
+                        if(spinnerSelectionStr.equals("For Reps & Time")){
+                            linearLayoutForRepsTime.setVisibility(View.VISIBLE);
+                            linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
+                            linearLayoutForReps.setVisibility(View.GONE);
+                            linearLayoutForTime.setVisibility(View.GONE);
+                            linearLayoutForWeight.setVisibility(View.GONE);
+                        } else if (spinnerSelectionStr.equals("For Reps")){
+                            linearLayoutForReps.setVisibility(View.VISIBLE);
+                            linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
+                            linearLayoutForRepsTime.setVisibility(View.GONE);
+                            linearLayoutForTime.setVisibility(View.GONE);
+                            linearLayoutForWeight.setVisibility(View.GONE);
 
+                        } else if (spinnerSelectionStr.equals("For Time")){
+                            linearLayoutForTime.setVisibility(View.VISIBLE);
+                            linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
+                            linearLayoutForRepsTime.setVisibility(View.GONE);
+                            linearLayoutForReps.setVisibility(View.GONE);
+                            linearLayoutForWeight.setVisibility(View.GONE);
+
+                        } else if (spinnerSelectionStr.equals("For Weight")){
+                            linearLayoutForWeight.setVisibility(View.VISIBLE);
+                            linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
+                            linearLayoutForRepsTime.setVisibility(View.GONE);
+                            linearLayoutForReps.setVisibility(View.GONE);
+                            linearLayoutForTime.setVisibility(View.GONE);
+
+                        } else if (spinnerSelectionStr.equals("Other")){
+                            linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
+                            linearLayoutForRepsTime.setVisibility(View.GONE);
+                            linearLayoutForReps.setVisibility(View.GONE);
+                            linearLayoutForTime.setVisibility(View.GONE);
+                            linearLayoutForWeight.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+                //crossfit
+                spinnerForRepsReps = (Spinner) dialogView.findViewById(R.id.spinnerCrossfitReps);
+                array = getActivity().getResources().getStringArray(R.array.string_array_reps);
+                TextSpinnerAdapter frrAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                frrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerForRepsReps.setAdapter(frrAdapter);
+
+
+                spinnerForRepsTime = (Spinner) dialogView.findViewById(R.id.spinnerCrossfitTime);
+                array = getActivity().getResources().getStringArray(R.array.string_array_cross_fit_time);
+                TextSpinnerAdapter frtAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                frtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerForRepsTime.setAdapter(frtAdapter);
+
+
+                spinnerForRepsRounds = (Spinner) dialogView.findViewById(R.id.spinnerForRounds);
+                array = getActivity().getResources().getStringArray(R.array.string_array_reps);
+                TextSpinnerAdapter frroAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                frroAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerForRepsRounds.setAdapter(frroAdapter);
+
+
+                spinnerForReps = (Spinner) dialogView.findViewById(R.id.spinnerForReps);
+                array = getActivity().getResources().getStringArray(R.array.string_array_reps);
+                TextSpinnerAdapter frAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                frAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerForReps.setAdapter(frAdapter);
+
+                spinnerForTime = (Spinner) dialogView.findViewById(R.id.spinnerCrossfitForTime);
+                array = getActivity().getResources().getStringArray(R.array.string_array_cross_fit_time);
+                TextSpinnerAdapter ftAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);
+                // Specify the layout to use when the list of choices appears
+                ftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinnerForTime.setAdapter(ftAdapter);
+
+
+
+
+
+
+
+
+
+
+
+
+                //traditional
                 spinnerDistance = (Spinner) dialogView.findViewById(R.id.spinnerDistance);
                 array = getActivity().getResources().getStringArray(R.array.string_array_distance);
                 TextSpinnerAdapter dAdapter = new TextSpinnerAdapter(getActivity(), R.layout.spinner_text_item, array);

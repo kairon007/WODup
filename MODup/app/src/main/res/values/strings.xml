@@ -273,6 +273,27 @@
         <item>Other</item>
     </string-array>
 
+    <string-array
+            name="string_array_workout_crossfit_type">
+        <item>For Reps &amp; Time</item>
+        <item>For Reps</item>
+        <item>For Time</item>
+        <item>For Weight</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array
+            name="string_array_cross_fit_time">
+        <item>5M</item>
+        <item>10M</item>
+        <item>15M</item>
+        <item>20M</item>
+        <item>30M</item>
+        <item>40M</item>
+        <item>50M</item>
+        <item>1H</item>
+    </string-array>
+
 
 
 
