@@ -14,12 +14,8 @@ import com.modup.model.SingleWorkout;
  */
 public class WorkoutView extends LinearLayout {
 
-
-    public TextView tvMuscleGroup, tvWorkoutName, tvSets, tvReps;
-    public Button btnRemoveWorkout;
-    String workoutName, muscleGroup, sets, reps;
+    private String workoutName, muscleGroup, sets, reps, workoutMainCategory, workoutType, workoutCategory, workoutWeight, workoutDesc, workoutTime, workoutDistance;
     int id;
-    LayoutInflater inflater;
     Context mContext;
 
     public WorkoutView(Context context) {
@@ -87,6 +83,62 @@ public class WorkoutView extends LinearLayout {
 
     public void setReps(String reps) {
         this.reps = reps;
+    }
+
+    public String getWorkoutMainCategory() {
+        return workoutMainCategory;
+    }
+
+    public void setWorkoutMainCategory(String workoutMainCategory) {
+        this.workoutMainCategory = workoutMainCategory;
+    }
+
+    public String getWorkoutType() {
+        return workoutType;
+    }
+
+    public void setWorkoutType(String workoutType) {
+        this.workoutType = workoutType;
+    }
+
+    public String getWorkoutCategory() {
+        return workoutCategory;
+    }
+
+    public void setWorkoutCategory(String workoutCategory) {
+        this.workoutCategory = workoutCategory;
+    }
+
+    public String getWorkoutWeight() {
+        return workoutWeight;
+    }
+
+    public void setWorkoutWeight(String workoutWeight) {
+        this.workoutWeight = workoutWeight;
+    }
+
+    public String getWorkoutDesc() {
+        return workoutDesc;
+    }
+
+    public void setWorkoutDesc(String workoutDesc) {
+        this.workoutDesc = workoutDesc;
+    }
+
+    public String getWorkoutTime() {
+        return workoutTime;
+    }
+
+    public void setWorkoutTime(String workoutTime) {
+        this.workoutTime = workoutTime;
+    }
+
+    public String getWorkoutDistance() {
+        return workoutDistance;
+    }
+
+    public void setWorkoutDistance(String workoutDistance) {
+        this.workoutDistance = workoutDistance;
     }
 
     public SingleWorkout getAll() {

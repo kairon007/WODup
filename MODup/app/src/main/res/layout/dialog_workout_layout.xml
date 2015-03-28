@@ -167,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText" android:gravity="center" android:hint="000 Lbs"/>
+                            android:id="@+id/editTextWeight" android:gravity="center" android:hint="000 Lbs"/>
 
                 </LinearLayout>
                 <LinearLayout

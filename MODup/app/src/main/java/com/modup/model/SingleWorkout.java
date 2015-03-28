@@ -14,9 +14,9 @@ import java.util.HashSet;
  */
 @ParseClassName("SingleWorkout")
 public class SingleWorkout extends ParseObject implements Serializable {
-    String _title, _difficulty, _time;
+    private String _title, _difficulty, _time;
     ParseUser _parseUser;
-    String _singleWorkoutItemArrayJSON, _muscleGroupItemArrayJSON;
+    private String _singleWorkoutItemArrayJSON;
     int _favoriteCount, _likeCount, _commentCount;
 
     public SingleWorkout() {
@@ -62,11 +62,6 @@ public class SingleWorkout extends ParseObject implements Serializable {
         return getString("muscleGroupItemArrayJSON");
     }
 
-    public void set_muscleGroupItemArrayJSON(String _muscleGroupItemArrayJSON) {
-        this._muscleGroupItemArrayJSON = _muscleGroupItemArrayJSON;
-        put("muscleGroupItemArrayJSON", _muscleGroupItemArrayJSON);
-    }
-
     public ParseUser get_parseUser() {
         return getParseUser("user");
     }
@@ -100,4 +95,8 @@ public class SingleWorkout extends ParseObject implements Serializable {
     public void set_commentCount(int _commentCount) {
         this._commentCount = _commentCount;
     }
+
+
+
+
 }

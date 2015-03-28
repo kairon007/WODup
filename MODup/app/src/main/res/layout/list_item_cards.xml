@@ -57,105 +57,47 @@
                     android:layout_marginBottom="10dp">
             </LinearLayout>
             <LinearLayout
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" android:layout_marginBottom="5dp">
                 <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp" android:layout_marginBottom="5dp">
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent" android:layout_marginLeft="10dp"
+                        >
                     <LinearLayout
                             android:orientation="horizontal"
+                            android:layout_weight="1"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:id="@+id/linearLayoutStats"
-                            android:layout_below="@+id/divider1" android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_weight="1">
+                            android:id="@+id/linearLayoutBurned"
+                            android:layout_below="@+id/imageCards" android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" android:gravity="left"
+                            android:layout_marginBottom="5dp">
 
-                        <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_weight="1"
+                        <ImageView
+                                android:id="@+id/imageViewDifficulty"
+                                android:layout_width="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/skull"
+                                android:layout_height="30dp"
+                                android:layout_alignTop="@+id/divider2"
+                                android:layout_toLeftOf="@+id/textViewTitle"
+                                android:layout_toStartOf="@+id/textViewTitle"/>
+                        <com.modup.font.RobotoTextView
+                                android:id="@+id/textViewDifficulty"
+                                style="@style/TextViewAppearance.Title1"
                                 android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:id="@+id/linearLayoutBurned"
-                                android:layout_below="@+id/imageCards" android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true" android:gravity="left"
-                                >
+                                android:layout_height="wrap_content"
+                                android:text="Hard"
+                                android:textSize="13sp"
+                                app:typeface="robotoBold"
+                                android:layout_alignParentBottom="true"
+                                android:layout_toRightOf="@+id/textViewTitle"
+                                android:layout_toEndOf="@+id/textViewTitle" android:padding="5dp"
+                                android:layout_gravity="center" android:layout_marginLeft="5dp"/>
 
-                            <ImageView
-                                    android:id="@+id/imageViewDifficulty"
-                                    android:layout_width="30dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/skull"
-                                    android:layout_height="30dp"
-                                    android:layout_alignTop="@+id/divider2"
-                                    android:layout_toLeftOf="@+id/textViewTitle"
-                                    android:layout_toStartOf="@+id/textViewTitle"/>
-                            <com.modup.font.RobotoTextView
-                                    android:id="@+id/textViewDifficulty"
-                                    style="@style/TextViewAppearance.Title1"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Hard"
-                                    android:textSize="13sp"
-                                    app:typeface="robotoBold"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_toRightOf="@+id/textViewTitle"
-                                    android:layout_toEndOf="@+id/textViewTitle"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_weight="1"
-                                android:orientation="horizontal"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:id="@+id/linearLayoutSneakPeek"
-                                android:layout_below="@+id/linearLayoutStats" android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true" android:gravity="right"
-                                >
-
-                            <ImageView
-                                    android:id="@+id/imageViewPeek1"
-                                    android:layout_width="30dp"
-                                    android:layout_gravity="center"
-                                    android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards"
-                                    android:layout_toRightOf="@+id/textViewTitle"
-                                    android:layout_toEndOf="@+id/textViewTitle"
-                                    android:layout_weight="1"/>
-
-                            <ImageView
-                                    android:id="@+id/imageViewPeek2"
-                                    android:layout_width="30dp"
-                                    android:layout_gravity="center"
-                                    android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards"
-                                    android:layout_toRightOf="@+id/textViewTitle"
-                                    android:layout_toEndOf="@+id/textViewTitle"
-                                    android:layout_weight="1"/>
-
-                            <ImageView
-                                    android:id="@+id/imageViewPeek3"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_below="@+id/imageCards"
-                                    android:layout_toRightOf="@+id/textViewTitle"
-                                    android:layout_toEndOf="@+id/textViewTitle"
-                                    android:layout_weight="1" android:adjustViewBounds="false"/>
-
-
-                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp" android:layout_marginBottom="5dp">
-
                     <LinearLayout
                             android:layout_weight="1"
                             android:orientation="horizontal"
@@ -185,8 +127,16 @@
                                 android:textSize="13sp"
                                 app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
                                 android:layout_alignRight="@+id/divider2"
-                                android:layout_alignEnd="@+id/divider2" android:ellipsize="none" android:lines="1"/>
+                                android:layout_alignEnd="@+id/divider2" android:ellipsize="none" android:lines="1"
+                                android:padding="5dp" android:layout_gravity="center" android:layout_marginLeft="5dp"/>
                     </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp">
 
                     <LinearLayout
                             android:layout_weight="1"
@@ -194,19 +144,28 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:id="@+id/linearLayoutSocial"
+                            android:layout_gravity="right"
                             >
+                        <ImageView
+                                android:id="@+id/imageViewPeek1"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_margin="5dp" android:layout_weight="1"
+                                android:layout_gravity="center" android:src="@drawable/w1"/>
 
-                        <com.modup.font.RobotoTextView
-                                android:id="@+id/textViewMoreInfo"
-                                style="@style/TextViewAppearance.Title1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/primary_blue"
-                                android:text="MORE"
-                                android:textSize="13sp"
-                                app:typeface="robotoBold" android:layout_below="@+id/imageViewTime"
-                                android:orientation="horizontal"
-                                android:gravity="center" android:layout_weight="1"/>
+                        <ImageView
+                                android:id="@+id/imageViewPeek2"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_margin="5dp" android:layout_weight="1"
+                                android:layout_gravity="center" android:src="@drawable/w1"/>
+
+                        <ImageView
+                                android:id="@+id/imageViewPeek3"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_margin="5dp" android:layout_weight="1"
+                                android:layout_gravity="center" android:src="@drawable/w1"/>
 
 
                     </LinearLayout>

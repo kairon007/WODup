@@ -67,7 +67,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     private CountDownTimer mCountDownTimer;
     private MaterialDialog mDialog;
     private WorkoutView workoutView;
-    private LinearLayout linearLayoutDistance, linearLayoutSetsReps, linearLayoutExerciseCategoryStrength, linearLayoutExerciseCategoryEndurance,
+    private LinearLayout linearLayoutDistance, linearLayoutExerciseCategoryStrength, linearLayoutExerciseCategoryEndurance,
             linearLayoutExerciseType, linearLayoutWeightlifting, linearLayoutOther, linearLayoutTraditional, linearLayoutCrossfit;
     private Spinner spinnerDistance, spinnerCrossfitType, spinnerForRepsReps, spinnerForRepsTime, spinnerForReps, spinnerForRepsRounds, spinnerForTime;
     private RadioButton rbtnTraditional, rbtnCrossFit;
@@ -75,7 +75,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     //crossfit stuff
     private LinearLayout linearLayoutForReps, linearLayoutForRepsTime, linearLayoutForTime, linearLayoutForWeight, linearLayoutCrossfitOther;
 
-
+    private EditText etWorkoutWeight, etCrossfitWeight, etTraditionalDesc, etCrossfitDesc;
 
 
     /**
@@ -217,16 +217,148 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                             public void onPositive(MaterialDialog dialog) {
                                 Log.e(TAG, "Positive Pressed");
                                 isDialogShowing = false;
-                               /* String muscleGroupStr = (String) spinnerMuscleGroup.getSelectedItem();*/
-                                String setsStr = (String) spinnerSets.getSelectedItem();
-                                String repsStr = (String) spinnerReps.getSelectedItem();
-                                String workoutNameStr = etWorkoutName.getText().toString().trim();
+                                if (rbtnTraditional.isChecked()) {
+                                    //define the workout group based on traditional
+                                    String mainCategory = "Traditional";
+                                    String activityNameStr = (etWorkoutName.getText().toString().trim());
+                                    String workoutType = (String) spinnerExerciseType.getSelectedItem();
+                                    if (workoutType.equals("Strength")) {
+                                        //check other strength spinner values
+                                        String workoutCategory = (String) spinnerExerciseCategoryStrength.getSelectedItem();
+                                        if (workoutCategory.equals("Weightlifting")) {
+                                            String weight = etWorkoutWeight.getText().toString().trim();
+                                            String setsStr = (String) spinnerSets.getSelectedItem();
+                                            String repsStr = (String) spinnerReps.getSelectedItem();
 
-                                workoutView = new WorkoutView(getActivity());
-                                /*workoutView.setMuscleGroup(muscleGroupStr);*/
-                                workoutView.setSets(setsStr);
-                                workoutView.setReps(repsStr);
-                                workoutView.setWorkoutName(workoutNameStr);
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutWeight(weight);
+                                            workoutView.setSets(setsStr);
+                                            workoutView.setReps(repsStr);
+                                        } else if (workoutCategory.equals("Isometric")) {
+                                            String desc = etTraditionalDesc.getText().toString().trim();
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutDesc(desc);
+
+
+                                        } else if (workoutCategory.equals("Circuit")) {
+                                            String desc = etTraditionalDesc.getText().toString().trim();
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutDesc(desc);
+
+                                        } else if (workoutCategory.equals("Other")) {
+                                            String desc = etTraditionalDesc.getText().toString().trim();
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutDesc(desc);
+
+                                        }
+
+                                    } else if (workoutType.equals("Endurance")) {
+                                        //check other endurance spinner values
+                                        String workoutCategory = (String) spinnerExerciseCategoryEndurance.getSelectedItem();
+                                        if (workoutCategory.equals("Running")) {
+                                            String distance = (String) spinnerDistance.getSelectedItem();
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutDistance(distance);
+                                        } else if (workoutCategory.equals("Other")) {
+                                            String desc = etTraditionalDesc.getText().toString().trim();
+                                            workoutView = new WorkoutView(getActivity());
+                                            workoutView.setWorkoutMainCategory(mainCategory);
+                                            workoutView.setWorkoutName(activityNameStr);
+                                            workoutView.setWorkoutType(workoutType);
+                                            workoutView.setWorkoutCategory(workoutCategory);
+                                            workoutView.setWorkoutDesc(desc);
+                                        }
+
+                                    } else if (workoutType.equals("Other")) {
+                                        String desc = etTraditionalDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setWorkoutDesc(desc);
+                                    }
+
+                                    //define crossfit items
+                                } else if (rbtnCrossFit.isChecked()) {
+                                    String mainCategory = "CrossFit";
+                                    String activityNameStr = etWorkoutName.getText().toString().trim();
+                                    String workoutType = (String) spinnerCrossfitType.getSelectedItem();
+                                    if (workoutType.equals("For Reps & Time")) {
+                                        String repsStr = (String) spinnerForReps.getSelectedItem();
+                                        String timeStr = (String) spinnerForRepsTime.getSelectedItem();
+                                        String desc = etCrossfitDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setReps(repsStr);
+                                        workoutView.setWorkoutTime(timeStr);
+                                        workoutView.setWorkoutDesc(desc);
+
+
+                                    } else if (workoutType.equals("For Reps")) {
+                                        String repsStr = (String) spinnerForRepsReps.getSelectedItem();
+                                        String setsStr = (String) spinnerForRepsRounds.getSelectedItem();
+                                        String desc = etCrossfitDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setReps(repsStr);
+                                        workoutView.setSets(setsStr);
+                                        workoutView.setWorkoutDesc(desc);
+
+                                    } else if (workoutType.equals("For Time")) {
+                                        String time = (String) spinnerForTime.getSelectedItem();
+                                        String desc = etCrossfitDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setWorkoutTime(time);
+                                        workoutView.setWorkoutDesc(desc);
+
+                                    } else if (workoutType.equals("For Weight")) {
+                                        String weight = etCrossfitWeight.getText().toString().trim();
+                                        String desc = etCrossfitDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setWorkoutWeight(weight);
+                                        workoutView.setWorkoutDesc(desc);
+
+                                    } else if (workoutType.equals("Other")) {
+                                        String desc = etCrossfitDesc.getText().toString().trim();
+                                        workoutView = new WorkoutView(getActivity());
+                                        workoutView.setWorkoutMainCategory(mainCategory);
+                                        workoutView.setWorkoutName(activityNameStr);
+                                        workoutView.setWorkoutType(workoutType);
+                                        workoutView.setWorkoutDesc(desc);
+                                    }
+
+
+                                }
 
                                 mWorkoutCardsAdapter.add(workoutView);
                                 mWorkoutCardsAdapter.notifyDataSetChanged();
@@ -248,6 +380,12 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
                 View dialogView = mDialog.getCustomView();
                 etWorkoutName = (EditText) dialogView.findViewById(R.id.etWorkoutName);
+                etWorkoutWeight = (EditText) dialogView.findViewById(R.id.editTextWeight);
+                etCrossfitWeight = (EditText) dialogView.findViewById(R.id.editTextForWeight);
+                etTraditionalDesc = (EditText) dialogView.findViewById(R.id.editTextDesc);
+                etCrossfitDesc = (EditText) dialogView.findViewById(R.id.editTextCrossfitDesc);
+
+
                 rbtnTraditional = (RadioButton) dialogView.findViewById(R.id.radioButtonTraditional);
                 rbtnCrossFit = (RadioButton) dialogView.findViewById(R.id.radioButtonCrossFit);
 
@@ -284,7 +422,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 rbtnTraditional.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked){
+                        if (isChecked) {
                             //TODO: show the traditonal layout, hide the crossfit
                             linearLayoutTraditional.setVisibility(View.VISIBLE);
                             linearLayoutCrossfit.setVisibility(View.GONE);
@@ -296,7 +434,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 rbtnCrossFit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
+                        if (isChecked) {
                             //TODO: show the crossfit layout, hide the traditional
                             linearLayoutCrossfit.setVisibility(View.VISIBLE);
                             linearLayoutTraditional.setVisibility(View.GONE);
@@ -360,19 +498,19 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //TODO: HIDE/SHOW layouts associated with selection
                         String spinnerSelectionStr = String.valueOf(parent.getSelectedItem());
-                        if(spinnerSelectionStr.equals("Weightlifting")){
+                        if (spinnerSelectionStr.equals("Weightlifting")) {
                             linearLayoutWeightlifting.setVisibility(View.VISIBLE);
                             linearLayoutDistance.setVisibility(View.GONE);
                             linearLayoutOther.setVisibility(View.GONE);
-                        } else if(spinnerSelectionStr.equals("Isometric")){
+                        } else if (spinnerSelectionStr.equals("Isometric")) {
                             linearLayoutOther.setVisibility(View.VISIBLE);
                             linearLayoutDistance.setVisibility(View.GONE);
                             linearLayoutWeightlifting.setVisibility(View.GONE);
-                        } else if(spinnerSelectionStr.equals("Circuit")){
+                        } else if (spinnerSelectionStr.equals("Circuit")) {
                             linearLayoutOther.setVisibility(View.VISIBLE);
                             linearLayoutDistance.setVisibility(View.GONE);
                             linearLayoutWeightlifting.setVisibility(View.GONE);
-                        } else if(spinnerSelectionStr.equals("Other")){
+                        } else if (spinnerSelectionStr.equals("Other")) {
                             linearLayoutOther.setVisibility(View.VISIBLE);
                             linearLayoutDistance.setVisibility(View.GONE);
                             linearLayoutWeightlifting.setVisibility(View.GONE);
@@ -398,7 +536,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //TODO: HIDE/SHOW layouts associated with selection
                         String spinnerSelectionStr = String.valueOf(parent.getSelectedItem());
-                        if(spinnerSelectionStr.equals("Running")){
+                        if (spinnerSelectionStr.equals("Running")) {
                             linearLayoutDistance.setVisibility(View.VISIBLE);
                             linearLayoutWeightlifting.setVisibility(View.GONE);
                             linearLayoutOther.setVisibility(View.GONE);
@@ -428,34 +566,34 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String spinnerSelectionStr = String.valueOf(parent.getSelectedItem());
-                        if(spinnerSelectionStr.equals("For Reps & Time")){
+                        if (spinnerSelectionStr.equals("For Reps & Time")) {
                             linearLayoutForRepsTime.setVisibility(View.VISIBLE);
                             linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
                             linearLayoutForReps.setVisibility(View.GONE);
                             linearLayoutForTime.setVisibility(View.GONE);
                             linearLayoutForWeight.setVisibility(View.GONE);
-                        } else if (spinnerSelectionStr.equals("For Reps")){
+                        } else if (spinnerSelectionStr.equals("For Reps")) {
                             linearLayoutForReps.setVisibility(View.VISIBLE);
                             linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
                             linearLayoutForRepsTime.setVisibility(View.GONE);
                             linearLayoutForTime.setVisibility(View.GONE);
                             linearLayoutForWeight.setVisibility(View.GONE);
 
-                        } else if (spinnerSelectionStr.equals("For Time")){
+                        } else if (spinnerSelectionStr.equals("For Time")) {
                             linearLayoutForTime.setVisibility(View.VISIBLE);
                             linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
                             linearLayoutForRepsTime.setVisibility(View.GONE);
                             linearLayoutForReps.setVisibility(View.GONE);
                             linearLayoutForWeight.setVisibility(View.GONE);
 
-                        } else if (spinnerSelectionStr.equals("For Weight")){
+                        } else if (spinnerSelectionStr.equals("For Weight")) {
                             linearLayoutForWeight.setVisibility(View.VISIBLE);
                             linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
                             linearLayoutForRepsTime.setVisibility(View.GONE);
                             linearLayoutForReps.setVisibility(View.GONE);
                             linearLayoutForTime.setVisibility(View.GONE);
 
-                        } else if (spinnerSelectionStr.equals("Other")){
+                        } else if (spinnerSelectionStr.equals("Other")) {
                             linearLayoutCrossfitOther.setVisibility(View.VISIBLE);
                             linearLayoutForRepsTime.setVisibility(View.GONE);
                             linearLayoutForReps.setVisibility(View.GONE);
@@ -517,16 +655,6 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 spinnerForTime.setAdapter(ftAdapter);
 
 
-
-
-
-
-
-
-
-
-
-
                 //traditional
                 spinnerDistance = (Spinner) dialogView.findViewById(R.id.spinnerDistance);
                 array = getActivity().getResources().getStringArray(R.array.string_array_distance);
@@ -577,7 +705,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                             mSingleWorkoutItem.set_sets(wv.getSets());
                             mSingleWorkoutItem.set_reps(wv.getReps());
 
-                            String mg = wv.getMuscleGroup();
+/*                            String mg = wv.getMuscleGroup();
                             // check the name of the workout groups chosen, store the muscle group to later decide what icons to show on the main screen
                             if (mg.equals("Traps") || mg.equals("Shoulders") || mg.equals("Neck")) {
                                 mMGHashset.add("Upperbody");
@@ -589,12 +717,11 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                                 mMGHashset.add("Legs");
                             } else if (mg.equals("Cardio")) {
                                 mMGHashset.add("Cardio");
-                            }
+                            }*/
                             mSingleWorkoutItemHashset.add(mSingleWorkoutItem);
 
                         }
 
-                        String muscleGroupItemArrayJSONStr = gson.toJson(mMGHashset);
                         String singleWorkoutItemHashsetJSONStr = gson.toJson(mSingleWorkoutItemHashset);
 
 
@@ -604,7 +731,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                         mSingleWorkout.set_difficulty(difficulty);
                         mSingleWorkout.set_time(time);
                         mSingleWorkout.set_singleWorkoutItemArrayJSON(singleWorkoutItemHashsetJSONStr);
-                        mSingleWorkout.set_muscleGroupItemArrayJSON(muscleGroupItemArrayJSONStr);
+
                         mSingleWorkout.set_parseUser(ParseUser.getCurrentUser());
 
                         mDialog = new MaterialDialog.Builder(getActivity())
