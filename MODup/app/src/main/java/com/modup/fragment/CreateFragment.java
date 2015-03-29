@@ -28,6 +28,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 
 /**
@@ -304,7 +305,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                                     String activityNameStr = etWorkoutName.getText().toString().trim();
                                     String workoutType = (String) spinnerCrossfitType.getSelectedItem();
                                     if (workoutType.equals("For Reps & Time")) {
-                                        String repsStr = (String) spinnerForReps.getSelectedItem();
+                                        String repsStr = (String) spinnerForRepsReps.getSelectedItem();
                                         String timeStr = (String) spinnerForRepsTime.getSelectedItem();
                                         String desc = etCrossfitDesc.getText().toString().trim();
                                         workoutView = new WorkoutView(getActivity());
@@ -317,7 +318,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
 
                                     } else if (workoutType.equals("For Reps")) {
-                                        String repsStr = (String) spinnerForRepsReps.getSelectedItem();
+                                        String repsStr = (String) spinnerForReps.getSelectedItem();
                                         String setsStr = (String) spinnerForRepsRounds.getSelectedItem();
                                         String desc = etCrossfitDesc.getText().toString().trim();
                                         workoutView = new WorkoutView(getActivity());
@@ -362,6 +363,33 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
                                 mWorkoutCardsAdapter.add(workoutView);
                                 mWorkoutCardsAdapter.notifyDataSetChanged();
+
+
+                                if (!(isTimerRunning)) {
+                                    isTimerRunning = true;
+                                    mCountDownTimer = new CountDownTimer(3000, 1000) {
+
+                                        public void onTick(long millisUntilFinished) {
+                                            //do nothing
+                                        }
+
+                                        public void onFinish() {
+                                            isTimerRunning = false;
+                                            if ((btnAcceptWorkout.getVisibility() == View.GONE) && (btnCancelWorkout.getVisibility() == View.GONE)) {
+                                                mHandler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        btnAcceptWorkout.startAnimation(animFadeIn);
+                                                        btnAcceptWorkout.setVisibility(View.VISIBLE);
+
+                                                        btnCancelWorkout.startAnimation(animFadeIn);
+                                                        btnCancelWorkout.setVisibility(View.VISIBLE);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }.start();
+                                }
                             }
 
                             @Override
@@ -689,7 +717,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 //grab data from fields, create the ParseObject
                 String title = etTitle.getText().toString().trim();
                 String difficulty = spinnerDifficulty.getSelectedItem().toString();
-                String time = spinnerTime.getSelectedItem().toString();
+                String workoutTime = spinnerTime.getSelectedItem().toString();
 
                 HashSet<SingleWorkoutItem> mSingleWorkoutItemHashset = new HashSet<SingleWorkoutItem>();
                 HashSet<String> mMGHashset = new HashSet<String>();
@@ -700,38 +728,238 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                     if (mArrayList.size() > 0) {
                         for (WorkoutView wv : mArrayList) {
                             SingleWorkoutItem mSingleWorkoutItem = new SingleWorkoutItem();
-                            mSingleWorkoutItem.set_muscleGroup(wv.getMuscleGroup());
-                            mSingleWorkoutItem.set_workoutName(wv.getWorkoutName());
-                            mSingleWorkoutItem.set_sets(wv.getSets());
-                            mSingleWorkoutItem.set_reps(wv.getReps());
+                            //TODO: CREATE INDIVIDUAL WORKOUT ITEM OBJECTS
+                            String workoutMainCategoryStr = wv.getWorkoutMainCategory();
+                            String workoutActivityNameStr = wv.getWorkoutName();
 
-/*                            String mg = wv.getMuscleGroup();
-                            // check the name of the workout groups chosen, store the muscle group to later decide what icons to show on the main screen
-                            if (mg.equals("Traps") || mg.equals("Shoulders") || mg.equals("Neck")) {
-                                mMGHashset.add("Upperbody");
-                            } else if (mg.equals("Abdominal") || mg.equals("Lats") || mg.equals("Back") || mg.equals("Chest") || mg.equals("Glutes")) {
-                                mMGHashset.add("Chest");
-                            } else if (mg.equals("Biceps") || mg.equals("Triceps") || mg.equals("Arms") || mg.equals("Forearms")) {
-                                mMGHashset.add("Arms");
-                            } else if (mg.equals("Quadriceps") || mg.equals("Legs") || mg.equals("Calves")) {
-                                mMGHashset.add("Legs");
-                            } else if (mg.equals("Cardio")) {
-                                mMGHashset.add("Cardio");
-                            }*/
+                            if (wv.getWorkoutMainCategory().equals("Traditional")) {
+                                String workoutTypeStr = wv.getWorkoutType();
+                                if (wv.getWorkoutType().equals("Strength")) {
+                                    if (wv.getWorkoutCategory().equals("Weightlifting")) {
+                                        String workoutCategoryStr = wv.getWorkoutCategory();
+                                        String weight = wv.getWorkoutWeight();
+                                        String sets = wv.getSets();
+                                        String reps = wv.getReps();
+
+                                        mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                        mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                        mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                        mSingleWorkoutItem.set_workoutCategory(workoutCategoryStr);
+                                        mSingleWorkoutItem.set_workoutWeight(weight);
+                                        mSingleWorkoutItem.set_sets(sets);
+                                        mSingleWorkoutItem.set_reps(reps);
+
+                                        //extra for full object
+                                        mSingleWorkoutItem.set_workoutTime("");
+                                        mSingleWorkoutItem.set_workoutDesc("");
+                                        mSingleWorkoutItem.set_workoutDistance("");
+
+                                    } else if ((wv.getWorkoutCategory().equals("Isometric")) || (wv.getWorkoutCategory().equals("Circuit"))
+                                            || (wv.getWorkoutCategory().equals("Other"))) {
+                                        String workoutCategoryStr = wv.getWorkoutCategory();
+                                        String desc = wv.getWorkoutDesc();
+
+                                        mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                        mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                        mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                        mSingleWorkoutItem.set_workoutCategory(workoutCategoryStr);
+                                        mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                        //extra to create full object
+                                        mSingleWorkoutItem.set_workoutTime("");
+                                        mSingleWorkoutItem.set_reps("");
+                                        mSingleWorkoutItem.set_sets("");
+                                        mSingleWorkoutItem.set_workoutWeight("");
+                                        mSingleWorkoutItem.set_workoutDistance("");
+
+                                    }
+
+                                } else if (wv.getWorkoutType().equals("Endurance")) {
+                                    if (wv.getWorkoutCategory().equals("Running")) {
+                                        String workoutCategoryStr = wv.getWorkoutCategory();
+                                        String distance = wv.getWorkoutDistance();
+
+                                        mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                        mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                        mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                        mSingleWorkoutItem.set_workoutCategory(workoutCategoryStr);
+                                        mSingleWorkoutItem.set_workoutDistance(distance);
+
+                                        //extra to create full object
+
+                                        mSingleWorkoutItem.set_workoutTime("");
+                                        mSingleWorkoutItem.set_reps("");
+                                        mSingleWorkoutItem.set_sets("");
+                                        mSingleWorkoutItem.set_workoutWeight("");
+                                        mSingleWorkoutItem.set_workoutDesc("");
+
+
+                                    } else if (wv.getWorkoutCategory().equals("Other")) {
+                                        String workoutCategoryStr = wv.getWorkoutCategory();
+                                        String desc = wv.getWorkoutDesc();
+
+                                        mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                        mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                        mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                        mSingleWorkoutItem.set_workoutCategory(workoutCategoryStr);
+                                        mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                        //extra to create full object
+
+                                        mSingleWorkoutItem.set_workoutTime("");
+                                        mSingleWorkoutItem.set_reps("");
+                                        mSingleWorkoutItem.set_sets("");
+                                        mSingleWorkoutItem.set_workoutWeight("");
+                                        mSingleWorkoutItem.set_workoutDistance("");
+
+
+
+                                    }
+
+                                } else if (wv.getWorkoutType().equals("Other")) {
+                                    String desc = wv.getWorkoutDesc();
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_workoutTime("");
+                                    mSingleWorkoutItem.set_reps("");
+                                    mSingleWorkoutItem.set_sets("");
+                                    mSingleWorkoutItem.set_workoutWeight("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+
+                                }
+
+                            } else if (wv.getWorkoutMainCategory().equals("CrossFit")) {
+                                String workoutTypeStr = wv.getWorkoutType();
+                                if (wv.getWorkoutType().equals("For Reps & Time")) {
+                                    String reps = wv.getReps();
+                                    String time = wv.getWorkoutTime();
+                                    String desc = wv.getWorkoutDesc();
+
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_reps(reps);
+                                    mSingleWorkoutItem.set_workoutTime(time);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_sets("");
+                                    mSingleWorkoutItem.set_workoutWeight("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+
+
+
+                                } else if (wv.getWorkoutType().equals("For Reps")) {
+                                    String reps = wv.getReps();
+                                    String sets = wv.getSets();
+                                    String desc = wv.getWorkoutDesc();
+
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_reps(reps);
+                                    mSingleWorkoutItem.set_sets(sets);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_workoutTime("");
+                                    mSingleWorkoutItem.set_workoutWeight("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+
+                                } else if (wv.getWorkoutType().equals("For Time")) {
+                                    String time = wv.getWorkoutTime();
+                                    String desc = wv.getWorkoutDesc();
+
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_workoutTime(time);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_reps("");
+                                    mSingleWorkoutItem.set_sets("");
+                                    mSingleWorkoutItem.set_workoutWeight("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+
+                                } else if (wv.getWorkoutType().equals("For Weight")) {
+                                    String weight = wv.getWorkoutWeight();
+                                    String desc = wv.getWorkoutDesc();
+
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_workoutWeight(weight);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_workoutTime("");
+                                    mSingleWorkoutItem.set_reps("");
+                                    mSingleWorkoutItem.set_sets("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+
+                                } else if (wv.getWorkoutType().equals("Other")) {
+                                    String desc = wv.getWorkoutDesc();
+
+                                    mSingleWorkoutItem.set_workoutMainCategory(workoutMainCategoryStr);
+                                    mSingleWorkoutItem.set_workoutName(workoutActivityNameStr);
+                                    mSingleWorkoutItem.set_workoutType(workoutTypeStr);
+                                    mSingleWorkoutItem.set_workoutDesc(desc);
+
+                                    //extra to create full object
+
+                                    mSingleWorkoutItem.set_workoutCategory("");
+                                    mSingleWorkoutItem.set_workoutTime("");
+                                    mSingleWorkoutItem.set_reps("");
+                                    mSingleWorkoutItem.set_sets("");
+                                    mSingleWorkoutItem.set_workoutWeight("");
+                                    mSingleWorkoutItem.set_workoutDistance("");
+                                }
+
+                            }
                             mSingleWorkoutItemHashset.add(mSingleWorkoutItem);
-
                         }
 
                         String singleWorkoutItemHashsetJSONStr = gson.toJson(mSingleWorkoutItemHashset);
+                        ArrayList<Integer> pictureArray = new ArrayList<Integer>();
 
+                        //TODO: ASSIGN IMAGES TO WORKOUT
+                        for (int i = 0; i < 3; i++) {
+                            int max = 39;
+                            int min = 1;
+                            // NOTE: Usually this should be a field rather than a method
+                            // variable so that it is not re-seeded every call.
+                            Random rand = new Random();
+                            // nextInt is normally exclusive of the top value,
+                            // so add 1 to make it inclusive
+                            int randomNum = rand.nextInt((max - min) + 1) + min;
+                            pictureArray.add(randomNum);
+                        }
+
+                        String pictureArrayItemJSONStr = gson.toJson(pictureArray);
 
                         //create the single workout object
                         SingleWorkout mSingleWorkout = new SingleWorkout();
                         mSingleWorkout.set_title(title);
                         mSingleWorkout.set_difficulty(difficulty);
-                        mSingleWorkout.set_time(time);
+                        mSingleWorkout.set_time(workoutTime);
                         mSingleWorkout.set_singleWorkoutItemArrayJSON(singleWorkoutItemHashsetJSONStr);
-
+                        mSingleWorkout.set_pictureArrayJSON(pictureArrayItemJSONStr);
                         mSingleWorkout.set_parseUser(ParseUser.getCurrentUser());
 
                         mDialog = new MaterialDialog.Builder(getActivity())

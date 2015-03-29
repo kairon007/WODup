@@ -16,7 +16,7 @@ import java.util.HashSet;
 public class SingleWorkout extends ParseObject implements Serializable {
     private String _title, _difficulty, _time;
     ParseUser _parseUser;
-    private String _singleWorkoutItemArrayJSON;
+    private String _singleWorkoutItemArrayJSON, _pictureArrayJSON;
     int _favoriteCount, _likeCount, _commentCount;
 
     public SingleWorkout() {
@@ -96,7 +96,12 @@ public class SingleWorkout extends ParseObject implements Serializable {
         this._commentCount = _commentCount;
     }
 
+    public String get_pictureArrayJSON() {
+        return getString("pictureArrayJSON");
+    }
 
-
-
+    public void set_pictureArrayJSON(String _pictureArrayJSON) {
+        this._pictureArrayJSON = _pictureArrayJSON;
+        put("pictureArrayJSON", _pictureArrayJSON);
+    }
 }

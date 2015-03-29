@@ -151,21 +151,21 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp" android:layout_weight="1"
-                                android:layout_gravity="center" android:src="@drawable/w1"/>
+                                android:layout_gravity="center"/>
 
                         <ImageView
                                 android:id="@+id/imageViewPeek2"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp" android:layout_weight="1"
-                                android:layout_gravity="center" android:src="@drawable/w1"/>
+                                android:layout_gravity="center"/>
 
                         <ImageView
                                 android:id="@+id/imageViewPeek3"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp" android:layout_weight="1"
-                                android:layout_gravity="center" android:src="@drawable/w1"/>
+                                android:layout_gravity="center"/>
 
 
                     </LinearLayout>

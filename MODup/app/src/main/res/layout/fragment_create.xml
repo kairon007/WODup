@@ -59,22 +59,14 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
-                    android:background="@color/material_grey_200" android:layout_margin="10dp"
-                    android:id="@+id/divider" android:focusableInTouchMode="true">
-            </LinearLayout>
-
-            <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:layout_marginTop="10dp">
                 <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_margin="10dp"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" android:layout_weight="1">
+                        android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
                     <ImageView
                             android:layout_width="36dp"
                             android:src="@drawable/skull"
@@ -90,7 +82,8 @@
                         android:orientation="horizontal"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" android:layout_weight="1"
-                        android:layout_margin="10dp">
+                        android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                        >
                     <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
@@ -100,43 +93,38 @@
                              android:id="@+id/spinnerTime" android:layout_gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
-
-
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" android:layout_marginLeft="10dp" android:layout_marginRight="10dp">
-            <Button
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:id="@+id/btnAddWorkout" android:background="@drawable/add_content_selector"/>
-
-            <com.modup.font.RobotoTextView
-                    android:id="@+id/textViewAddWorkout"
-                    android:textColor="@color/primary_blue"
-                    style="@style/TextViewAppearance.Title1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add Workout"
-                    android:textSize="20sp"
-                    app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
-                    android:gravity="center"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
+                    android:background="@color/material_grey_200"
+                    android:id="@+id/divider" android:focusableInTouchMode="true" android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" android:layout_marginBottom="25dp"
+                    android:layout_marginTop="10dp">
+            </LinearLayout>
 
 
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
+                android:isScrollContainer="false"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
             <ListView
                     android:layout_width="fill_parent"
+                    android:isScrollContainer="false"
                     android:divider="@null"
                     android:layout_height="match_parent"
                     android:id="@+id/listViewWorkouts"/>
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btnAddWorkout" android:background="@drawable/add_content_selector"
+            android:layout_marginTop="128dp" android:layout_gravity="center_horizontal"/>
+
     <Button
             android:layout_width="65dp"
             android:isScrollContainer="false"

@@ -30,10 +30,6 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
     String TAG = ParseWorkoutAdapter.class.getCanonicalName();
     private LayoutInflater mInflater;
     private Gson gson;
-    private HashSet<String> mMGHashset = new HashSet<String>();
-    private Boolean isPeek1Set = false;
-    private Boolean isPeek2Set = false;
-    private Boolean isPeek3Set = false;
 
 
     public ParseWorkoutAdapter(Context context) {
@@ -82,74 +78,22 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
         holder.tvDifficulty.setText(workout.get_difficulty());
 
         try {
-            JSONArray mJsonArray = new JSONArray(workout.get_muscleGroupItemArrayJSON());
-            int count = mJsonArray.length();
-            for (int i = 0; i <= mJsonArray.length(); i++) {
-                String mg = mJsonArray.getString(i);
-                if (!(isPeek1Set)) {
+            JSONArray mJsonArray = new JSONArray(workout.get_pictureArrayJSON());
+            String pictureVal1 = "w" +mJsonArray.getString(0);
+            String pictureVal2 = "w" + mJsonArray.getString(1);
+            String pictureVal3 = "w" + mJsonArray.getString(2);
+            Log.e(TAG, "Value 1: " + pictureVal1);
+            Log.e(TAG, "Value 2: " + pictureVal2);
+            Log.e(TAG, "Value 3: " + pictureVal3);
 
-                    if (mg.equals("Chest")) {
-                        holder.ivPeek1.setImageResource(R.drawable.chest);
-                        isPeek1Set = true;
-                    } else if (mg.equals("Cardio")) {
-                        holder.ivPeek1.setImageResource(R.drawable.cardio);
-                        isPeek1Set = true;
-                    } else if (mg.equals("Upperbody")) {
-                        holder.ivPeek1.setImageResource(R.drawable.upperbody);
-                        isPeek1Set = true;
-                    } else if (mg.equals("Legs")) {
-                        holder.ivPeek1.setImageResource(R.drawable.legs);
-                        isPeek1Set = true;
-                    } else if (mg.equals("Arms")) {
-                        holder.ivPeek1.setImageResource(R.drawable.arm);
-                        isPeek1Set = true;
-                    }
+            holder.ivPeek1.setImageResource(getContext().getResources().getIdentifier(pictureVal1, "drawable", getContext().getPackageName()));
+            holder.ivPeek2.setImageResource(getContext().getResources().getIdentifier(pictureVal2, "drawable", getContext().getPackageName()));
+            holder.ivPeek3.setImageResource(getContext().getResources().getIdentifier(pictureVal3, "drawable", getContext().getPackageName()));
 
-                } else if (!(isPeek2Set)) {
-                    if (mg.equals("Chest")) {
-                        holder.ivPeek2.setImageResource(R.drawable.chest);
-                        isPeek2Set = true;
-                    } else if (mg.equals("Cardio")) {
-                        holder.ivPeek2.setImageResource(R.drawable.cardio);
-                        isPeek2Set = true;
-                    } else if (mg.equals("Upperbody")) {
-                        holder.ivPeek2.setImageResource(R.drawable.upperbody);
-                        isPeek2Set = true;
-                    } else if (mg.equals("Legs")) {
-                        holder.ivPeek2.setImageResource(R.drawable.legs);
-                        isPeek2Set = true;
-                    } else if (mg.equals("Arms")) {
-                        holder.ivPeek2.setImageResource(R.drawable.arm);
-                        isPeek2Set = true;
-                    }
 
-                } else if (!(isPeek3Set)) {
-                    if (mg.equals("Chest")) {
-                        holder.ivPeek3.setImageResource(R.drawable.chest);
-                        isPeek3Set = true;
-                    } else if (mg.equals("Cardio")) {
-                        holder.ivPeek3.setImageResource(R.drawable.cardio);
-                        isPeek3Set = true;
-                    } else if (mg.equals("Upperbody")) {
-                        holder.ivPeek3.setImageResource(R.drawable.upperbody);
-                        isPeek3Set = true;
-                    } else if (mg.equals("Legs")) {
-                        holder.ivPeek3.setImageResource(R.drawable.legs);
-                        isPeek3Set = true;
-                    } else if (mg.equals("Arms")) {
-                        holder.ivPeek3.setImageResource(R.drawable.arm);
-                        isPeek3Set = true;
-                    }
-
-                }
-
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        isPeek1Set = false;
-        isPeek2Set  = false;
-        isPeek3Set = false;
 
         //still need to populate the ivPeek with icons
 

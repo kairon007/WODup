@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
 
     //parse queries
     private ParseWorkoutAdapter mParseWorkoutAdapter;
+    private SwipeRefreshLayout swipeLayout;
 
     /**
      * Use this factory method to create a new instance of
@@ -111,6 +114,25 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     }
 
     public void initValues() {
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mParseWorkoutAdapter.loadObjects();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeLayout.setRefreshing(false);
+
+                    }
+                }, 3000);
+
+            }
+        });
+
+        swipeLayout.setColorSchemeResources(R.color.primary_blue, R.color.secondary_blue, R.color.primary_purple, R.color.secondary_purple);
+
         Button btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
         Button btnAddFavorite = (Button) view.findViewById(R.id.buttonAddFavorite);
         btnAddContent.setOnClickListener(this);

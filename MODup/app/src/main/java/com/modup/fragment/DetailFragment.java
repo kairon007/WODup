@@ -112,7 +112,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         currentUser = ParseUser.getCurrentUser();
         currentSingleWorkout = (SingleWorkout) getArguments().getSerializable("SINGLEWORKOUT");
 
-
         ivFavorite = (ImageView) view.findViewById(R.id.imageViewFavorite);
         ivFavorite.setOnClickListener(this);
         ivLike = (ImageView) view.findViewById(R.id.imageViewLike);
@@ -143,27 +142,46 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONArray mJsonArray = new JSONArray(currentSingleWorkout.get_singleWorkoutItemArrayJSON());
-            for (int i = 0; i <= mJsonArray.length(); i++) {
-
-                JSONObject mObj = new JSONObject(mJsonArray.get(i).toString());
-                String muscleGroup = mObj.getString("_muscleGroup");
-                String reps = mObj.getString("_reps");
-                String sets = mObj.getString("_sets");
-                String workoutName = mObj.getString("_workoutName");
-
+            for (int i = 0; i < mJsonArray.length(); i++) {
                 WorkoutView mWorkoutView = new WorkoutView(getActivity());
-                mWorkoutView.setMuscleGroup(muscleGroup);
+                JSONObject mObj = new JSONObject(mJsonArray.get(i).toString());
+                String workoutDesc = mObj.getString("_workoutDesc");
+                String workoutName = mObj.getString("_workoutName");
+                String sets = mObj.getString("_sets");
+                String reps = mObj.getString("_reps");
+                String workoutMainCategory = mObj.getString("_workoutMainCategory");
+                String workoutType = mObj.getString("_workoutType");
+                String workoutCategory = mObj.getString("_workoutCategory");
+                String workoutWeight = mObj.getString("_workoutWeight");
+                String workoutTime = mObj.getString("_workoutTime");
+                String workoutDistance = mObj.getString("_workoutDistance");
+
+                mWorkoutView.setWorkoutName(workoutName);
+                mWorkoutView.setWorkoutMainCategory(workoutMainCategory);
+                mWorkoutView.setWorkoutCategory(workoutCategory);
                 mWorkoutView.setReps(reps);
                 mWorkoutView.setSets(sets);
-                mWorkoutView.setWorkoutName(workoutName);
+                mWorkoutView.setWorkoutDistance(workoutDistance);
+                mWorkoutView.setWorkoutTime(workoutTime);
+                mWorkoutView.setWorkoutType(workoutType);
+                mWorkoutView.setWorkoutDesc(workoutDesc);
+                mWorkoutView.setWorkoutWeight(workoutWeight);
+
                 mArrayList.add(mWorkoutView);
+                //mWorkoutCardsAdapter.add(mWorkoutView);
             }
         } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
 
-        mWorkoutCardsAdapter = new WorkoutCardsAdapter2(getActivity(), mArrayList);
+        mWorkoutCardsAdapter = new WorkoutCardsAdapter2(getActivity(), mArrayList, new WorkoutCardsAdapter2.Callback() {
+            @Override
+            public void onPressed(int pos) {
+
+            }
+        });
         mListView = (ListView) view.findViewById(R.id.listViewWorkoutDetails);
         mListView.setAdapter(mWorkoutCardsAdapter);
 

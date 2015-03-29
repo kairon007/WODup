@@ -83,6 +83,45 @@ public class WorkoutCardsAdapter extends ArrayAdapter<WorkoutView> {
                     holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
                 }
             } else if (workoutView.getWorkoutMainCategory().equals("CrossFit")) {
+                //TODO: DEFINE CROSSFIT
+                if(workoutView.getWorkoutType().equals("For Reps & Time")){
+                    convertView = mInflater.inflate(R.layout.single_workout_layout_crossfit_repstime, parent, false);
+                    holder.tvWorkoutType = (TextView) convertView.findViewById(R.id.textViewWorkoutTypeItem);
+                    holder.tvWorkoutName = (TextView) convertView.findViewById(R.id.textViewWorkoutName);
+                    holder.tvDescription = (TextView) convertView.findViewById(R.id.textViewWorkoutDescriptionItem);
+                    holder.tvSetsItem = (TextView) convertView.findViewById(R.id.textViewSetsItem);
+                    holder.tvRepsItem = (TextView) convertView.findViewById(R.id.textViewRepsItem);
+                    holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
+                } else if (workoutView.getWorkoutType().equals("For Reps")){
+                    convertView = mInflater.inflate(R.layout.single_workout_layout_crossfit_reps, parent, false);
+                    holder.tvWorkoutType = (TextView) convertView.findViewById(R.id.textViewWorkoutTypeItem);
+                    holder.tvWorkoutName = (TextView) convertView.findViewById(R.id.textViewWorkoutName);
+                    holder.tvDescription = (TextView) convertView.findViewById(R.id.textViewWorkoutDescriptionItem);
+                    holder.tvSetsItem = (TextView) convertView.findViewById(R.id.textViewSetsItem);
+                    holder.tvRepsItem = (TextView) convertView.findViewById(R.id.textViewRepsItem);
+                    holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
+
+                } else if (workoutView.getWorkoutType().equals("For Time")){
+                    convertView = mInflater.inflate(R.layout.single_workout_layout_crossfit_time, parent, false);
+                    holder.tvWorkoutType = (TextView) convertView.findViewById(R.id.textViewWorkoutTypeItem);
+                    holder.tvWorkoutName = (TextView) convertView.findViewById(R.id.textViewWorkoutName);
+                    holder.tvDescription = (TextView) convertView.findViewById(R.id.textViewWorkoutDescriptionItem);
+                    holder.tvSetsItem = (TextView) convertView.findViewById(R.id.textViewSetsItem);
+                    holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
+                } else if (workoutView.getWorkoutType().equals("For Weight")){
+                    convertView = mInflater.inflate(R.layout.single_workout_layout_crossfit_weight, parent, false);
+                    holder.tvWorkoutType = (TextView) convertView.findViewById(R.id.textViewWorkoutTypeItem);
+                    holder.tvWorkoutName = (TextView) convertView.findViewById(R.id.textViewWorkoutName);
+                    holder.tvDescription = (TextView) convertView.findViewById(R.id.textViewWorkoutDescriptionItem);
+                    holder.tvSetsItem = (TextView) convertView.findViewById(R.id.textViewSetsItem);
+                    holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
+                } else if (workoutView.getWorkoutType().equals("Other")){
+                    convertView = mInflater.inflate(R.layout.single_workout_layout_traditional_other, parent, false);
+                    holder.tvWorkoutType = (TextView) convertView.findViewById(R.id.textViewWorkoutTypeItem);
+                    holder.tvWorkoutName = (TextView) convertView.findViewById(R.id.textViewWorkoutName);
+                    holder.tvDescription = (TextView) convertView.findViewById(R.id.textViewWorkoutDescriptionItem);
+                    holder.btnRemoveWorkout = (Button) convertView.findViewById(R.id.btnRemoveWorkout);
+                }
 
             }
         } else {
@@ -123,6 +162,34 @@ public class WorkoutCardsAdapter extends ArrayAdapter<WorkoutView> {
                 holder.tvDescription.setText(workoutView.getWorkoutDesc());
             }
         } else if (workoutView.getWorkoutMainCategory().equals("CrossFit")) {
+            //TODO: DEFINE CROSSFIT
+            if(workoutView.getWorkoutType().equals("For Reps & Time")){
+                holder.tvWorkoutName.setText(workoutView.getWorkoutName());
+                holder.tvWorkoutType.setText(workoutView.getWorkoutType());
+                holder.tvSetsItem.setText(workoutView.getWorkoutTime());
+                holder.tvRepsItem.setText(workoutView.getReps());
+                holder.tvDescription.setText(workoutView.getWorkoutDesc());
+            } else if (workoutView.getWorkoutType().equals("For Reps")){
+                holder.tvWorkoutName.setText(workoutView.getWorkoutName());
+                holder.tvWorkoutType.setText(workoutView.getWorkoutType());
+                holder.tvSetsItem.setText(workoutView.getSets());
+                holder.tvRepsItem.setText(workoutView.getReps());
+                holder.tvDescription.setText(workoutView.getWorkoutDesc());
+            } else if (workoutView.getWorkoutType().equals("For Time")){
+                holder.tvWorkoutName.setText(workoutView.getWorkoutName());
+                holder.tvWorkoutType.setText(workoutView.getWorkoutType());
+                holder.tvSetsItem.setText(workoutView.getWorkoutTime());
+                holder.tvDescription.setText(workoutView.getWorkoutDesc());
+            } else if (workoutView.getWorkoutType().equals("For Weight")){
+                holder.tvWorkoutName.setText(workoutView.getWorkoutName());
+                holder.tvWorkoutType.setText(workoutView.getWorkoutType());
+                holder.tvSetsItem.setText(workoutView.getWorkoutWeight());
+                holder.tvDescription.setText(workoutView.getWorkoutDesc());
+            } else if (workoutView.getWorkoutType().equals("Other")){
+                holder.tvWorkoutName.setText(workoutView.getWorkoutName());
+                holder.tvWorkoutType.setText(workoutView.getWorkoutType());
+                holder.tvDescription.setText(workoutView.getWorkoutDesc());
+            }
 
         }
 

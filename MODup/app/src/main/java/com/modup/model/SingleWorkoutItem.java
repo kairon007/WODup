@@ -6,7 +6,8 @@ import java.util.HashSet;
  * Created by Sean on 3/17/2015.
  */
 public class SingleWorkoutItem {
-    private String _workoutName, _muscleGroup, _sets, _reps, _workoutMainCategory, _workoutType, _workoutCategory, _workoutWeight, _workoutDesc, _workoutTime, _workoutDistance;
+    private String _workoutName,_sets, _reps, _workoutMainCategory, _workoutType,
+            _workoutCategory, _workoutWeight, _workoutDesc, _workoutTime, _workoutDistance;
 
 
     public SingleWorkoutItem() {
@@ -20,13 +21,6 @@ public class SingleWorkoutItem {
         this._workoutName = _workoutName;
     }
 
-    public String get_muscleGroup() {
-        return _muscleGroup;
-    }
-
-    public void set_muscleGroup(String _muscleGroup) {
-        this._muscleGroup = _muscleGroup;
-    }
 
     public String get_sets() {
         return _sets;
