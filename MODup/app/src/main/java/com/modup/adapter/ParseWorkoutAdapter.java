@@ -82,9 +82,6 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
             String pictureVal1 = "w" +mJsonArray.getString(0);
             String pictureVal2 = "w" + mJsonArray.getString(1);
             String pictureVal3 = "w" + mJsonArray.getString(2);
-            Log.e(TAG, "Value 1: " + pictureVal1);
-            Log.e(TAG, "Value 2: " + pictureVal2);
-            Log.e(TAG, "Value 3: " + pictureVal3);
 
             holder.ivPeek1.setImageResource(getContext().getResources().getIdentifier(pictureVal1, "drawable", getContext().getPackageName()));
             holder.ivPeek2.setImageResource(getContext().getResources().getIdentifier(pictureVal2, "drawable", getContext().getPackageName()));

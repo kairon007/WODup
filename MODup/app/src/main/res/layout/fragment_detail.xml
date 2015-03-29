@@ -45,14 +45,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
-                    android:background="@color/material_grey_200"
-                    android:id="@+id/cardDivider" android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" android:layout_marginBottom="10dp">
-            </LinearLayout>
+z
 
             <LinearLayout
                     android:orientation="vertical"

@@ -1,11 +1,12 @@
 package com.modup.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Created by Sean on 3/17/2015.
  */
-public class SingleWorkoutItem {
+public class SingleWorkoutItem implements Serializable {
     private String _workoutName,_sets, _reps, _workoutMainCategory, _workoutType,
             _workoutCategory, _workoutWeight, _workoutDesc, _workoutTime, _workoutDistance;
 

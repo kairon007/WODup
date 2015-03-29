@@ -2,12 +2,15 @@ package com.modup.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,7 +37,7 @@ import java.util.List;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment implements View.OnClickListener {
+public class DetailFragment extends Fragment implements View.OnClickListener, OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -135,8 +138,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         //query the like/favorite count
         queryLikeCount();
         queryFavoriteCount();
-/*        queryLikeRelation();
-        queryFavoriteRelation();*/
+        queryLikeRelation();
+        queryFavoriteRelation();
         //TODO: QUERY COMMENT COUNT
 
 
@@ -168,7 +171,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 mWorkoutView.setWorkoutWeight(workoutWeight);
 
                 mArrayList.add(mWorkoutView);
-                //mWorkoutCardsAdapter.add(mWorkoutView);
+
             }
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
@@ -184,6 +187,35 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         });
         mListView = (ListView) view.findViewById(R.id.listViewWorkoutDetails);
         mListView.setAdapter(mWorkoutCardsAdapter);
+        mListView.setOnItemClickListener(this);
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        WorkoutView choosenSingleWorkoutView = mWorkoutCardsAdapter.getItem(position);
+        SingleWorkoutItem choosenSingleWorkoutItem = new SingleWorkoutItem();
+        //TODO: Transfer data from workoutview to singleworkoutitem
+
+        choosenSingleWorkoutItem.set_workoutMainCategory(choosenSingleWorkoutView.getWorkoutMainCategory());
+        choosenSingleWorkoutItem.set_workoutType(choosenSingleWorkoutView.getWorkoutType());
+        choosenSingleWorkoutItem.set_workoutCategory(choosenSingleWorkoutView.getWorkoutCategory());
+        choosenSingleWorkoutItem.set_workoutDesc(choosenSingleWorkoutView.getWorkoutDesc());
+        choosenSingleWorkoutItem.set_workoutDistance(choosenSingleWorkoutView.getWorkoutDistance());
+        choosenSingleWorkoutItem.set_reps(choosenSingleWorkoutView.getReps());
+        choosenSingleWorkoutItem.set_sets(choosenSingleWorkoutView.getSets());
+        choosenSingleWorkoutItem.set_workoutName(choosenSingleWorkoutView.getWorkoutName());
+        choosenSingleWorkoutItem.set_workoutTime(choosenSingleWorkoutView.getWorkoutTime());
+        choosenSingleWorkoutItem.set_workoutWeight(choosenSingleWorkoutView.getWorkoutWeight());
+
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SINGLEWORKOUTITEM", choosenSingleWorkoutItem);
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment mFragment = new SingleWorkoutItemDetailFragment();
+        mFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("SINGLEWORKOUTITEMDETAILFRAGMENT").commit();
 
     }
 
@@ -213,14 +245,17 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
 
         //TODO: HANDLE STATE OF LIKES/FAVORITES
-/*        if (!(isStillLiked)) {
+        if (!(isStillLiked)) {
             unlikeWorkout();
-        } // need to check if current like state matches original
+        } else if ((isStillLiked) && !(isStillLiked == isOriginalLiked)){
+            likeWorkout();
+        }
 
         if (!(isStillFavorited)) {
             unfavoriteWorkout();
-        } // need to check if current favorite state matches original*/
-
+        } else if ((isStillFavorited) && !(isStillFavorited == isOriginalFavorited)){
+            favoriteWorkout();
+        }
     }
 
     @Override
@@ -232,7 +267,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                     isFavoriteChecked = false;
                     decreaseFavoriteCount();
                     //unfavorite
-                    unfavoriteWorkout();
+                    // unfavoriteWorkout();
                     isStillFavorited = false;
 
                 } else {
@@ -240,7 +275,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                     isFavoriteChecked = true;
                     increaseFavoriteCount();
                     //favorite
-                    favoriteWorkout();
+                    //favoriteWorkout();
                     isStillFavorited = true;
                 }
                 break;
@@ -250,14 +285,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                     isLikeChecked = false;
                     decreaseLikeCount();
                     //unlike
-                    unlikeWorkout();
+                    //unlikeWorkout();
                     isStillLiked = false;
                 } else {
                     ivLike.setImageResource(R.drawable.like_content_selector);
                     isLikeChecked = true;
                     increaseLikeCount();
                     //like
-                    likeWorkout();
+                    //likeWorkout();
                     isStillLiked = true;
                 }
                 break;
@@ -347,19 +382,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     //TODO: NEED TO FIX THESE METHODS
 
     private void queryLikeRelation() {
+
         relation = currentUser.getRelation("user_likes");
         query = relation.getQuery();
-        query.whereExists(currentSingleWorkout.getObjectId());
+        query.whereEqualTo("objectId", currentSingleWorkout.getObjectId());
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int i, ParseException e) {
-                Log.e(TAG, i + "LIKE OBJECTS");
-                if (i == -1){
+                if (i == 1) {
                     isStillLiked = true;
+                    isOriginalLiked = true;
                     ivLike.setImageResource(R.drawable.like_content_selector);
                     isLikeChecked = true;
                 } else {
                     isStillLiked = false;
+                    isOriginalLiked = false;
                     ivLike.setImageResource(R.drawable.like_blank_content_selector);
                     isLikeChecked = false;
                 }
@@ -371,17 +408,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private void queryFavoriteRelation() {
         relation = currentUser.getRelation("user_favorites");
         query = relation.getQuery();
-        query.whereExists(currentSingleWorkout.getObjectId());
+        query.whereEqualTo("objectId", currentSingleWorkout.getObjectId());
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int i, ParseException e) {
-                Log.e(TAG, i + "FAVORITE OBJECTS");
-                if (i == -1){
+                if (i == 1) {
                     isStillFavorited = true;
+                    isOriginalFavorited = true;
                     ivFavorite.setImageResource(R.drawable.favorite_content_selector);
                     isFavoriteChecked = true;
                 } else {
                     isStillFavorited = false;
+                    isOriginalFavorited = false;
                     ivFavorite.setImageResource(R.drawable.favorite_blank_content_selector);
                     isFavoriteChecked = false;
                 }
@@ -391,33 +429,40 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void increaseLikeCount() {
-        likeCount = Integer.valueOf(tvLike.getText().toString().trim());
-        likeCount++;
-        tvLike.setText("" + likeCount);
+        if(!(tvLike.getText().toString().trim().equals(""))) {
+            likeCount = Integer.valueOf(tvLike.getText().toString().trim());
+            likeCount++;
+            tvLike.setText("" + likeCount);
+        }
     }
 
     private void decreaseLikeCount() {
-        likeCount = Integer.valueOf(tvLike.getText().toString().trim());
-        if (!(likeCount == 0)) {
-            likeCount--;
+        if(!(tvLike.getText().toString().trim().equals(""))) {
+            likeCount = Integer.valueOf(tvLike.getText().toString().trim());
+            if (!(likeCount == 0)) {
+                likeCount--;
+            }
+            tvLike.setText("" + likeCount);
         }
-        tvLike.setText("" + likeCount);
     }
 
     private void increaseFavoriteCount() {
-        favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
-        favoriteCount++;
-        tvFavorite.setText("" + favoriteCount);
+        if(!(tvFavorite.getText().toString().trim().equals(""))) {
+            favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
+            favoriteCount++;
+            tvFavorite.setText("" + favoriteCount);
+        }
     }
 
     private void decreaseFavoriteCount() {
-        favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
-        if (!(favoriteCount == 0)) {
-            favoriteCount--;
+        if(!(tvFavorite.getText().toString().trim().equals(""))) {
+            favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
+            if (!(favoriteCount == 0)) {
+                favoriteCount--;
+            }
+            tvFavorite.setText("" + favoriteCount);
         }
-        tvFavorite.setText("" + favoriteCount);
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
