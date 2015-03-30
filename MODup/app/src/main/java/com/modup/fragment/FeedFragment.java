@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.modup.adapter.CardsAdapter;
+import com.modup.adapter.DialogFavoriteAdapter;
 import com.modup.adapter.ParseWorkoutAdapter;
+import com.modup.adapter.TextSpinnerAdapter;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.parse.ParseRelation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +55,9 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     //parse queries
     private ParseWorkoutAdapter mParseWorkoutAdapter;
     private SwipeRefreshLayout swipeLayout;
+
+    private ParseRelation relation;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -134,9 +144,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
         swipeLayout.setColorSchemeResources(R.color.primary_blue, R.color.secondary_blue, R.color.primary_purple, R.color.secondary_purple);
 
         Button btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
-        Button btnAddFavorite = (Button) view.findViewById(R.id.buttonAddFavorite);
         btnAddContent.setOnClickListener(this);
-        btnAddFavorite.setOnClickListener(this);
 
         ListView listView = (ListView) view.findViewById(R.id.listViewFeed);
         listView.setOnItemClickListener(this);
@@ -166,9 +174,6 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
                 Fragment mFragment = new CreateFragment();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEFRAGMENT").commit();
                 break;
-            case R.id.buttonAddFavorite:
-                //create a dialog which shows all the favorited workouts
-                break;
         }
 
     }
@@ -182,7 +187,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
         FragmentManager fragmentManager = getFragmentManager();
         Fragment mFragment = new DetailFragment();
         mFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("DETAILFRAGMENT").commit();
     }
 
 

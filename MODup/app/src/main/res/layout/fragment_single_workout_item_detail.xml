@@ -586,48 +586,6 @@
         </LinearLayout>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -667,4 +625,12 @@
 
 
     </LinearLayout>
+    <Button
+            android:layout_width="55dp"
+            android:isScrollContainer="false"
+            android:layout_height="55dp"
+            android:layout_margin="25dp"
+            android:background="@drawable/back_selector"
+            android:id="@+id/buttonBack" android:layout_gravity="left|bottom"/>
+
 </FrameLayout>

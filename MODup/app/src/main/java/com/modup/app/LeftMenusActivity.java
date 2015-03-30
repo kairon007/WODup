@@ -21,6 +21,7 @@ import com.modup.fragment.*;
 import com.modup.model.DrawerItem;
 import com.modup.model.SingleWorkout;
 import com.modup.utils.ImageUtil;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,11 +116,11 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
 
     private View prepareHeaderView(int layoutRes, String url, String email) {
         View headerView = getLayoutInflater().inflate(layoutRes, mDrawerList, false);
-        ImageView iv = (ImageView) headerView.findViewById(R.id.imageCards);
+        ImageView iv = (ImageView) headerView.findViewById(R.id.imageViewProfilePic);
         TextView tv = (TextView) headerView.findViewById(R.id.email);
 
         ImageUtil.displayRoundImage(iv, url, null);
-        tv.setText(email);
+        tv.setText(ParseUser.getCurrentUser().getEmail());
 
         return headerView;
     }

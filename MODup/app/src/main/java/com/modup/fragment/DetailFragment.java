@@ -9,11 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import com.google.gson.Gson;
 import com.modup.adapter.WorkoutCardsAdapter2;
 import com.modup.app.R;
@@ -24,10 +21,8 @@ import com.parse.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +65,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     private ParseRelation relation;
 
     private int likeCount, favoriteCount;
+    private Button btnBack;
 
     /**
      * Use this factory method to create a new instance of
@@ -114,6 +110,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     public void init() {
         currentUser = ParseUser.getCurrentUser();
         currentSingleWorkout = (SingleWorkout) getArguments().getSerializable("SINGLEWORKOUT");
+
+        btnBack = (Button) view.findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(this);
 
         ivFavorite = (ImageView) view.findViewById(R.id.imageViewFavorite);
         ivFavorite.setOnClickListener(this);
@@ -299,6 +298,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
 
             case R.id.imageViewComments:
                 //go to a comment section
+                break;
+
+            case R.id.buttonBack:
+                getActivity().getFragmentManager().popBackStack();
                 break;
         }
 

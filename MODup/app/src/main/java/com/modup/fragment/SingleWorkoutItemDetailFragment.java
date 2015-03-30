@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.modup.app.R;
-import com.modup.model.SingleWorkout;
 import com.modup.model.SingleWorkoutItem;
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +22,7 @@ import org.w3c.dom.Text;
  * Use the {@link SingleWorkoutItemDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SingleWorkoutItemDetailFragment extends Fragment {
+public class SingleWorkoutItemDetailFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,6 +40,8 @@ public class SingleWorkoutItemDetailFragment extends Fragment {
             linearLayoutCardDiv7, linearLayoutCardDiv8;
 
     private TextView tvType, tvCategory, tvWeight, tvSets, tvReps, tvDistance, tvForRepsTimeReps, tvForRepsTimeTime, tvForRepsReps, tvForRepsSets, tvForTime, tvForWeight, tvDesc, tvTitle;
+
+    private Button btnBack;
 
 
     /**
@@ -85,6 +86,9 @@ public class SingleWorkoutItemDetailFragment extends Fragment {
 
     public void init() {
         choosenSingleWorkoutItem = (SingleWorkoutItem) getArguments().getSerializable("SINGLEWORKOUTITEM");
+
+        btnBack = (Button) view.findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(this);
 
         linearLayoutType = (LinearLayout) view.findViewById(R.id.linearLayoutType);
         linearLayoutCategory = (LinearLayout) view.findViewById(R.id.linearLayoutCategory);
@@ -234,6 +238,15 @@ public class SingleWorkoutItemDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.buttonBack:
+                getActivity().getFragmentManager().popBackStack();
+                break;
+        }
     }
 
     /**

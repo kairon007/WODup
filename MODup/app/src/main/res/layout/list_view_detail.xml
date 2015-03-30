@@ -6,7 +6,7 @@
                 android:layout_height="fill_parent">
 
     <ImageView
-            android:id="@+id/imageCards"
+            android:id="@+id/imageViewProfilePic"
             android:layout_width="64dp"
             android:src="@drawable/user"
             android:layout_height="64dp"
@@ -21,13 +21,13 @@
             android:paddingLeft="18dp"
             android:text="Placeholder"
             android:textSize="20sp"
-            app:typeface="robotoBold" android:layout_alignBottom="@+id/imageCards" android:layout_centerHorizontal="true"/>
+            app:typeface="robotoBold" android:layout_alignBottom="@+id/imageViewProfilePic" android:layout_centerHorizontal="true"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/material_grey_400"
-            android:id="@+id/divider1" android:layout_below="@+id/imageCards" android:layout_centerHorizontal="true">
+            android:id="@+id/divider1" android:layout_below="@+id/imageViewProfilePic" android:layout_centerHorizontal="true">
     </LinearLayout>
 
     <LinearLayout
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/linearLayoutBurned"
-                android:layout_below="@+id/imageCards" android:layout_alignParentLeft="true"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:gravity="center">
 
             <ImageView
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/linearLayoutTime"
-                android:layout_below="@+id/imageCards" android:layout_alignParentRight="true"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" android:focusable="true" android:gravity="center">
 
 
@@ -87,7 +87,7 @@
                     android:src="@drawable/clock"
                     android:layout_gravity="center"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                    android:layout_below="@+id/imageViewProfilePic" android:layout_toRightOf="@+id/textViewTitle"
                     android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
 
@@ -135,7 +135,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_toRightOf="@+id/textViewTitle"
                 android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
@@ -145,7 +145,7 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_toRightOf="@+id/textViewTitle"
                 android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
@@ -154,7 +154,7 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_toRightOf="@+id/textViewTitle"
                 android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
         <ImageView
@@ -163,7 +163,7 @@
                 android:src="@drawable/clock"
                 android:layout_gravity="center"
                 android:layout_height="50dp"
-                android:layout_below="@+id/imageCards" android:layout_toRightOf="@+id/textViewTitle"
+                android:layout_below="@+id/imageViewProfilePic" android:layout_toRightOf="@+id/textViewTitle"
                 android:layout_toEndOf="@+id/textViewTitle" android:focusableInTouchMode="false"/>
 
 

@@ -21,12 +21,12 @@
                     android:layout_height="wrap_content">
 
                 <ImageView
-                        android:id="@+id/imageCards"
+                        android:id="@+id/imageViewProfilePic"
                         android:layout_weight="1"
                         android:layout_width="128dp"
                         android:src="@drawable/user"
                         android:layout_height="128dp"
-                        android:layout_marginTop="25dp" android:layout_gravity="center"/>
+                        android:layout_marginTop="25dp" android:layout_gravity="center" android:clickable="true"/>
 
                 <com.modup.font.RobotoTextView
                         android:id="@+id/textViewTitle"
@@ -42,81 +42,64 @@
             </LinearLayout>
             <LinearLayout
                     android:orientation="horizontal"
-                    android:background="@color/material_grey_500"
+                    android:background="@color/material_grey_200"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" android:layout_gravity="center_horizontal">
+                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp">
             </LinearLayout>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="fill_parent" android:layout_marginBottom="10dp">
 
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content">
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewRecent"
+                        style="@style/TextViewAppearance.Title1"
+                        android:clickable="true"
+                        android:textColor="@drawable/signinsignout_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recent"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:ellipsize="none" android:lines="1"
+                        android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
 
-                    <com.modup.font.RobotoTextView
-                            android:textColor="@color/primary_blue"
-                            android:id="@+id/textViewFriendsNumber"
-                            style="@style/TextViewAppearance.Title1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="12"
-                            android:textSize="20sp"
-                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
-                            android:editable="false" android:gravity="center"/>
-
-                    <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewFriends"
-                            style="@style/TextViewAppearance.Title1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Friends"
-                            android:textSize="15sp"
-                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
-                            android:gravity="center"/>
-
-                </LinearLayout>
 
                 <LinearLayout
                         android:orientation="horizontal"
-                        android:background="@color/material_grey_500"
+                        android:background="@color/material_grey_200"
                         android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical|center|center_horizontal" android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp">
-                </LinearLayout>
+                        android:layout_height="fill_parent" android:layout_gravity="center_horizontal"
+                        >
+                    </LinearLayout>
 
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="50dp"
-                        android:layout_height="fill_parent">
 
-                    <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewFollowersNumber"
-                            android:textColor="@color/primary_blue"
-                            style="@style/TextViewAppearance.Title1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="256"
-                            android:textSize="20sp"
-                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
-                            android:gravity="center"/>
 
-                    <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewFollowers"
-                            style="@style/TextViewAppearance.Title1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Followers"
-                            android:textSize="15sp"
-                            app:typeface="robotoBold" android:layout_weight="1"
-                            android:layout_gravity="center" android:gravity="center"/>
-                </LinearLayout>
+                <com.modup.font.RobotoTextView
+                        android:id="@+id/textViewFavorites"
+                        style="@style/TextViewAppearance.Title1"
+                        android:clickable="true"
+                        android:textColor="@drawable/signinsignout_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Favorites"
+                        android:textSize="15sp"
+                        app:typeface="robotoBold"
+                        android:ellipsize="none" android:lines="1"
+                        android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
+
             </LinearLayout>
         </LinearLayout>
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/listViewRecent" android:headerDividersEnabled="true" android:divider="@null"/>
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/listViewFavorites" android:headerDividersEnabled="true" android:divider="@null"/>
     </LinearLayout>
+
+
 </FrameLayout>

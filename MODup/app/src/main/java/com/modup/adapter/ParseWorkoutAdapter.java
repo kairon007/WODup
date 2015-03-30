@@ -1,7 +1,6 @@
 package com.modup.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,19 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import com.modup.app.R;
-import com.modup.model.DummyModel;
 import com.modup.model.SingleWorkout;
-import com.modup.utils.ImageUtil;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseRelation;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.HashSet;
 
 /**
  * Created by Sean on 3/21/2015.
@@ -52,7 +43,7 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.list_item_cards, parent, false);
             holder = new ViewHolder();
-            holder.ivImage = (ImageView) convertView.findViewById(R.id.imageCards);
+            holder.ivImage = (ImageView) convertView.findViewById(R.id.imageViewProfilePic);
             holder.ivPeek1 = (ImageView) convertView.findViewById(R.id.imageViewPeek1);
             holder.ivPeek2 = (ImageView) convertView.findViewById(R.id.imageViewPeek2);
             holder.ivPeek3 = (ImageView) convertView.findViewById(R.id.imageViewPeek3);

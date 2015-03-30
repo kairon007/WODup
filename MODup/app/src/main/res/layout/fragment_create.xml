@@ -126,18 +126,18 @@
             android:layout_marginTop="128dp" android:layout_gravity="center_horizontal"/>
 
     <Button
-            android:layout_width="65dp"
+            android:layout_width="55dp"
             android:isScrollContainer="false"
-            android:layout_height="65dp"
+            android:layout_height="55dp"
             android:layout_margin="25dp"
             android:background="@drawable/accept_content_selector"
             android:id="@+id/buttonAccept" android:layout_gravity="right|bottom"/>
     <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:isScrollContainer="false"
             android:layout_marginBottom="25dp"
-            android:layout_marginRight="100dp"
+            android:layout_marginRight="95dp"
             android:background="@drawable/cancel_content_selector"
             android:id="@+id/buttonCancel" android:layout_gravity="right|bottom"/>
 </FrameLayout>

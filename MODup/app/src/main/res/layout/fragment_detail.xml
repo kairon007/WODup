@@ -24,7 +24,7 @@
                     android:layout_height="fill_parent">
 
                 <ImageView
-                        android:id="@+id/imageCards"
+                        android:id="@+id/imageViewProfilePic"
                         android:layout_width="64dp"
                         android:src="@drawable/user"
                         android:layout_height="64dp"
@@ -72,7 +72,7 @@ z
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:id="@+id/linearLayoutBurned"
-                                android:layout_below="@+id/imageCards" android:layout_alignParentLeft="true"
+                                android:layout_below="@+id/imageViewProfilePic" android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true" android:gravity="left"
                                 android:layout_marginBottom="2dp">
 
@@ -104,7 +104,7 @@ z
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:id="@+id/linearLayoutTime"
-                                android:layout_below="@+id/imageCards" android:layout_alignParentRight="true"
+                                android:layout_below="@+id/imageViewProfilePic" android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true" android:layout_marginTop="3dp"
                                 >
 
@@ -220,4 +220,12 @@ z
                 android:layout_height="fill_parent"
                 android:id="@+id/listViewWorkoutDetails"/>
     </LinearLayout>
+
+    <Button
+            android:layout_width="55dp"
+            android:isScrollContainer="false"
+            android:layout_height="55dp"
+            android:layout_margin="25dp"
+            android:background="@drawable/back_selector"
+            android:id="@+id/buttonBack" android:layout_gravity="left|bottom"/>
 </FrameLayout>

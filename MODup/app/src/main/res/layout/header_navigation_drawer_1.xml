@@ -12,7 +12,7 @@
             android:src="@drawable/background_small_3"/>
 
     <ImageView
-            android:id="@+id/imageCards"
+            android:id="@+id/imageViewProfilePic"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_margin="16dp"/>

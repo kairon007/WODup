@@ -33,7 +33,7 @@ public class CardsAdapter extends ArrayAdapter<DummyModel> {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.list_item_cards, parent, false);
 			holder = new ViewHolder();
-			holder.image = (ImageView) convertView.findViewById(R.id.imageCards);
+			holder.image = (ImageView) convertView.findViewById(R.id.imageViewProfilePic);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
