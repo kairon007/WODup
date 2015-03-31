@@ -217,6 +217,7 @@ z
         <ListView
                 android:layout_width="fill_parent"
                 android:divider="@null"
+                android:listSelector="@android:color/transparent"
                 android:layout_height="fill_parent"
                 android:id="@+id/listViewWorkoutDetails"/>
     </LinearLayout>

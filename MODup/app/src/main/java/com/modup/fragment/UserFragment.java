@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.*;
 
@@ -189,16 +190,22 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SingleWorkout mSingleWorkout = (SingleWorkout) parent.getItemAtPosition(position);
+    public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("SINGLEWORKOUT", mSingleWorkout);
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment mFragment = new DetailFragment();
-        mFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("DETAILFRAGMENT").commit();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SingleWorkout mSingleWorkout = (SingleWorkout) parent.getItemAtPosition(position);
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SINGLEWORKOUT", mSingleWorkout);
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment mFragment = new DetailFragment();
+                mFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("DETAILFRAGMENT").commit();
+
+            }
+        }, 200);
     }
 
     /**

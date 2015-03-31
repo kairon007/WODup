@@ -93,10 +93,12 @@
         </LinearLayout>
         <ListView
                 android:layout_width="fill_parent"
+                android:listSelector="@android:color/transparent"
                 android:layout_height="fill_parent"
                 android:id="@+id/listViewRecent" android:headerDividersEnabled="true" android:divider="@null"/>
         <ListView
                 android:layout_width="fill_parent"
+                android:listSelector="@android:color/transparent"
                 android:layout_height="fill_parent"
                 android:id="@+id/listViewFavorites" android:headerDividersEnabled="true" android:divider="@null"/>
     </LinearLayout>

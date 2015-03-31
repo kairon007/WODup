@@ -179,15 +179,21 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-        SingleWorkout currentSingleWorkout = mParseWorkoutAdapter.getItem(position);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("SINGLEWORKOUT", currentSingleWorkout);
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment mFragment = new DetailFragment();
-        mFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("DETAILFRAGMENT").commit();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SingleWorkout currentSingleWorkout = mParseWorkoutAdapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SINGLEWORKOUT", currentSingleWorkout);
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment mFragment = new DetailFragment();
+                mFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("DETAILFRAGMENT").commit();
+
+            }
+        }, 200);
     }
 
 

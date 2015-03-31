@@ -113,6 +113,7 @@
             <ListView
                     android:layout_width="fill_parent"
                     android:isScrollContainer="false"
+                    android:listSelector="@android:color/transparent"
                     android:divider="@null"
                     android:layout_height="match_parent"
                     android:id="@+id/listViewWorkouts"/>

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.modup.view.WorkoutView
+<com.andexert.library.RippleView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="match_parent"
-        android:id="@+id/workoutView">
+        android:id="@+id/rippleview"
+        app:rv_color="@color/primary_blue"
+        app:rv_rippleDuration="50"
+        app:rv_zoom="true"
+        app:rv_zoomDuration="50"
+        app:rv_framerate="5"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        rv_centered="true">
 
 
     <android.support.v7.widget.CardView
@@ -14,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" android:layout_marginBottom="1dp">
+            android:layout_marginRight="5dp" android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
 
         <LinearLayout
                 android:orientation="vertical"
@@ -97,27 +105,27 @@
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent" android:layout_weight="1">
-                        <com.modup.font.RobotoTextView
-                                android:id="@+id/textViewSet"
-                                style="@style/TextViewAppearance.Title1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/secondary_blue"
-                                android:text="T:"
-                                android:textSize="15sp"
-                                app:typeface="robotoBold"
-                                android:orientation="horizontal"
-                                android:gravity="center" android:padding="5dp"/>
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewSet"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_blue"
+                            android:text="T:"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold"
+                            android:orientation="horizontal"
+                            android:gravity="center" android:padding="5dp"/>
 
-                        <com.modup.font.RobotoTextView
-                                android:id="@+id/textViewSetsItem"
-                                android:layout_weight="1"
-                                style="@style/TextViewAppearance.Title1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15"
-                                android:textSize="15sp"
-                                app:typeface="robotoBold" android:padding="5dp"/>
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewSetsItem"
+                            android:layout_weight="1"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15"
+                            android:textSize="15sp"
+                            app:typeface="robotoBold" android:padding="5dp"/>
                 </LinearLayout>
 
 
@@ -166,4 +174,4 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</com.modup.view.WorkoutView>
+</com.andexert.library.RippleView>

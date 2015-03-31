@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -191,30 +192,36 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-        WorkoutView choosenSingleWorkoutView = mWorkoutCardsAdapter.getItem(position);
-        SingleWorkoutItem choosenSingleWorkoutItem = new SingleWorkoutItem();
-        //TODO: Transfer data from workoutview to singleworkoutitem
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutView choosenSingleWorkoutView = mWorkoutCardsAdapter.getItem(position);
+                SingleWorkoutItem choosenSingleWorkoutItem = new SingleWorkoutItem();
+                //TODO: Transfer data from workoutview to singleworkoutitem
 
-        choosenSingleWorkoutItem.set_workoutMainCategory(choosenSingleWorkoutView.getWorkoutMainCategory());
-        choosenSingleWorkoutItem.set_workoutType(choosenSingleWorkoutView.getWorkoutType());
-        choosenSingleWorkoutItem.set_workoutCategory(choosenSingleWorkoutView.getWorkoutCategory());
-        choosenSingleWorkoutItem.set_workoutDesc(choosenSingleWorkoutView.getWorkoutDesc());
-        choosenSingleWorkoutItem.set_workoutDistance(choosenSingleWorkoutView.getWorkoutDistance());
-        choosenSingleWorkoutItem.set_reps(choosenSingleWorkoutView.getReps());
-        choosenSingleWorkoutItem.set_sets(choosenSingleWorkoutView.getSets());
-        choosenSingleWorkoutItem.set_workoutName(choosenSingleWorkoutView.getWorkoutName());
-        choosenSingleWorkoutItem.set_workoutTime(choosenSingleWorkoutView.getWorkoutTime());
-        choosenSingleWorkoutItem.set_workoutWeight(choosenSingleWorkoutView.getWorkoutWeight());
+                choosenSingleWorkoutItem.set_workoutMainCategory(choosenSingleWorkoutView.getWorkoutMainCategory());
+                choosenSingleWorkoutItem.set_workoutType(choosenSingleWorkoutView.getWorkoutType());
+                choosenSingleWorkoutItem.set_workoutCategory(choosenSingleWorkoutView.getWorkoutCategory());
+                choosenSingleWorkoutItem.set_workoutDesc(choosenSingleWorkoutView.getWorkoutDesc());
+                choosenSingleWorkoutItem.set_workoutDistance(choosenSingleWorkoutView.getWorkoutDistance());
+                choosenSingleWorkoutItem.set_reps(choosenSingleWorkoutView.getReps());
+                choosenSingleWorkoutItem.set_sets(choosenSingleWorkoutView.getSets());
+                choosenSingleWorkoutItem.set_workoutName(choosenSingleWorkoutView.getWorkoutName());
+                choosenSingleWorkoutItem.set_workoutTime(choosenSingleWorkoutView.getWorkoutTime());
+                choosenSingleWorkoutItem.set_workoutWeight(choosenSingleWorkoutView.getWorkoutWeight());
 
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("SINGLEWORKOUTITEM", choosenSingleWorkoutItem);
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment mFragment = new SingleWorkoutItemDetailFragment();
-        mFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("SINGLEWORKOUTITEMDETAILFRAGMENT").commit();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SINGLEWORKOUTITEM", choosenSingleWorkoutItem);
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment mFragment = new SingleWorkoutItemDetailFragment();
+                mFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("SINGLEWORKOUTITEMDETAILFRAGMENT").commit();
+
+            }
+        }, 200);
 
     }
 
