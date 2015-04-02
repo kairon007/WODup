@@ -1,5 +1,6 @@
 package com.modup.utils;
 
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.widget.ImageView;
 import com.modup.app.R;
@@ -32,7 +33,7 @@ public class ImageUtil {
 			loader.clearMemoryCache();
 		}
 	}
-	
+
 	public static void loadImage(String path, ImageLoadingListener listener) {
 		ImageLoader loader = ImageLoader.getInstance();
 		try {

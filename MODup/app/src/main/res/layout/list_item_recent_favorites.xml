@@ -5,11 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rippleview"
         android:layout_margin="5dp"
-        app:rv_color="@color/primary_blue"
-        app:rv_rippleDuration="50"
         app:rv_zoom="true"
         app:rv_zoomDuration="50"
-        app:rv_framerate="5"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         rv_centered="true">

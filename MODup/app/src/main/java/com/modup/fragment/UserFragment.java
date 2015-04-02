@@ -2,10 +2,14 @@ package com.modup.fragment;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 
@@ -18,7 +22,9 @@ import com.modup.adapter.UserRecentAdapter;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
 import com.modup.utils.ImageUtil;
-import com.parse.ParseUser;
+import com.parse.*;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +57,13 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
 
     private ImageView ivProfilePic;
 
+    final int PHOTO_WIDTH = 300;
+    final int PHOTO_HEIGHT = 300;
+    private final int SELECT_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private final int CROP_IMAGE_ACTIVITY_REQUEST_CODE = 200;
+    private Handler mHandler;
+    private ParseFile profilePicture;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -76,6 +89,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "OnCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -86,29 +100,38 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.e(TAG, "OnCreateView");
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_user, container, false);
         init();
-        return  view;
+        return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_user_profile, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 
-    public void init(){
+    public void init() {
         currentUser = ParseUser.getCurrentUser();
         tvUsername = (TextView) view.findViewById(R.id.textViewTitle);
         tvUsername.setText(currentUser.getUsername());
 
-        ivProfilePic = (ImageView) view.findViewById(R.id.imageViewProfilePic);
+        ivProfilePic = (ImageView) view.findViewById(R.id.imageViewProfile);
         ivProfilePic.setOnClickListener(this);
-
-
-
+        try {
+            currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    byte[] mBytes = parseObject.getBytes("photo");
+                    setPhoto(mBytes);
+                }
+            });
+        } catch (Exception p) {
+            Log.e(TAG, p.getMessage());
+        }
 
 
         tvRecent = (TextView) view.findViewById(R.id.textViewRecent);
@@ -118,7 +141,6 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
 
         tvFavorites.setTextColor(getActivity().getResources().getColor(R.color.main_color_grey_500));
         tvRecent.setTextColor(getActivity().getResources().getColor(R.color.primary_blue));
-
 
 
         listViewRecent = (ListView) view.findViewById(R.id.listViewRecent);
@@ -161,7 +183,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.textViewRecent:
                 listViewRecent.setVisibility(View.VISIBLE);
                 listViewFavorites.setVisibility(View.GONE);
@@ -175,18 +197,86 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
                 tvFavorites.setTextColor(getActivity().getResources().getColor(R.color.primary_blue));
                 break;
 
-            case R.id.imageViewProfilePic:
-                Log.e(TAG, "PROFILE PIC PRESSED");
+            case R.id.imageViewProfile:
                 //TODO: Need to choose a picture
-
-                ImageUtil.displayRoundImage(ivProfilePic, null, null);
-
-
-
+                choosePicture();
 
                 break;
         }
 
+    }
+
+    public void choosePicture() {
+        Intent cropIntent = new Intent();
+        cropIntent.setType("image/*");
+        cropIntent.setAction(Intent.ACTION_PICK);
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("scale", true);
+        cropIntent.putExtra("outputX", PHOTO_WIDTH);
+        cropIntent.putExtra("outputY", PHOTO_HEIGHT);
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("return-data", true);
+        startActivityForResult(cropIntent, SELECT_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void setPhoto(final byte[] encodedByteArray) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (encodedByteArray != null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByteArray, 0, encodedByteArray.length);
+                        ivProfilePic.setImageBitmap(bitmap);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SELECT_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+            if (resultCode == getActivity().RESULT_OK) {
+                final ParseUser currentUser = ParseUser.getCurrentUser();
+                Bundle extras = data.getExtras();
+                Bitmap bitmap = extras.getParcelable("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bmp_data = stream.toByteArray();
+
+                currentUser.remove("photo");
+                currentUser.put("photo", bmp_data);
+                currentUser.saveEventually();
+
+/*                profilePicture = new ParseFile(
+                        "profilePicture", bmp_data);*/
+
+/*                profilePicture.saveInBackground(new SaveCallback() {
+                    public void done(ParseException e) {
+                        if (e != null) {
+
+                        } else {
+
+                            // check to see if ParseFile exists, if it does
+                            // delete it and set new ParseFile
+                            currentUser.remove("photo");
+                            currentUser.put("photo", profilePicture);
+                            currentUser.saveEventually();
+                        }
+                    }
+                });*/
+
+                ivProfilePic.setImageBitmap(bitmap);
+
+
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+            }
+        }
     }
 
     @Override

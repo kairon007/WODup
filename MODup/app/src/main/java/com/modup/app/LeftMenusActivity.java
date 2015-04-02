@@ -4,13 +4,17 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +25,9 @@ import com.modup.fragment.*;
 import com.modup.model.DrawerItem;
 import com.modup.model.SingleWorkout;
 import com.modup.utils.ImageUtil;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -33,6 +40,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
     public static final String LEFT_MENU_OPTION = "com.modup.app.LeftMenusActivity";
     public static final String LEFT_MENU_OPTION_1 = "Left Menu Option 1";
     public static final String LEFT_MENU_OPTION_2 = "Left Menu Option 2";
+    private String TAG = LeftMenusActivity.class.getCanonicalName();
 
     private ListView mDrawerList;
     private List<DrawerItem> mDrawerItems;
@@ -42,6 +50,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private SingleWorkout currentSingleWorkoutObject;
+    private ParseUser currentUser;
 
 
     @Override
@@ -49,6 +58,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_left_menus);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        currentUser = ParseUser.getCurrentUser();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,13 +108,9 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
 
         View headerView = null;
         if (option.equals(LEFT_MENU_OPTION_1)) {
-            headerView = prepareHeaderView(R.layout.header_navigation_drawer_1,
-                    "http://pengaja.com/uiapptemplate/avatars/0.jpg",
-                    "dev@csform.com");
+            headerView = prepareHeaderView(R.layout.header_navigation_drawer_1);
         } else if (option.equals(LEFT_MENU_OPTION_2)) {
-            headerView = prepareHeaderView(R.layout.header_navigation_drawer_2,
-                    "http://pengaja.com/uiapptemplate/avatars/0.jpg",
-                    "dev@csform.com");
+            headerView = prepareHeaderView(R.layout.header_navigation_drawer_2);
             isFirstType = false;
         }
 
@@ -114,12 +120,35 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
         mDrawerList.setAdapter(adapter);
     }
 
-    private View prepareHeaderView(int layoutRes, String url, String email) {
+    private View prepareHeaderView(int layoutRes) {
         View headerView = getLayoutInflater().inflate(layoutRes, mDrawerList, false);
-        ImageView iv = (ImageView) headerView.findViewById(R.id.imageViewProfilePic);
+        final ImageView iv = (ImageView) headerView.findViewById(R.id.imageViewProfilePic);
         TextView tv = (TextView) headerView.findViewById(R.id.email);
 
-        ImageUtil.displayRoundImage(iv, url, null);
+        //needed to get User profile pic for parse feed
+        try{
+            currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    try {
+                        final byte[] mBytes = parseObject.getBytes("photo");
+                        if (mBytes != null) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
+                                    iv.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    } catch (Exception f) {
+                        Log.e(TAG, f.getMessage());
+                    }
+                }
+            });
+        } catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
         tv.setText(ParseUser.getCurrentUser().getEmail());
 
         return headerView;

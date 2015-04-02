@@ -1,6 +1,10 @@
 package com.modup.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.parse.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -55,15 +58,6 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //needed to get User profile pic for parse feed
-/*      // Add and download the image
-        ParseImageView todoImage = (ParseImageView) v.findViewById(R.id.ivMap);
-        ParseFile imageFile = event.getParseFile("photo");
-        if (imageFile != null) {
-            todoImage.setParseFile(imageFile);
-            todoImage.loadInBackground();
-        }*/
-
         holder.tvTitle.setText(workout.get_title());
         holder.tvTime.setText(workout.get_time());
         holder.tvDifficulty.setText(workout.get_difficulty());
@@ -83,6 +77,33 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
             e.printStackTrace();
         }
 
+
+        //needed to get User profile pic for parse feed
+        try{
+            ParseUser mUser = workout.getParseUser("user");
+            mUser.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    try {
+                        final byte[] mBytes = parseObject.getBytes("photo");
+                        if (mBytes != null) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
+                                    holder.ivImage.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    } catch (Exception f){
+                        Log.e(TAG, f.getMessage());
+                    }
+                }
+            });
+        } catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
+
         //still need to populate the ivPeek with icons
 
         return convertView;
@@ -93,6 +114,4 @@ public class ParseWorkoutAdapter extends ParseQueryAdapter<SingleWorkout> {
         public ImageView ivImage, ivPeek1, ivPeek2, ivPeek3;
         public TextView tvTitle, tvDifficulty, tvTime;
     }
-
-
 }
