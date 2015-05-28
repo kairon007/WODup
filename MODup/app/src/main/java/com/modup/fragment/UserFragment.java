@@ -1,27 +1,27 @@
 package com.modup.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
-import android.util.Base64;
 import android.util.Log;
 import android.view.*;
-
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.modup.adapter.UserFavoriteAdapter;
 import com.modup.adapter.UserRecentAdapter;
+import com.modup.app.MainActivity;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
-import com.modup.utils.ImageUtil;
 import com.parse.*;
 
 import java.io.ByteArrayOutputStream;
@@ -121,6 +121,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
 
         ivProfilePic = (ImageView) view.findViewById(R.id.imageViewProfile);
         ivProfilePic.setOnClickListener(this);
+
         try {
             currentUser.fetchInBackground(new GetCallback<ParseObject>() {
                 @Override
@@ -132,6 +133,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
         } catch (Exception p) {
             Log.e(TAG, p.getMessage());
         }
+
 
 
         tvRecent = (TextView) view.findViewById(R.id.textViewRecent);
@@ -156,13 +158,6 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
         listViewFavorites.setOnItemClickListener(this);
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -198,9 +193,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
                 break;
 
             case R.id.imageViewProfile:
-                //TODO: Need to choose a picture
                 choosePicture();
-
                 break;
         }
 
@@ -253,24 +246,6 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
                 currentUser.put("photo", bmp_data);
                 currentUser.saveEventually();
 
-/*                profilePicture = new ParseFile(
-                        "profilePicture", bmp_data);*/
-
-/*                profilePicture.saveInBackground(new SaveCallback() {
-                    public void done(ParseException e) {
-                        if (e != null) {
-
-                        } else {
-
-                            // check to see if ParseFile exists, if it does
-                            // delete it and set new ParseFile
-                            currentUser.remove("photo");
-                            currentUser.put("photo", profilePicture);
-                            currentUser.saveEventually();
-                        }
-                    }
-                });*/
-
                 ivProfilePic.setImageBitmap(bitmap);
 
 
@@ -296,6 +271,31 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
 
             }
         }, 200);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_log_out:
+                ParseUser.logOut();
+                logout();
+                return true;
+
+            case R.id.action_settings:
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment mFragment = new SettingsFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("SETTINGSFRAGMENT").commit();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     /**

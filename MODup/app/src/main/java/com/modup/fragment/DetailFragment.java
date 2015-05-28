@@ -3,6 +3,8 @@ package com.modup.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +47,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     private String TAG = DetailFragment.class.getCanonicalName();
 
     private OnFragmentInteractionListener mListener;
-    private ImageView ivLike, ivFavorite, ivChat;
+    private ImageView ivLike, ivFavorite, ivChat, ivProfilePic;
     private TextView tvTitle, tvDifficulty, tvTime, tvLike, tvFavorite, tvComment;
     private View view;
     private Boolean isLikeChecked = false;
@@ -112,6 +114,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         currentUser = ParseUser.getCurrentUser();
         currentSingleWorkout = (SingleWorkout) getArguments().getSerializable("SINGLEWORKOUT");
 
+        mArrayList = new ArrayList<WorkoutView>();
+
         btnBack = (Button) view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(this);
 
@@ -121,6 +125,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         ivLike.setOnClickListener(this);
         ivChat = (ImageView) view.findViewById(R.id.imageViewComments);
         ivChat.setOnClickListener(this);
+        ivProfilePic = (ImageView) view.findViewById(R.id.imageViewProfilePic);
+
 
         tvTitle = (TextView) view.findViewById(R.id.textViewTitle);
         tvTime = (TextView) view.findViewById(R.id.textViewTime);
@@ -134,6 +140,32 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         tvTitle.setText(currentSingleWorkout.get_title());
         tvTime.setText(currentSingleWorkout.get_time());
         tvDifficulty.setText(currentSingleWorkout.get_difficulty());
+
+
+        try {
+            ParseUser mUser = currentSingleWorkout.getParseUser("user");
+            mUser.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    try {
+                        final byte[] mBytes = parseObject.getBytes("photo");
+                        if (mBytes != null) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
+                                    ivProfilePic.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    } catch (Exception f) {
+                        Log.e(TAG, f.getMessage());
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
 
         //query the like/favorite count
         queryLikeCount();
@@ -199,8 +231,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
             public void run() {
                 WorkoutView choosenSingleWorkoutView = mWorkoutCardsAdapter.getItem(position);
                 SingleWorkoutItem choosenSingleWorkoutItem = new SingleWorkoutItem();
-                //TODO: Transfer data from workoutview to singleworkoutitem
 
+                //TODO: Transfer data from workoutview to singleworkoutitem
                 choosenSingleWorkoutItem.set_workoutMainCategory(choosenSingleWorkoutView.getWorkoutMainCategory());
                 choosenSingleWorkoutItem.set_workoutType(choosenSingleWorkoutView.getWorkoutType());
                 choosenSingleWorkoutItem.set_workoutCategory(choosenSingleWorkoutView.getWorkoutCategory());
@@ -253,13 +285,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         //TODO: HANDLE STATE OF LIKES/FAVORITES
         if (!(isStillLiked)) {
             unlikeWorkout();
-        } else if ((isStillLiked) && !(isStillLiked == isOriginalLiked)){
+        } else if ((isStillLiked) && !(isStillLiked == isOriginalLiked)) {
             likeWorkout();
         }
 
         if (!(isStillFavorited)) {
             unfavoriteWorkout();
-        } else if ((isStillFavorited) && !(isStillFavorited == isOriginalFavorited)){
+        } else if ((isStillFavorited) && !(isStillFavorited == isOriginalFavorited)) {
             favoriteWorkout();
         }
     }
@@ -439,7 +471,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     private void increaseLikeCount() {
-        if(!(tvLike.getText().toString().trim().equals(""))) {
+        if (!(tvLike.getText().toString().trim().equals(""))) {
             likeCount = Integer.valueOf(tvLike.getText().toString().trim());
             likeCount++;
             tvLike.setText("" + likeCount);
@@ -447,7 +479,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     private void decreaseLikeCount() {
-        if(!(tvLike.getText().toString().trim().equals(""))) {
+        if (!(tvLike.getText().toString().trim().equals(""))) {
             likeCount = Integer.valueOf(tvLike.getText().toString().trim());
             if (!(likeCount == 0)) {
                 likeCount--;
@@ -457,7 +489,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     private void increaseFavoriteCount() {
-        if(!(tvFavorite.getText().toString().trim().equals(""))) {
+        if (!(tvFavorite.getText().toString().trim().equals(""))) {
             favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
             favoriteCount++;
             tvFavorite.setText("" + favoriteCount);
@@ -465,7 +497,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     private void decreaseFavoriteCount() {
-        if(!(tvFavorite.getText().toString().trim().equals(""))) {
+        if (!(tvFavorite.getText().toString().trim().equals(""))) {
             favoriteCount = Integer.valueOf(tvFavorite.getText().toString().trim());
             if (!(favoriteCount == 0)) {
                 favoriteCount--;

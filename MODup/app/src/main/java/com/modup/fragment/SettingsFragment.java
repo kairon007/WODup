@@ -1,14 +1,27 @@
 package com.modup.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.modup.app.R;
+import com.modup.view.WorkoutView;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +31,7 @@ import com.modup.app.R;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +42,13 @@ public class SettingsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Button btnBack;
+    private TextView tvChangePassword;
+    private View view;
+    private EditText etPassword1, etPassword2;
+    private ParseUser currentUser;
+
+    private MaterialDialog mChangePasswordDialog;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,7 +85,21 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
+        init();
+        return view;
+    }
+
+    private void init() {
+        currentUser = ParseUser.getCurrentUser();
+
+        btnBack = (Button) view.findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(this);
+
+        tvChangePassword = (TextView) view.findViewById(R.id.textViewChangePassword);
+        tvChangePassword.setOnClickListener(this);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +124,56 @@ public class SettingsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonBack:
+                getActivity().getFragmentManager().popBackStack();
+                break;
+
+            case R.id.textViewChangePassword:
+                Log.e("BUTTON", "BUTTON PRESSED");
+                boolean wrapInScrollView = false;
+                mChangePasswordDialog = new MaterialDialog.Builder(getActivity())
+                        .customView(R.layout.dialog_change_password, wrapInScrollView)
+                        .positiveText("ACCEPT")
+                        .negativeText("CANCEL")
+                        .negativeColorRes(R.color.material_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                String pass1 = etPassword1.getText().toString().trim();
+                                String pass2 = etPassword2.getText().toString().trim();
+
+                                if (!pass1.equals("") && !pass2.equals("") && pass1.equals(pass2)) {
+                                    currentUser.put("password", pass1);
+                                    currentUser.saveInBackground(new SaveCallback() {
+                                        public void done(ParseException e) {
+                                            if (e != null) {
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    etPassword1.getText().clear();
+                                    etPassword2.getText().clear();
+                                    Toast.makeText(getActivity(), "Passwords do not match!",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                            }
+                        }).build();
+
+                View changePasswordDialogView = mChangePasswordDialog.getCustomView();
+                etPassword1 = (EditText) changePasswordDialogView.findViewById(R.id.etPassword1);
+                etPassword2 = (EditText) changePasswordDialogView.findViewById(R.id.etPassword2);
+                mChangePasswordDialog.show();
+                break;
+        }
     }
 
     /**

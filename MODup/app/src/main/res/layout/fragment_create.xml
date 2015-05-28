@@ -61,7 +61,8 @@
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_marginTop="10dp">
+                    android:layout_height="fill_parent" android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="fill_parent"
@@ -93,15 +94,6 @@
                              android:id="@+id/spinnerTime" android:layout_gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp" android:layout_gravity="center_horizontal"
-                    android:background="@color/material_grey_200"
-                    android:id="@+id/divider" android:focusableInTouchMode="true" android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" android:layout_marginBottom="25dp"
-                    android:layout_marginTop="10dp">
-            </LinearLayout>
 
 
         </LinearLayout>
@@ -121,10 +113,10 @@
     </LinearLayout>
 
     <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:id="@+id/btnAddWorkout" android:background="@drawable/add_content_selector"
-            android:layout_marginTop="128dp" android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="left|bottom" android:layout_marginLeft="25dp" android:layout_marginBottom="25dp"/>
 
     <Button
             android:layout_width="55dp"
