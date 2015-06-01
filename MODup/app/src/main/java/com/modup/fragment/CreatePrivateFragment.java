@@ -33,14 +33,14 @@ import java.util.Random;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateFragment.OnFragmentInteractionListener} interface
+ * {@link com.modup.fragment.CreatePrivateFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CreateFragment#newInstance} factory method to
+ * Use the {@link com.modup.fragment.CreatePrivateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateFragment extends Fragment implements View.OnClickListener, AbsListView.OnScrollListener {
+public class CreatePrivateFragment extends Fragment implements View.OnClickListener, AbsListView.OnScrollListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -49,7 +49,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String TAG = CreateFragment.class.getCanonicalName();
+    private String TAG = CreatePrivateFragment.class.getCanonicalName();
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,6 +74,8 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     private Spinner spinnerDistance, spinnerCrossfitType, spinnerForRepsReps, spinnerForRepsTime, spinnerForReps, spinnerForRepsRounds, spinnerForTime;
     private RadioButton rbtnTraditional, rbtnCrossFit;
 
+    private Date eventDate;
+
     //crossfit stuff
     private LinearLayout linearLayoutForReps, linearLayoutForRepsTime, linearLayoutForTime, linearLayoutForWeight, linearLayoutCrossfitOther;
 
@@ -89,8 +91,8 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
      * @return A new instance of fragment CreateFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateFragment newInstance(String param1, String param2) {
-        CreateFragment fragment = new CreateFragment();
+    public static CreatePrivateFragment newInstance(String param1, String param2) {
+        CreatePrivateFragment fragment = new CreatePrivateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,7 +100,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
         return fragment;
     }
 
-    public CreateFragment() {
+    public CreatePrivateFragment() {
         // Required empty public constructor
     }
 
@@ -115,7 +117,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_create, container, false);
+        view = inflater.inflate(R.layout.fragment_create_private, container, false);
         initValues();
         return view;
     }
@@ -147,6 +149,8 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
     public void initValues() {
         mHandler = new Handler();
+
+        eventDate = (Date) getArguments().getSerializable("DATE");
 
         btnAddWorkout = (Button) view.findViewById(R.id.btnAddWorkout);
         btnAddWorkout.setOnClickListener(this);
@@ -962,7 +966,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                         mSingleWorkout.set_singleWorkoutItemArrayJSON(singleWorkoutItemHashsetJSONStr);
                         mSingleWorkout.set_pictureArrayJSON(pictureArrayItemJSONStr);
                         mSingleWorkout.set_parseUser(ParseUser.getCurrentUser());
-                        mSingleWorkout.set_eventDate(new Date());
+                        mSingleWorkout.set_eventDate(eventDate);
 
                         mDialog = new MaterialDialog.Builder(getActivity())
                                 .content("Lifting Weights..")

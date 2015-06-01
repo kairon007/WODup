@@ -2,6 +2,7 @@ package com.modup.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import com.modup.app.R;
+import com.modup.model.SingleWorkout;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.util.Calendar;
@@ -24,7 +29,7 @@ import java.util.Date;
  * Use the {@link com.modup.fragment.CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,8 +43,10 @@ public class CalendarFragment extends Fragment {
 
     private View view;
     private Button btnAddDate;
+    ParseQuery<SingleWorkout> query;
 
     private OnFragmentInteractionListener mListener;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -81,8 +88,16 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
-    public void init(){
+    public void init() {
         btnAddDate = (Button) view.findViewById(R.id.buttonAddDate);
+        btnAddDate.setOnClickListener(this);
+
+
+        query = new ParseQuery<SingleWorkout>(
+                "SingleWorkout");
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.setLimit(50);
+        query.orderByDescending("createdAt");
 
 
         Calendar nextYear = Calendar.getInstance();
@@ -94,7 +109,30 @@ public class CalendarFragment extends Fragment {
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
-                Log.e(TAG, date.toString());
+                //do a query and find out if there are any dates that exist, if there are open a different fragment
+
+                query.whereEqualTo("event_date", date);
+
+                try {
+                    if(query.count() != 0){
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("DATE", date);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        Fragment mFragment = new CalendarFeedFragment();
+                        mFragment.setArguments(mBundle);
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CALENDARFEEDFRAGMENT").commit();
+
+                    } else {
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("DATE", date);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        Fragment mFragment = new CreatePrivateFragment();
+                        mFragment.setArguments(mBundle);
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEPRIVATEFRAGMENT").commit();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -126,6 +164,17 @@ public class CalendarFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonAddDate:
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment mFragment = new CreatePrivateFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEPRIVATEFRAGMENT").commit();
+               break;
+        }
     }
 
     /**

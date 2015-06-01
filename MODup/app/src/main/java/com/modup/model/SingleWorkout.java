@@ -7,6 +7,7 @@ import com.parse.ParseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -18,6 +19,7 @@ public class SingleWorkout extends ParseObject implements Serializable {
     ParseUser _parseUser;
     private String _singleWorkoutItemArrayJSON, _pictureArrayJSON;
     int _favoriteCount, _likeCount, _commentCount;
+    private Date _eventDate;
 
     public SingleWorkout() {
     }
@@ -47,6 +49,15 @@ public class SingleWorkout extends ParseObject implements Serializable {
     public void set_time(String _time) {
         this._time = _time;
         put("time", _time);
+    }
+
+    public Date get_eventDate() {
+        return getDate("event_date");
+    }
+
+    public void set_eventDate(Date _eventDate) {
+        this._eventDate = _eventDate;
+        put("event_date", _eventDate);
     }
 
     public String get_singleWorkoutItemArrayJSON() {

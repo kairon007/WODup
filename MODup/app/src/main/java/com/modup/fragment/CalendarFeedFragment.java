@@ -7,42 +7,36 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.modup.adapter.CardsAdapter;
-import com.modup.adapter.DialogFavoriteAdapter;
+import com.modup.adapter.ParsePrivateWorkoutAdapter;
 import com.modup.adapter.ParseWorkoutAdapter;
-import com.modup.adapter.TextSpinnerAdapter;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.parse.ParseRelation;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FeedFragment.OnFragmentInteractionListener} interface
+ * {@link com.modup.fragment.CalendarFeedFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FeedFragment#newInstance} factory method to
+ * Use the {@link com.modup.fragment.CalendarFeedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FeedFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class CalendarFeedFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String TAG = FeedFragment.class.getCanonicalName();
+    private String TAG = CalendarFeedFragment.class.getCanonicalName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,8 +49,10 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     private MaterialDialog mDialog;
 
     //parse queries
-    private ParseWorkoutAdapter mParseWorkoutAdapter;
+    private ParsePrivateWorkoutAdapter mParseWorkoutAdapter;
     private SwipeRefreshLayout swipeLayout;
+    private Date eventDate;
+    private Button btnBack, btnAddContent;
 
     /**
      * Use this factory method to create a new instance of
@@ -67,8 +63,8 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
      * @return A new instance of fragment FeedFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FeedFragment newInstance(String param1, String param2) {
-        FeedFragment fragment = new FeedFragment();
+    public static CalendarFeedFragment newInstance(String param1, String param2) {
+        CalendarFeedFragment fragment = new CalendarFeedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,7 +72,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
         return fragment;
     }
 
-    public FeedFragment() {
+    public CalendarFeedFragment() {
         // Required empty public constructor
     }
 
@@ -93,7 +89,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_feed, container, false);
+        view = inflater.inflate(R.layout.fragment_calendar_feed, container, false);
         initValues();
         return view;
     }
@@ -123,6 +119,9 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     }
 
     public void initValues() {
+        eventDate = (Date) getArguments().getSerializable("DATE");
+
+
 
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -142,13 +141,16 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
 
         swipeLayout.setColorSchemeResources(R.color.primary_blue, R.color.secondary_blue, R.color.primary_purple, R.color.secondary_purple);
 
-        Button btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
+        btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
         btnAddContent.setOnClickListener(this);
+
+        btnBack = (Button) view.findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(this);
 
         ListView listView = (ListView) view.findViewById(R.id.listViewFeed);
         listView.setOnItemClickListener(this);
 
-        mParseWorkoutAdapter = new ParseWorkoutAdapter(getActivity());
+        mParseWorkoutAdapter = new ParsePrivateWorkoutAdapter(getActivity(), eventDate);
 
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
                 mParseWorkoutAdapter);
@@ -170,9 +172,16 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonAdd:
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable("DATE", eventDate);
                 FragmentManager fragmentManager = getFragmentManager();
-                Fragment mFragment = new CreateFragment();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEFRAGMENT").commit();
+                Fragment mFragment = new CreatePrivateFragment();
+                mFragment.setArguments(mBundle);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEPRIVATEFRAGMENT").commit();
+                break;
+
+            case R.id.buttonBack:
+                getActivity().getFragmentManager().popBackStack();
                 break;
         }
 

@@ -23,6 +23,14 @@
 
     <Button
             android:layout_width="55dp"
+            android:isScrollContainer="false"
+            android:layout_height="55dp"
+            android:layout_margin="25dp"
+            android:background="@drawable/back_selector"
+            android:id="@+id/buttonBack" android:layout_gravity="left|bottom"/>
+
+    <Button
+            android:layout_width="55dp"
             android:elevation="4dp"
             android:background="@drawable/add_content_selector"
             android:layout_margin="25dp"

@@ -24,7 +24,6 @@ import com.modup.adapter.DrawerAdapter;
 import com.modup.fragment.*;
 import com.modup.model.DrawerItem;
 import com.modup.model.SingleWorkout;
-import com.modup.utils.ImageUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -35,7 +34,8 @@ import java.util.List;
 
 public class LeftMenusActivity extends ActionBarActivity implements FeedFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, CreateFragment.OnFragmentInteractionListener, TimersFragment.OnFragmentInteractionListener,
-        CalendarFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, SingleWorkoutItemDetailFragment.OnFragmentInteractionListener {
+        CalendarFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, SingleWorkoutItemDetailFragment.OnFragmentInteractionListener,
+        CreatePrivateFragment.OnFragmentInteractionListener, CalendarFeedFragment.OnFragmentInteractionListener {
 
     public static final String LEFT_MENU_OPTION = "com.modup.app.LeftMenusActivity";
     public static final String LEFT_MENU_OPTION_1 = "Left Menu Option 1";
@@ -126,7 +126,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
         TextView tv = (TextView) headerView.findViewById(R.id.email);
 
         //needed to get User profile pic for parse feed
-        try{
+        try {
             currentUser.fetchInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
@@ -146,7 +146,7 @@ public class LeftMenusActivity extends ActionBarActivity implements FeedFragment
                     }
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
         tv.setText(ParseUser.getCurrentUser().getEmail());
