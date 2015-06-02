@@ -15,16 +15,18 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 import com.parse.SignUpCallback;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 
 public class SignUpActivity extends ActionBarActivity implements OnClickListener {
-    TextView tvBack, tvSignUp, tvFacebook;
-    EditText etEmail, etUsername, etPassword1, etPassword2;
+    TextView tvBack, tvSignUp, tvRecover;
+    EditText etEmail, etUsername, etPassword1, etPassword2, etResetEmail;
     String email, username, password1, password2;
     String TAG = SignUpActivity.class.getCanonicalName();
     MaterialDialog mDialog;
+    private MaterialDialog mRecoverPasswordDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,8 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
         tvSignUp.setOnClickListener(this);
         tvBack = (TextView) findViewById(R.id.textViewBack);
         tvBack.setOnClickListener(this);
-        tvFacebook = (TextView) findViewById(R.id.textViewFacebook);
-        tvFacebook.setOnClickListener(this);
+        tvRecover = (TextView) findViewById(R.id.textViewRecover);
+        tvRecover.setOnClickListener(this);
 
         etEmail = (EditText) findViewById(R.id.etEmail);
         etUsername = (EditText) findViewById(R.id.etUsername);
@@ -105,7 +107,41 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
                     });
                 }
                 break;
-            case R.id.textViewFacebook:
+            case R.id.textViewRecover:
+                boolean wrapInScrollView = false;
+                mRecoverPasswordDialog = new MaterialDialog.Builder(this)
+                        .customView(R.layout.dialog_recover_password, wrapInScrollView)
+                        .title("Reset Password")
+                        .positiveText("HURRY!")
+                        .negativeText("CANCEL")
+                        .negativeColorRes(R.color.material_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                String email = etEmail.getText().toString().trim();
+                                ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Toast.makeText(getApplicationContext(), "Password reset request sent",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Error with password reset request",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                            }
+                        }).build();
+
+                View recoverPasswordDialogView = mRecoverPasswordDialog.getCustomView();
+                etResetEmail = (EditText) recoverPasswordDialogView.findViewById(R.id.etEmail);
+                mRecoverPasswordDialog.show();
+
+
                 break;
         }
 

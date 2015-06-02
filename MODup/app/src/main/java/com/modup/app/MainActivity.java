@@ -12,17 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.wrapp.floatlabelededittext.FloatLabeledEditText;
+import com.parse.*;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
-    TextView tvSignIn, tvSignUp, tvFacebook;
-    EditText etUsername, etPassword1;
+    TextView tvSignIn, tvSignUp, tvRecover;
+    EditText etUsername, etPassword1, etEmail;
     String username, password1;
     MaterialDialog mDialog;
+    private MaterialDialog mRecoverPasswordDialog;
     String TAG = MainActivity.class.getCanonicalName();
 
     @Override
@@ -66,8 +64,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             tvSignUp.setOnClickListener(this);
             tvSignIn = (TextView) findViewById(R.id.textViewSignIn);
             tvSignIn.setOnClickListener(this);
-            tvFacebook = (TextView) findViewById(R.id.textViewFacebook);
-            tvFacebook.setOnClickListener(this);
+            tvRecover = (TextView) findViewById(R.id.textViewRecover);
+            tvRecover.setOnClickListener(this);
             etUsername = (EditText) findViewById(R.id.etUsername);
             etPassword1 = (EditText) findViewById(R.id.etPassword1);
         }
@@ -82,6 +80,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Intent intent = new Intent(this, LeftMenusActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -113,7 +117,39 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     });
                 }
                 break;
-            case R.id.textViewFacebook:
+            case R.id.textViewRecover:
+                boolean wrapInScrollView = false;
+                mRecoverPasswordDialog = new MaterialDialog.Builder(this)
+                        .customView(R.layout.dialog_recover_password, wrapInScrollView)
+                        .title("Reset Password")
+                        .positiveText("HURRY!")
+                        .negativeText("CANCEL")
+                        .negativeColorRes(R.color.material_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                String email = etEmail.getText().toString().trim();
+                                ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Toast.makeText(getApplicationContext(), "Password reset request sent",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Error with password reset request",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                            }
+                        }).build();
+
+                View recoverPasswordDialogView = mRecoverPasswordDialog.getCustomView();
+                etEmail = (EditText) recoverPasswordDialogView.findViewById(R.id.etEmail);
+                mRecoverPasswordDialog.show();
                 break;
         }
 

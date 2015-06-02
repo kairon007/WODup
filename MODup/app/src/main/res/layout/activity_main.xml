@@ -29,7 +29,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 card_view:cardCornerRadius="4dp"
-                android:layout_margin="10dp">
+                android:layout_marginLeft="10dp" android:layout_marginTop="35dp"
+                android:layout_marginRight="10dp" android:layout_marginBottom="10dp">
 
             <LinearLayout
                     android:layout_width="fill_parent"
@@ -102,13 +103,13 @@
                             android:layout_weight="1" android:padding="5dp" android:gravity="center"/>
 
                     <com.modup.font.RobotoTextView
-                            android:id="@+id/textViewFacebook"
+                            android:id="@+id/textViewRecover"
                             android:clickable="true"
-                            android:textColor="@drawable/facebook_selector"
+                            android:textColor="@drawable/recover_selector"
                             style="@style/TextViewAppearance.Title1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="FACEBOOK"
+                            android:text="RECOVER"
                             android:textSize="15sp"
                             app:typeface="robotoBold" android:ellipsize="none" android:lines="1"
                             android:layout_weight="1" android:padding="5dp" android:gravity="center"/>

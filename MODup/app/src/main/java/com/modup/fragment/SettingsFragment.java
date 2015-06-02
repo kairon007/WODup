@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.modup.app.R;
 import com.modup.view.WorkoutView;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import org.w3c.dom.Text;
@@ -43,7 +44,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     private Button btnBack;
-    private TextView tvChangePassword;
+    private TextView tvChangePassword, tvLinkFacebook;
     private View view;
     private EditText etPassword1, etPassword2;
     private ParseUser currentUser;
@@ -98,6 +99,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         tvChangePassword = (TextView) view.findViewById(R.id.textViewChangePassword);
         tvChangePassword.setOnClickListener(this);
+
+        tvLinkFacebook = (TextView) view.findViewById(R.id.textViewLinkFacebook);
+        tvLinkFacebook.setOnClickListener(this);
 
 
     }
@@ -172,6 +176,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 etPassword1 = (EditText) changePasswordDialogView.findViewById(R.id.etPassword1);
                 etPassword2 = (EditText) changePasswordDialogView.findViewById(R.id.etPassword2);
                 mChangePasswordDialog.show();
+                break;
+
+            case R.id.textViewLinkFacebook:
+                //TODO: ADD PERMISSION WHERE NULL
+                if (!ParseFacebookUtils.isLinked(currentUser)) {
+                    ParseFacebookUtils.linkWithReadPermissionsInBackground(currentUser, getActivity(), null, new SaveCallback() {
+                        @Override
+                        public void done(ParseException ex) {
+                            if (ParseFacebookUtils.isLinked(currentUser)) {
+                                Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+                            }
+                        }
+                    });
+                }
                 break;
         }
     }

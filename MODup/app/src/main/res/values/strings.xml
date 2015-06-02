@@ -17,6 +17,10 @@
     <string name="action_example">Example action</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="facebook_app_id">1590617974550660</string>
+
+
+
 
     <!-- Navigation Drawer icon codes -->
     <string name="drawer_icon_splash_screens"></string>

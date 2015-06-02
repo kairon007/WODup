@@ -26,10 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 
 /**
@@ -157,7 +154,6 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
         etTitle = (EditText) view.findViewById(R.id.textViewTitle);
 
-
         mWorkoutCardsAdapter = new WorkoutCardsAdapter(getActivity(), mArrayList, new WorkoutCardsAdapter.Callback() {
             @Override
             public void onPressed(int pos) {
@@ -199,8 +195,6 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                 btnCancelWorkout.setVisibility(View.GONE);
             }
         }, 1000);
-
-
     }
 
     @Override
@@ -358,8 +352,6 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                                         workoutView.setWorkoutType(workoutType);
                                         workoutView.setWorkoutDesc(desc);
                                     }
-
-
                                 }
 
                                 mWorkoutCardsAdapter.add(workoutView);
@@ -368,7 +360,7 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
 
                                 if (!(isTimerRunning)) {
                                     isTimerRunning = true;
-                                    mCountDownTimer = new CountDownTimer(3000, 1000) {
+                                    mCountDownTimer = new CountDownTimer(1000, 1000) {
 
                                         public void onTick(long millisUntilFinished) {
                                             //do nothing
@@ -962,7 +954,16 @@ public class CreateFragment extends Fragment implements View.OnClickListener, Ab
                         mSingleWorkout.set_singleWorkoutItemArrayJSON(singleWorkoutItemHashsetJSONStr);
                         mSingleWorkout.set_pictureArrayJSON(pictureArrayItemJSONStr);
                         mSingleWorkout.set_parseUser(ParseUser.getCurrentUser());
-                        mSingleWorkout.set_eventDate(new Date());
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.HOUR_OF_DAY, 0);
+                        cal.set(Calendar.MINUTE,0);
+                        cal.set(Calendar.SECOND,0);
+                        cal.set(Calendar.MILLISECOND,0);
+                        Date date = cal.getTime();
+
+
+                        mSingleWorkout.set_eventDate(date);
 
                         mDialog = new MaterialDialog.Builder(getActivity())
                                 .content("Lifting Weights..")

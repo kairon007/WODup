@@ -372,7 +372,7 @@ public class CreatePrivateFragment extends Fragment implements View.OnClickListe
 
                                 if (!(isTimerRunning)) {
                                     isTimerRunning = true;
-                                    mCountDownTimer = new CountDownTimer(3000, 1000) {
+                                    mCountDownTimer = new CountDownTimer(1000, 1000) {
 
                                         public void onTick(long millisUntilFinished) {
                                             //do nothing

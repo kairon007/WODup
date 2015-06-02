@@ -43,6 +43,7 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$USER_HOME$/Downloads/facebook-android-sdk-4.2.0/facebook-android-sdk-4.2.0/facebook" />
   </component>
   <component name="IdProvider" IDEtalkID="034C56D4EFBA01F9B278F685B2C3E657" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
