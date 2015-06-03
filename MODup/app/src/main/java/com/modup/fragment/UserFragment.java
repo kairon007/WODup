@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.modup.adapter.UserFavoriteAdapter;
 import com.modup.adapter.UserRecentAdapter;
 import com.modup.app.MainActivity;
+import com.modup.app.MainApplication;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
+import com.modup.service.NotificationService;
 import com.parse.*;
 
 import java.io.ByteArrayOutputStream;
@@ -277,6 +279,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Adap
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_log_out:
+                getActivity().stopService(new Intent(getActivity(), NotificationService.class));
                 ParseUser.logOut();
                 logout();
                 return true;

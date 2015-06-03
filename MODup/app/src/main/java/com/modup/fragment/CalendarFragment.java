@@ -104,7 +104,13 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         nextYear.add(Calendar.YEAR, 1);
         CalendarPickerView calendar = (CalendarPickerView) view.findViewById(R.id.calendar_view);
         Date today = new Date();
-        calendar.init(today, nextYear.getTime())
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        Date todate1 = cal.getTime();
+
+
+        calendar.init(todate1, nextYear.getTime())
                 .withSelectedDate(today);
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
