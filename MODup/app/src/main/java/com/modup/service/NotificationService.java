@@ -1,39 +1,61 @@
 package com.modup.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
-import com.parse.ParseUser;
+
+
+import java.util.Calendar;
 
 public class NotificationService extends Service {
 
-    private ParseUser currentUser;
-    private Handler mHandler;
+
     private String TAG = NotificationService.class.getCanonicalName();
+    private AlarmManager alarmMgr;
+    private PendingIntent pendingIntent;
+
+    private Boolean isServiceRunning = false;
+    SharedPreferences prefs;
 
     public NotificationService() {
-
     }
-
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mHandler = new Handler();
-        checkParseUser();
+        prefs = getSharedPreferences("com.modup.app", Context.MODE_PRIVATE);
+        alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        notifyUser();
+        handleIntent(intent);
         return START_STICKY;
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent != null) {
+            if (intent.getAction().equals("START_SERVICE")) {
+                if (prefs != null) {
+                    prefs.edit().putBoolean("SERVICE_STATE", true).apply();
+                }
+                notifyUser();
+            }
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (prefs != null) {
+            prefs.edit().putBoolean("SERVICE_STATE", false).apply();
+        }
+        stopSelf();
     }
 
     @Override
@@ -42,21 +64,24 @@ public class NotificationService extends Service {
     }
 
     private void notifyUser() {
-
+        if (alarmMgr != null) {
+            startAlarm();
+        } else {
+            alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            startAlarm();
+        }
     }
 
-    private void checkParseUser() {
-        currentUser = ParseUser.getCurrentUser();
-        if (currentUser == null) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (currentUser == null) {
-                        currentUser = ParseUser.getCurrentUser();
-                        mHandler.postDelayed(this, 10000);
-                    }
-                }
-            }, 10000);
-        }
+    private void startAlarm() {
+        Log.e(TAG, "Starting Alarm");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+
+        Intent alarmIntent = new Intent(this, NotificationReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 }

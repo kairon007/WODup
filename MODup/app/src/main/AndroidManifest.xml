@@ -51,6 +51,12 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <receiver
+            android:name="com.modup.service.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
 </manifest>

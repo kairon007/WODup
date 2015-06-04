@@ -1,11 +1,18 @@
 package com.modup.fragment;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.modup.app.MainActivity;
 import com.modup.app.R;
 import com.modup.view.WorkoutView;
 import com.parse.ParseException;
@@ -180,6 +188,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
             case R.id.textViewLinkFacebook:
                 //TODO: ADD PERMISSION WHERE NULL
+
                 if (!ParseFacebookUtils.isLinked(currentUser)) {
                     ParseFacebookUtils.linkWithReadPermissionsInBackground(currentUser, getActivity(), null, new SaveCallback() {
                         @Override
@@ -193,6 +202,37 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+/*    private void notifyUser() {
+        Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+
+        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.logo);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        getActivity(),
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(R.drawable.notification_logo)
+                        .setLargeIcon(icon)
+                        .setContentTitle("WODup")
+                        .setContentText("You have workouts waiting! Go get 'em!")
+                        .setContentIntent(resultPendingIntent)
+                        .setAutoCancel(true);
+
+
+        int mNotificationId = 001;
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this
