@@ -150,11 +150,13 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
     public void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToNavigationActivity() {
         Intent intent = new Intent(this, LeftMenusActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public Boolean checkFields() {

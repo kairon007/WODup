@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,16 +14,16 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.modup.app.MainActivity;
 import com.modup.app.R;
 import com.modup.view.WorkoutView;
@@ -40,7 +41,7 @@ import org.w3c.dom.Text;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+public class SettingsFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -52,12 +53,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     private Button btnBack;
-    private TextView tvChangePassword, tvLinkFacebook;
+    private TextView tvChangePassword, tvLinkFacebook, tvUnlinkFacebook, tvInviteFacebook;
     private View view;
+    private CardView unlinkFacebookCardView, linkFacebookCardView;
     private EditText etPassword1, etPassword2;
     private ParseUser currentUser;
 
     private MaterialDialog mChangePasswordDialog;
+    private String TAG = SettingsFragment.class.getCanonicalName();
+    private Switch shareSwitch;
+    private SharedPreferences prefs;
+
+    String appLinkUrl, previewImageUrl;
 
     /**
      * Use this factory method to create a new instance of
@@ -101,6 +108,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
         currentUser = ParseUser.getCurrentUser();
+        prefs = getActivity().getSharedPreferences("com.modup.app", Context.MODE_PRIVATE);
+
+        appLinkUrl = "https://www.mydomain.com/myapplink";
+        previewImageUrl = "https://www.mydomain.com/my_invite_image.jpg";
+
 
         btnBack = (Button) view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(this);
@@ -110,6 +122,35 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         tvLinkFacebook = (TextView) view.findViewById(R.id.textViewLinkFacebook);
         tvLinkFacebook.setOnClickListener(this);
+
+        tvUnlinkFacebook = (TextView) view.findViewById(R.id.textViewUnlinkFacebook);
+        tvUnlinkFacebook.setOnClickListener(this);
+
+        tvInviteFacebook = (TextView) view.findViewById(R.id.textViewInviteFacebook);
+        tvInviteFacebook.setOnClickListener(this);
+
+        unlinkFacebookCardView = (CardView) view.findViewById(R.id.card_view_unlink);
+        linkFacebookCardView = (CardView) view.findViewById(R.id.card_view_link);
+
+        shareSwitch = (Switch) view.findViewById(R.id.shareSwitch);
+        shareSwitch.setOnCheckedChangeListener(this);
+
+        if (prefs != null) {
+            if (prefs.getBoolean("SHARE_FACEBOOK", false)) {
+                shareSwitch.setChecked(true);
+            } else {
+                shareSwitch.setChecked(false);
+            }
+        }
+
+
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+            linkFacebookCardView.setVisibility(View.GONE);
+            unlinkFacebookCardView.setVisibility(View.VISIBLE);
+        } else {
+            linkFacebookCardView.setVisibility(View.VISIBLE);
+            unlinkFacebookCardView.setVisibility(View.GONE);
+        }
 
 
     }
@@ -189,50 +230,60 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.textViewLinkFacebook:
                 //TODO: ADD PERMISSION WHERE NULL
 
-                if (!ParseFacebookUtils.isLinked(currentUser)) {
+
+                if (!ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
                     ParseFacebookUtils.linkWithReadPermissionsInBackground(currentUser, getActivity(), null, new SaveCallback() {
                         @Override
                         public void done(ParseException ex) {
-                            if (ParseFacebookUtils.isLinked(currentUser)) {
-                                Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+                            if (ex == null) {
+                                if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                                    Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+                                }
+                            } else {
+                                Log.e(TAG, ex.getMessage());
                             }
                         }
                     });
                 }
                 break;
+
+            case R.id.textViewUnlinkFacebook:
+                ParseFacebookUtils.unlinkInBackground(ParseUser.getCurrentUser(), new SaveCallback() {
+                    @Override
+                    public void done(ParseException ex) {
+                        if (ex == null) {
+                            Log.d("MyApp", "The user is no longer associated with their Facebook account.");
+                        }
+                    }
+                });
+                break;
+
+            case R.id.textViewInviteFacebook:
+                if (AppInviteDialog.canShow()) {
+                    AppInviteContent content = new AppInviteContent.Builder()
+                            .setApplinkUrl(appLinkUrl)
+                            .setPreviewImageUrl(previewImageUrl)
+                            .build();
+                    AppInviteDialog.show(getActivity(), content);
+                }
+                break;
         }
     }
 
-/*    private void notifyUser() {
-        Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.shareSwitch:
+                if (isChecked) {
+                    prefs.edit().putBoolean("SHARE_FACEBOOK", true).apply();
+                } else {
+                    prefs.edit().putBoolean("SHARE_FACEBOOK", false).apply();
+                }
+                break;
+        }
 
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                R.drawable.logo);
+    }
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        getActivity(),
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getActivity())
-                        .setSmallIcon(R.drawable.notification_logo)
-                        .setLargeIcon(icon)
-                        .setContentTitle("WODup")
-                        .setContentText("You have workouts waiting! Go get 'em!")
-                        .setContentIntent(resultPendingIntent)
-                        .setAutoCancel(true);
-
-
-        int mNotificationId = 001;
-        NotificationManager mNotifyMgr =
-                (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-    }*/
 
     /**
      * This interface must be implemented by activities that contain this

@@ -82,6 +82,128 @@
         </android.support.v7.widget.CardView>
 
 
+        <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_unlink"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewUnlinkFacebook"
+                            android:clickable="true"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textColor="@drawable/facebook_selector"
+                            android:paddingBottom="14dp"
+                            android:paddingLeft="18dp"
+                            android:text="Unlink Facebook"
+                            android:textSize="20sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:gravity="center"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_fb_invite"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewInviteFacebook"
+                            android:clickable="true"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textColor="@drawable/facebook_selector"
+                            android:paddingBottom="14dp"
+                            android:paddingLeft="18dp"
+                            android:text="Invite Friends"
+                            android:textSize="20sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:gravity="center"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_fb_options"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp" android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+
+                    <com.modup.font.RobotoTextView
+                            android:id="@+id/textViewShareFacebook"
+                            android:clickable="true"
+                            style="@style/TextViewAppearance.Title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:textColor="@color/facebook"
+                            android:paddingBottom="14dp"
+                            android:paddingLeft="18dp"
+                            android:text="Allow Sharing"
+                            android:textSize="20sp"
+                            app:typeface="robotoBold" android:layout_gravity="center" android:layout_weight="1"
+                            android:gravity="center"/>
+
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:orientation="vertical"
+                        android:layout_weight="1">
+                    <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/shareSwitch"
+                            android:layout_marginRight="5dp" android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
+                            android:layout_gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+
     </LinearLayout>
     <Button
             android:layout_width="55dp"

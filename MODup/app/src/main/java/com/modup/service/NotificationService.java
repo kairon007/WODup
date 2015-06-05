@@ -52,6 +52,7 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e(TAG, "STOPPING SERVICE");
         if (prefs != null) {
             prefs.edit().putBoolean("SERVICE_STATE", false).apply();
         }
@@ -81,7 +82,7 @@ public class NotificationService extends Service {
         Intent alarmIntent = new Intent(this, NotificationReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 }
