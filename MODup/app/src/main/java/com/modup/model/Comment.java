@@ -10,25 +10,30 @@ import com.parse.ParseUser;
 @ParseClassName("Comment")
 public class Comment extends ParseObject {
 
-    String _comment;
-    ParseUser _user;
-
     public Comment() {
     }
 
-    public String get_comment() {
-        return _comment;
+    public String getComment() {
+        return getString("comment");
     }
 
-    public void set_comment(String _comment) {
-        this._comment = _comment;
+    public void setComment(String comment) {
+        put("comment", comment);
     }
 
-    public ParseUser get_user() {
-        return _user;
+    public String getUsername() {
+        return getString("username");
     }
 
-    public void set_user(ParseUser _user) {
-        this._user = _user;
+    public void setUsername(String username) {
+        put("username", username);
+    }
+
+    public ParseUser getUser() {
+        return getParseUser("user");
+    }
+
+    public void setUser(ParseUser value) {
+        put("user", value);
     }
 }

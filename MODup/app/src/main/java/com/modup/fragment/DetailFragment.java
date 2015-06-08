@@ -172,7 +172,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         queryFavoriteCount();
         queryLikeRelation();
         queryFavoriteRelation();
-        //TODO: QUERY COMMENT COUNT
+        queryCommentCount();
 
 
         try {
@@ -337,6 +337,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
 
             case R.id.imageViewComments:
                 //go to a comment section
+                gotoComments();
                 break;
 
             case R.id.buttonBack:
@@ -344,6 +345,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
                 break;
         }
 
+    }
+
+    private void gotoComments() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SINGLEWORKOUT", currentSingleWorkout);
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment mFragment = new CommentFragment();
+        mFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("COMMENTFRAGMENT").commit();
     }
 
     private void likeWorkout() {
@@ -374,7 +384,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
         favoriteUserRelation = currentUser.getRelation("user_favorites");
         favoriteUserRelation.add(currentSingleWorkout);
         currentUser.saveEventually();
-
     }
 
     private void unfavoriteWorkout() {
@@ -418,10 +427,20 @@ public class DetailFragment extends Fragment implements View.OnClickListener, On
     }
 
     private void queryCommentCount() {
-        //TODO: NEED TO IMPLEMENT COMMENTS
+        relation = currentSingleWorkout.getRelation("comments");
+        query = relation.getQuery();
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if (e == null) {
+                    tvComment.setText(String.valueOf(i));
+                } else {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
     }
 
-    //TODO: NEED TO FIX THESE METHODS
 
     private void queryLikeRelation() {
 

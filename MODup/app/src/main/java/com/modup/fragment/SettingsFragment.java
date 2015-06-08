@@ -41,7 +41,7 @@ import org.w3c.dom.Text;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingsFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -53,18 +53,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     private OnFragmentInteractionListener mListener;
     private Button btnBack;
-    private TextView tvChangePassword, tvLinkFacebook, tvUnlinkFacebook, tvInviteFacebook;
+    private TextView tvChangePassword, tvInviteFacebook;
     private View view;
-    private CardView unlinkFacebookCardView, linkFacebookCardView;
     private EditText etPassword1, etPassword2;
     private ParseUser currentUser;
 
     private MaterialDialog mChangePasswordDialog;
     private String TAG = SettingsFragment.class.getCanonicalName();
-    private Switch shareSwitch;
     private SharedPreferences prefs;
 
-    String appLinkUrl, previewImageUrl;
+    String appLinkUrl;
 
     /**
      * Use this factory method to create a new instance of
@@ -110,9 +108,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         currentUser = ParseUser.getCurrentUser();
         prefs = getActivity().getSharedPreferences("com.modup.app", Context.MODE_PRIVATE);
 
-        appLinkUrl = "https://www.mydomain.com/myapplink";
-        previewImageUrl = "https://www.mydomain.com/my_invite_image.jpg";
-
+        appLinkUrl = "https://fb.me/1592930470986077";
 
         btnBack = (Button) view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(this);
@@ -120,37 +116,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         tvChangePassword = (TextView) view.findViewById(R.id.textViewChangePassword);
         tvChangePassword.setOnClickListener(this);
 
-        tvLinkFacebook = (TextView) view.findViewById(R.id.textViewLinkFacebook);
-        tvLinkFacebook.setOnClickListener(this);
-
-        tvUnlinkFacebook = (TextView) view.findViewById(R.id.textViewUnlinkFacebook);
-        tvUnlinkFacebook.setOnClickListener(this);
-
         tvInviteFacebook = (TextView) view.findViewById(R.id.textViewInviteFacebook);
         tvInviteFacebook.setOnClickListener(this);
 
-        unlinkFacebookCardView = (CardView) view.findViewById(R.id.card_view_unlink);
-        linkFacebookCardView = (CardView) view.findViewById(R.id.card_view_link);
-
-        shareSwitch = (Switch) view.findViewById(R.id.shareSwitch);
-        shareSwitch.setOnCheckedChangeListener(this);
-
-        if (prefs != null) {
-            if (prefs.getBoolean("SHARE_FACEBOOK", false)) {
-                shareSwitch.setChecked(true);
-            } else {
-                shareSwitch.setChecked(false);
-            }
-        }
-
-
-        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-            linkFacebookCardView.setVisibility(View.GONE);
-            unlinkFacebookCardView.setVisibility(View.VISIBLE);
-        } else {
-            linkFacebookCardView.setVisibility(View.VISIBLE);
-            unlinkFacebookCardView.setVisibility(View.GONE);
-        }
 
 
     }
@@ -227,63 +195,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 mChangePasswordDialog.show();
                 break;
 
-            case R.id.textViewLinkFacebook:
-                //TODO: ADD PERMISSION WHERE NULL
-
-
-                if (!ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                    ParseFacebookUtils.linkWithReadPermissionsInBackground(currentUser, getActivity(), null, new SaveCallback() {
-                        @Override
-                        public void done(ParseException ex) {
-                            if (ex == null) {
-                                if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                                    Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-                                }
-                            } else {
-                                Log.e(TAG, ex.getMessage());
-                            }
-                        }
-                    });
-                }
-                break;
-
-            case R.id.textViewUnlinkFacebook:
-                ParseFacebookUtils.unlinkInBackground(ParseUser.getCurrentUser(), new SaveCallback() {
-                    @Override
-                    public void done(ParseException ex) {
-                        if (ex == null) {
-                            Log.d("MyApp", "The user is no longer associated with their Facebook account.");
-                        }
-                    }
-                });
-                break;
-
             case R.id.textViewInviteFacebook:
                 if (AppInviteDialog.canShow()) {
                     AppInviteContent content = new AppInviteContent.Builder()
                             .setApplinkUrl(appLinkUrl)
-                            .setPreviewImageUrl(previewImageUrl)
                             .build();
                     AppInviteDialog.show(getActivity(), content);
                 }
                 break;
         }
     }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.shareSwitch:
-                if (isChecked) {
-                    prefs.edit().putBoolean("SHARE_FACEBOOK", true).apply();
-                } else {
-                    prefs.edit().putBoolean("SHARE_FACEBOOK", false).apply();
-                }
-                break;
-        }
-
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this

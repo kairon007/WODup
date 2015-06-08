@@ -35,7 +35,7 @@ import java.util.List;
 public class LeftMenusActivity extends ActionBarActivity implements FeedFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, CreateFragment.OnFragmentInteractionListener, TimersFragment.OnFragmentInteractionListener,
         CalendarFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, SingleWorkoutItemDetailFragment.OnFragmentInteractionListener,
-        CreatePrivateFragment.OnFragmentInteractionListener, CalendarFeedFragment.OnFragmentInteractionListener {
+        CreatePrivateFragment.OnFragmentInteractionListener, CalendarFeedFragment.OnFragmentInteractionListener, CommentFragment.OnFragmentInteractionListener {
 
     public static final String LEFT_MENU_OPTION = "com.modup.app.LeftMenusActivity";
     public static final String LEFT_MENU_OPTION_1 = "Left Menu Option 1";
