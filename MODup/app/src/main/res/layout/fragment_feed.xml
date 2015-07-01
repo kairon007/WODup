@@ -21,6 +21,26 @@
                 android:id="@+id/listViewFeed" android:layout_gravity="center"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+    </LinearLayout>
+    <com.modup.font.RobotoTextView
+            android:id="@+id/textViewTutorialAdd"
+            style="@style/TextViewAppearance.Title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_blue"
+            android:text="Press to share a workout!"
+            android:textSize="15sp"
+            android:drawableRight="@drawable/ic_content_forward"
+            app:typeface="robotoBold"
+            android:orientation="horizontal"
+            android:gravity="center" android:padding="5dp" android:ellipsize="none" android:layout_gravity="left|bottom"
+            android:layout_marginLeft="25dp" android:layout_marginBottom="25dp"/>
+
+
     <Button
             android:layout_width="55dp"
             android:elevation="4dp"

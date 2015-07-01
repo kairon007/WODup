@@ -18,6 +18,22 @@
                 />
 
     </LinearLayout>
+
+    <com.modup.font.RobotoTextView
+            android:id="@+id/textViewTutorialCalendar"
+            style="@style/TextViewAppearance.Title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_blue"
+            android:text="Press any date to add a workout!"
+            android:textSize="15sp"
+            android:drawableTop="@drawable/ic_content_upward"
+            app:typeface="robotoBold"
+            android:orientation="horizontal"
+            android:gravity="center" android:padding="5dp" android:ellipsize="none" android:layout_gravity="center"
+            android:layout_margin="25dp"/>
+
+
     <Button
             android:layout_width="55dp"
             android:isScrollContainer="false"

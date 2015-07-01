@@ -3,6 +3,8 @@ package com.modup.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 import com.modup.app.R;
 import com.modup.model.SingleWorkout;
 import com.parse.ParseException;
@@ -43,6 +46,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private Button btnAddDate;
+    private TextView tvTutorialSchedule;
+    private SharedPreferences prefs;
     ParseQuery<SingleWorkout> query;
 
     private OnFragmentInteractionListener mListener;
@@ -92,6 +97,15 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         btnAddDate = (Button) view.findViewById(R.id.buttonAddDate);
         btnAddDate.setOnClickListener(this);
 
+        tvTutorialSchedule = (TextView) view.findViewById(R.id.textViewTutorialCalendar);
+
+
+        prefs = getActivity().getSharedPreferences("com.modup.app", Context.MODE_PRIVATE);
+        if(prefs.getBoolean("TUTORIALSCHEDULE", false)){
+            tvTutorialSchedule.setVisibility(View.GONE);
+        } else {
+            tvTutorialSchedule.setVisibility(View.VISIBLE);
+        }
 
         query = new ParseQuery<SingleWorkout>(
                 "SingleWorkout");
@@ -117,10 +131,16 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             public void onDateSelected(Date date) {
                 //do a query and find out if there are any dates that exist, if there are open a different fragment
 
+                if(!(prefs.getBoolean("TUTORIALSCHEDULE", false))) {
+                    prefs.edit().putBoolean("TUTORIALSCHEDULE", true).apply();
+                }
+
+
                 query.whereEqualTo("event_date", date);
 
                 try {
                     if(query.count() != 0){
+
                         Bundle mBundle = new Bundle();
                         mBundle.putSerializable("DATE", date);
                         FragmentManager fragmentManager = getFragmentManager();
@@ -176,8 +196,19 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonAddDate:
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE,0);
+                cal.set(Calendar.SECOND,0);
+                cal.set(Calendar.MILLISECOND,0);
+                Date date = cal.getTime();
+
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("DATE", date);
                 FragmentManager fragmentManager = getFragmentManager();
                 Fragment mFragment = new CreatePrivateFragment();
+                mFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEPRIVATEFRAGMENT").commit();
                break;
         }

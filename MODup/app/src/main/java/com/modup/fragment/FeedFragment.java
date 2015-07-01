@@ -3,6 +3,8 @@ package com.modup.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,6 +59,8 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     //parse queries
     private ParseWorkoutAdapter mParseWorkoutAdapter;
     private SwipeRefreshLayout swipeLayout;
+    private TextView tvTutorialAdd;
+    private SharedPreferences prefs;
 
     /**
      * Use this factory method to create a new instance of
@@ -145,6 +149,16 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
         Button btnAddContent = (Button) view.findViewById(R.id.buttonAdd);
         btnAddContent.setOnClickListener(this);
 
+        tvTutorialAdd = (TextView) view.findViewById(R.id.textViewTutorialAdd);
+
+        prefs = getActivity().getSharedPreferences("com.modup.app", Context.MODE_PRIVATE);
+        if(prefs.getBoolean("TUTORIALADD", false)){
+            tvTutorialAdd.setVisibility(View.GONE);
+        } else {
+            tvTutorialAdd.setVisibility(View.VISIBLE);
+        }
+
+
         ListView listView = (ListView) view.findViewById(R.id.listViewFeed);
         listView.setOnItemClickListener(this);
 
@@ -170,6 +184,11 @@ public class FeedFragment extends Fragment implements View.OnClickListener, Adap
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonAdd:
+                if(!(prefs.getBoolean("TUTORIALADD", false))) {
+                    prefs.edit().putBoolean("TUTORIALADD", true).apply();
+                }
+
+
                 FragmentManager fragmentManager = getFragmentManager();
                 Fragment mFragment = new CreateFragment();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, mFragment).addToBackStack("CREATEFRAGMENT").commit();
